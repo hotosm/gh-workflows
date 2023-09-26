@@ -1,0 +1,26 @@
+name: Publish to PyPi.org
+
+on:
+  workflow_call:
+    inputs:
+      pypi_token:
+        required: true
+        type: string
+
+jobs:
+  publish_to_pypi:
+    name: Publish to PyPi
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install PDM
+        run: |
+          python3 -m pip install pdm==2.9.3
+
+      - name: Publish
+        run: |
+          pdm config repository.pypi.username "__token__"
+          pdm config repository.pypi.password "${{ inputs.pypi_token }}"
+          pdm publish
