@@ -1,0 +1,35 @@
+name: Build Doxygen
+
+on:
+  workflow_call:
+    inputs:
+      output_dir:
+        required: true
+        type: string
+      cache_key:
+        required: false
+        type: string
+
+jobs:
+  build_doxygen:
+    name: Build Doxygen Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+
+      - name: Write cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .cache
+            ${{ inputs.output_dir }}
+          key: ${{ inputs.cache_key }}
+
+      - name: Build Doxygen Docs
+        run: |
+          cd docs
+          doxygen
