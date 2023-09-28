@@ -4,10 +4,11 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                           |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | ----------------------------------------------------- |
-| <a name="input_cache_key"></a>[cache_key](#input_cache_key)       | string | false    |         | The cache key to receive <br>from a previous job.     |
-| <a name="input_cache_paths"></a>[cache_paths](#input_cache_paths) | string | false    |         | The paths to cache for <br>preceeding/following jobs. |
+| INPUT         | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                           |
+| ------------- | ------ | -------- | ------- | ----------------------------------------------------- |
+| cache_key     | string | false    |         | The cache key to receive from <br>a previous job.     |
+| cache_paths   | string | false    |         | The paths to cache for preceeding/following <br>jobs. |
+| pyproject_dir | string | false    |         | The directory containing the pyproject.toml.          |
 
 <!-- AUTO-DOC-INPUT:END -->
 
