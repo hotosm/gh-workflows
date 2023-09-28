@@ -44,17 +44,6 @@ plugins:
       glob:
         - plugins/*
         - __pycache__/*
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: [.]
-          options:
-            members_order: source
-            separate_signature: true
-            filters: ["!^_"]
-            docstring_options:
-              ignore_init_summary: true
-            merge_init_into_class: true
 
 nav:
   - Home: index.md
