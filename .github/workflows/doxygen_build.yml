@@ -4,9 +4,14 @@ on:
   workflow_call:
     inputs:
       output_dir:
+        description: "Output directory for Doxygen to compile"
         required: true
         type: string
       cache_key:
+        description: |
+          The cache key to pass to mkdocs_build, e.g.: 
+          echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_ENV
+          Then use, with: cache_key: ${{ env.cache_key }}
         required: false
         type: string
 

@@ -4,9 +4,14 @@ on:
   workflow_call:
     inputs:
       cache_path:
+        description: "The path from a previously cached job, e.g. `apidocs` from Doxygen."
         required: false
         type: string
       cache_key:
+        description: |
+          The cache key to receive from a previous job, e.g.: 
+          echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_ENV
+          Then use, with: cache_key: ${{ env.cache_key }}
         required: false
         type: string
 
