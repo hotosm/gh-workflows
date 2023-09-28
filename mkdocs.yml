@@ -1,0 +1,65 @@
+site_name: Reusable GH Workflows
+site_description: Github workflows that can be shared across all HOT projects.
+# strict: true
+site_url: "https://www.hotosm.org"
+
+repo_name: "hotosm/gh-workflows"
+repo_url: "https://github.com/hotosm/gh-workflows/"
+edit_uri: "edit/main/gh-workflows/"
+
+extra:
+  social:
+    - icon: "fontawesome/brands/github"
+      link: "https://github.com/hotosm/"
+    - icon: "fontawesome/brands/twitter"
+      link: "https://twitter.com/hotosm"
+    - icon: "fontawesome/solid/globe"
+      link: "https://www.hotosm.org"
+
+theme:
+  name: material
+  palette:
+    primary: custom
+
+extra_css:
+  - css/extra.css
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      title: Page contents
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.extra
+  - pymdownx.emoji:
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - exclude:
+      glob:
+        - plugins/*
+        - __pycache__/*
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            members_order: source
+            separate_signature: true
+            filters: ["!^_"]
+            docstring_options:
+              ignore_init_summary: true
+            merge_init_into_class: true
+
+nav:
+  - Home: index.md
+  - Doxygen Build: doxygen_build.md
+  - MkDocs Build: mkdocs_build.md
+  - PyPi Publish: pypi_publish.md
+  - Wiki Build: wiki.md
+  - Image Build: image_build.md
