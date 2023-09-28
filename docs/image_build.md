@@ -4,28 +4,32 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|    INPUT     |  TYPE   | REQUIRED |    DEFAULT     | DESCRIPTION |
-|--------------|---------|----------|----------------|-------------|
-|  build_args  | string  |   true   |                |             |
-| build_target | string  |  false   |                |             |
-|   context    | string  |  false   |     `"."`      |             |
-|  dockerfile  | string  |  false   | `"Dockerfile"` |             |
-|  image_tags  | string  |   true   |                |             |
-|     push     | boolean |  false   |     `true`     |             |
-|   registry   | string  |  false   |  `"ghcr.io"`   |             |
+| INPUT        | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION |
+| ------------ | ------- | -------- | -------------- | ----------- |
+| build_args   | string  | true     |                |             |
+| build_target | string  | false    |                |             |
+| context      | string  | false    | `"."`          |             |
+| dockerfile   | string  | false    | `"Dockerfile"` |             |
+| image_tags   | string  | true     |                |             |
+| push         | boolean | false    | `true`         |             |
+| registry     | string  | false    | `"ghcr.io"`    |             |
 
 <!-- AUTO-DOC-INPUT:END -->
 
 ## Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
 No outputs.
+
 <!-- AUTO-DOC-OUTPUT:END -->
 
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
 No secrets.
+
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
