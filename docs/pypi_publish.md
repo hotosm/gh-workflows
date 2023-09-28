@@ -4,9 +4,9 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|                             INPUT                              |  TYPE  | REQUIRED | DEFAULT | DESCRIPTION |
-|----------------------------------------------------------------|--------|----------|---------|-------------|
-| <a name="input_pypi_token"></a>[pypi_token](#input_pypi_token) | string |   true   |         |             |
+|                                        INPUT                                        |  TYPE  | REQUIRED | DEFAULT |                            DESCRIPTION                            |
+|-------------------------------------------------------------------------------------|--------|----------|---------|-------------------------------------------------------------------|
+| <a name="input_token_secret_name"></a>[token_secret_name](#input_token_secret_name) | string |   true   |         | The name of the repository <br>secret containing the PyPi token.  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
