@@ -5,12 +5,7 @@ description = "Github workflows that can be shared across all HOT projects."
 authors = [
     {name = "Sam Woodcock", email = "sam.woodcock@hotosm.org"},
 ]
-dependencies = [
-    "mkdocs>=1.5.2",
-    "mkdocs-material>=9.2.3",
-    "mkdocstrings-python>=1.5.1",
-    "mkdocs-exclude>=1.0.2",
-]
+dependencies = []
 requires-python = ">=3.10"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -21,6 +16,12 @@ homepage = "https://hotosm.github.io/gh-workflows"
 documentation = "https://hotosm.github.io/gh-workflows"
 repository = "https://github.com/hotosm/gh-workflows"
 
+[project.optional-dependencies]
+docs = [
+    "mkdocs>=1.5.3",
+    "mkdocs-material>=9.4.2",
+    "mkdocs-exclude>=1.0.2",
+]
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.0.0"
