@@ -2,11 +2,58 @@ name: Container Image Build
 
 on:
   workflow_call:
+    inputs:
+      image_tags:
+        required: true
+        type: string
+      build_args:
+        required: true
+        type: string
+      registry:
+        required: false
+        type: string
+        default: "ghcr.io"
+      context:
+        required: false
+        type: string
+        default: "."
+      dockerfile:
+        required: false
+        type: string
+        default: "Dockerfile"
+      build_target:
+        required: false
+        type: string
+        default: ""
+      push:
+        required: false
+        type: boolean
+        default: true
 
 jobs:
-  build_image:
-    name: Build Image
+  build-and-push-images:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v4
+        with:
+          context: ${{ inputs.context }}
+          file: ${{ inputs.dockerfile }}
+          target: ${{ inputs.build_target }}
+          push: ${{ inputs.push }}
+          tags: ${{ inputs.image_tags }}
+          build-args: ${{ inputs.build_args }}
