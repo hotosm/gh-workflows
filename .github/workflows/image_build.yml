@@ -9,7 +9,7 @@ on:
         type: string
       build_args:
         description: "Space separated list of build args to use for the image."
-        required: true
+        required: false
         type: string
       registry:
         description: "Override GHCR to use an external reg."
