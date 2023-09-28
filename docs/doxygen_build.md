@@ -4,10 +4,10 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|   INPUT    |  TYPE  | REQUIRED | DEFAULT | DESCRIPTION |
-|------------|--------|----------|---------|-------------|
-| cache_key  | string |  false   |         |             |
-| output_dir | string |   true   |         |             |
+|                             INPUT                              |  TYPE  | REQUIRED | DEFAULT | DESCRIPTION |
+|----------------------------------------------------------------|--------|----------|---------|-------------|
+|  <a name="input_cache_key"></a>[cache_key](#input_cache_key)   | string |  false   |         |             |
+| <a name="input_output_dir"></a>[output_dir](#input_output_dir) | string |   true   |         |             |
 
 <!-- AUTO-DOC-INPUT:END -->
 
