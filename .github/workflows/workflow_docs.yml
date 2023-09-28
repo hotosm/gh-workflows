@@ -1,0 +1,65 @@
+name: GH Workflow Docs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  gen_workflow_docs:
+    name: Auto Doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Document doxygen_build
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/doxygen_build.yaml
+          output: docs/doxygen_build.md
+
+      - name: Document mkdocs_build
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/mkdocs_build.yaml
+          output: docs/mkdocs_build.md
+
+      - name: Document pypi_publish
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/pypi_publish.yaml
+          output: docs/pypi_publish.md
+
+      - name: Document wiki
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/wiki.yaml
+          output: docs/wiki.md
+
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v8.6
+        id: verify-changed-files
+        with:
+          files: |
+            docs/doxygen_build.md
+            docs/mkdocs_build.md
+            docs/pypi_publish.md
+            docs/wiki.md
+
+      - name: Create Pull Request
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: "main"
+          title: "auto-doc: Updated README.md"
+          branch: "chore/auto-doc-update-readme"
+          commit-message: "auto-doc: Updated README.md"
+          body: "auto-doc: Updated README.md"
