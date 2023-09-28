@@ -1,0 +1,78 @@
+name: Build OpenAPI JSON
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        description: "The image to build to OpenAPI JSON (dependencies included, i.e. FastAPI.)."
+        required: true
+        type: string
+      example_env_file_path:
+        description: "FastAPI must start with an environment set. Path to a .env with dummy vars."
+        required: true
+        type: string
+      cache_paths:
+        description: "The paths to cache for preceeding/following jobs."
+        required: true
+        type: string
+      cache_key:
+        description: "The cache key to receive from a previous job."
+        required: false
+        type: string
+
+jobs:
+  build_openapi_json:
+    name: Build OpenAPI JSON
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ inputs.image }}
+      options: --user root
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Read cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .cache
+            ${{ inputs.cache_paths }}
+          key: ${{ inputs.cache_key }}
+          restore-keys: ${{ inputs.cache_key }}
+
+      - name: Build OpenAPi JSON
+        env:
+          EXAMPLE_DOT_ENV: ${{ inputs.example_env_file_path }}
+        run: |
+          chmod -R 777 .
+          gosu appuser python - <<EOF
+          """Get OpenAPI config from FastAPI and write to file."""
+
+          import os
+          import json
+          from pathlib import Path
+
+          from fastapi.openapi.utils import get_openapi
+          from dotenv import load_dotenv
+
+          load_dotenv(Path(os.getenv("EXAMPLE_DOT_ENV")))
+
+          from app.main import api  # noqa: E402
+
+
+          with open(Path("docs/openapi.json"), "w") as f:
+              openapi = get_openapi(
+                  title=api.title,
+                  version=api.version,
+                  openapi_version=api.openapi_version,
+                  description=api.description,
+                  routes=api.routes,
+                  tags=api.openapi_tags,
+                  servers=api.servers,
+                  terms_of_service=api.terms_of_service,
+                  contact=api.contact,
+                  license_info=api.license_info,
+              )
+              json.dump(openapi, f, separators=(",", ":"))
+          EOF
