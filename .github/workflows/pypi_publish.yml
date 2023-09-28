@@ -2,18 +2,15 @@ name: Publish to PyPi.org
 
 on:
   workflow_call:
-    inputs:
-      token_secret_name:
-        description: "The name of the repository secret containing the PyPi token."
+    secrets:
+      PYPI_TOKEN:
+        description: "The PyPi.org API token for your project."
         required: true
-        type: string
 
 jobs:
   publish_to_pypi:
     name: Publish to PyPi
     runs-on: ubuntu-latest
-    env:
-      PYPI_TOKEN: ${{ secrets[inputs.token_secret_name] }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -25,5 +22,5 @@ jobs:
       - name: Publish
         run: |
           pdm config repository.pypi.username "__token__"
-          pdm config repository.pypi.password "$PYPI_TOKEN"
+          pdm config repository.pypi.password "${{ secrets.PYPI_TOKEN }}"
           pdm publish
