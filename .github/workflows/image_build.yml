@@ -7,3 +7,6 @@ jobs:
   build_image:
     name: Build Image
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
