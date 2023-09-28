@@ -47,13 +47,15 @@ jobs:
   build_doxygen:
     uses: hotosm/gh-workflows/.github/workflows/doxygen_build.yml@main
     with:
-      output_dir: docs/apidocs
+      cache_paths: |
+        docs/apidocs
       cache_key: ${{ env.cache_key }}
 
   publish_docs:
     uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@main
     needs: [build_doxygen]
     with:
-      cache_path: docs/apidocs
+      cache_paths: |
+        docs/apidocs
       cache_key: ${{ env.cache_key }}
 ```
