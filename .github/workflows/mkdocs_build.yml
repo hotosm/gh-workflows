@@ -11,6 +11,10 @@ on:
         description: "The cache key to receive from a previous job."
         required: false
         type: string
+      pyproject_dir:
+        description: "The directory containing the pyproject.toml."
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -38,5 +42,6 @@ jobs:
 
       - name: Publish
         run: |
+          cd ${{ inputs.pyproject_dir }}
           pdm install -G docs --no-default
           pdm run mkdocs gh-deploy --force
