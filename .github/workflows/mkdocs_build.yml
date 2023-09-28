@@ -11,7 +11,7 @@ on:
         description: |
           The cache key to receive from a previous job, e.g.: 
           echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_ENV
-          Then use, with: cache_key: ${{ env.cache_key }}
+          Then use, with: cache_key: '${{ env.cache_key }}'
         required: false
         type: string
 
