@@ -4,28 +4,35 @@ on:
   workflow_call:
     inputs:
       image_tags:
+        description: "Space separated list of tags for the built image."
         required: true
         type: string
       build_args:
+        description: "Space separated list of build args to use for the image."
         required: true
         type: string
       registry:
+        description: "Override GHCR to use an external reg."
         required: false
         type: string
         default: "ghcr.io"
       context:
+        description: "Root directory to start the build from."
         required: false
         type: string
-        default: "."
+        default: "${{ inputs.context }}/Dockerfile"
       dockerfile:
+        description: "Absolute path of the dockerfile (inside the context dir)."
         required: false
         type: string
         default: "Dockerfile"
       build_target:
+        description: "The target to built to (default to end of the Dockerfile)."
         required: false
         type: string
         default: ""
       push:
+        description: "Override prevent pushing the image."
         required: false
         type: boolean
         default: true
