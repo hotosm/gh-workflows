@@ -3,12 +3,12 @@ name: Publish Docs
 on:
   workflow_call:
     inputs:
-      cache_path:
-        description: "The path from a previously cached job, e.g. `apidocs` from Doxygen."
-        required: false
+      cache_paths:
+        description: "The paths to cache for preceeding/following jobs."
+        required: true
         type: string
       cache_key:
-        description: "The cache key to receive from a previous job"
+        description: "The cache key to receive from a previous job."
         required: false
         type: string
 
@@ -28,7 +28,7 @@ jobs:
         with:
           path: |
             .cache
-            ${{ inputs.cache_path }}
+            ${{ inputs.cache_paths }}
           key: ${{ inputs.cache_key }}
           restore-keys: ${{ inputs.cache_key }}
 

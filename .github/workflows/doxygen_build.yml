@@ -3,12 +3,12 @@ name: Build Doxygen
 on:
   workflow_call:
     inputs:
-      output_dir:
-        description: "Output directory for Doxygen to compile"
+      cache_paths:
+        description: "The paths to cache for preceeding/following jobs."
         required: true
         type: string
       cache_key:
-        description: "The cache key to receive from a previous job"
+        description: "The cache key to receive from a previous job."
         required: false
         type: string
 
@@ -28,7 +28,7 @@ jobs:
         with:
           path: |
             .cache
-            ${{ inputs.output_dir }}
+            ${{ inputs.cache_paths }}
           key: ${{ inputs.cache_key }}
 
       - name: Build Doxygen Docs
