@@ -4,32 +4,28 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT        | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION |
-| ------------ | ------- | -------- | -------------- | ----------- |
-| build_args   | string  | true     |                |             |
-| build_target | string  | false    |                |             |
-| context      | string  | false    | `"."`          |             |
-| dockerfile   | string  | false    | `"Dockerfile"` |             |
-| image_tags   | string  | true     |                |             |
-| push         | boolean | false    | `true`         |             |
-| registry     | string  | false    | `"ghcr.io"`    |             |
+|                                INPUT                                 |  TYPE   | REQUIRED |    DEFAULT     | DESCRIPTION |
+|----------------------------------------------------------------------|---------|----------|----------------|-------------|
+|    <a name="input_build_args"></a>[build_args](#input_build_args)    | string  |   true   |                |             |
+| <a name="input_build_target"></a>[build_target](#input_build_target) | string  |  false   |                |             |
+|        <a name="input_context"></a>[context](#input_context)         | string  |  false   |     `"."`      |             |
+|    <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)    | string  |  false   | `"Dockerfile"` |             |
+|    <a name="input_image_tags"></a>[image_tags](#input_image_tags)    | string  |   true   |                |             |
+|             <a name="input_push"></a>[push](#input_push)             | boolean |  false   |     `true`     |             |
+|       <a name="input_registry"></a>[registry](#input_registry)       | string  |  false   |  `"ghcr.io"`   |             |
 
 <!-- AUTO-DOC-INPUT:END -->
 
 ## Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
-
 No outputs.
-
 <!-- AUTO-DOC-OUTPUT:END -->
 
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
