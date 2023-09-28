@@ -8,10 +8,7 @@ on:
         required: true
         type: string
       cache_key:
-        description: |
-          The cache key to pass to mkdocs_build, e.g.: 
-          echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_ENV
-          Then use, with: cache_key: ${{ env.cache_key }}
+        description: "The cache key to receive from a previous job"
         required: false
         type: string
 
