@@ -20,12 +20,12 @@ on:
         description: "Root directory to start the build from."
         required: false
         type: string
-        default: "${{ inputs.context }}/Dockerfile"
+        default: "."
       dockerfile:
         description: "Absolute path of the dockerfile (inside the context dir)."
         required: false
         type: string
-        default: "Dockerfile"
+        default: "${{ inputs.context }}/Dockerfile"
       build_target:
         description: "The target to built to (default to end of the Dockerfile)."
         required: false
