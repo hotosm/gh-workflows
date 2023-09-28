@@ -63,7 +63,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           base: "main"
-          title: "auto-doc: Updated README.md"
-          branch: "chore/auto-doc-update-readme"
-          commit-message: "auto-doc: Updated README.md"
-          body: "auto-doc: Updated README.md"
+          title: "auto-doc: updated workflows docs"
+          branch: "docs/auto-doc-update-workflows"
+          commit-message: "docs: updated workflow docs"
+          body: "PR triggered via workflow_docs.yml workflow."
