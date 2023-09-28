@@ -1,0 +1,9 @@
+name: Container Image Build
+
+on:
+  workflow_call:
+
+jobs:
+  build_image:
+    name: Build Image
+    runs-on: ubuntu-latest
