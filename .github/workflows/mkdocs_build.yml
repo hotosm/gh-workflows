@@ -15,6 +15,7 @@ on:
         description: "The directory containing the pyproject.toml."
         required: false
         type: string
+        default: "."
 
 permissions:
   contents: write
