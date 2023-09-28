@@ -30,26 +30,23 @@ name: Publish Docs
 
 on:
   push:
-    paths:
-      - docs/**
-      - osm_login_python/**
-      - mkdocs.yml
-    branches: [main]
-  # Allow manual trigger (workflow_dispatch)
-  workflow_dispatch:
 
 jobs:
   get_cache_key:
     runs-on: ubuntu-latest
+    outputs:
+      cache_key: ${{ steps.set_cache_key.outputs.cache_key }}
     steps:
-      - run: echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_ENV
+      - name: Set cache key
+        id: set_cache_key
+        run: echo "cache_key=docs-build-$(date --utc '+%V')" >> $GITHUB_OUTPUT
 
   build_doxygen:
     uses: hotosm/gh-workflows/.github/workflows/doxygen_build.yml@main
     with:
       cache_paths: |
         docs/apidocs
-      cache_key: ${{ env.cache_key }}
+      cache_key: ${{ steps.get_cache_key.outputs.cache_key }}
 
   publish_docs:
     uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@main
@@ -57,5 +54,5 @@ jobs:
     with:
       cache_paths: |
         docs/apidocs
-      cache_key: ${{ env.cache_key }}
+      cache_key: ${{ steps.get_cache_key.outputs.cache_key }}
 ```
