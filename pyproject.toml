@@ -1,0 +1,29 @@
+[project]
+name = "gh-workflows"
+dynamic = ["version"]
+description = "Github workflows that can be shared across all HOT projects."
+authors = [
+    {name = "Sam Woodcock", email = "sam.woodcock@hotosm.org"},
+]
+dependencies = [
+    "mkdocs>=1.5.2",
+    "mkdocs-material>=9.2.3",
+    "mkdocstrings-python>=1.5.1",
+    "mkdocs-exclude>=1.0.2",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["hot", "hotosm", "gh-workflows", "workflows"]
+
+[project.urls]
+homepage = "https://hotosm.github.io/gh-workflows"
+documentation = "https://hotosm.github.io/gh-workflows"
+repository = "https://github.com/hotosm/gh-workflows"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.0"
+version_files = [
+    "pyproject.toml:version",
+]
