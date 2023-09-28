@@ -3,26 +3,22 @@
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
-
-| INPUT                                                                               | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                      |
-| ----------------------------------------------------------------------------------- | ------ | -------- | ------- | ---------------------------------------------------------------- |
-| <a name="input_token_secret_name"></a>[token_secret_name](#input_token_secret_name) | string | true     |         | The name of the repository <br>secret containing the PyPi token. |
-
+No inputs.
 <!-- AUTO-DOC-INPUT:END -->
 
 ## Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
-
 No outputs.
-
 <!-- AUTO-DOC-OUTPUT:END -->
 
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
 
-No secrets.
+|                              SECRET                              | REQUIRED |                  DESCRIPTION                  |
+|------------------------------------------------------------------|----------|-----------------------------------------------|
+| <a name="secret_PYPI_TOKEN"></a>[PYPI_TOKEN](#secret_PYPI_TOKEN) |   true   | The PyPi.org API token for <br>your project.  |
 
 <!-- AUTO-DOC-SECRETS:END -->
 
