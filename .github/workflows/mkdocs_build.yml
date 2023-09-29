@@ -26,6 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.image }}
+      options: --user root
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +39,6 @@ jobs:
           path: |
             .cache
             ${{ inputs.cache_paths }}
-          key: ${{ inputs.cache_key }}
           restore-keys: ${{ inputs.cache_key }}
 
       - name: Publish

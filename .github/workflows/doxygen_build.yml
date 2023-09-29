@@ -23,11 +23,6 @@ jobs:
       - name: Setup Doxygen
         run: sudo apt-get update && sudo apt-get install -y doxygen
 
-      - name: Build Doxygen Docs
-        run: |
-          cd docs
-          doxygen
-
       - name: Write cache
         if: ${{ inputs.cache_key != '' }}
         uses: actions/cache@v3
@@ -36,3 +31,8 @@ jobs:
             .cache
             ${{ inputs.cache_paths }}
           key: ${{ inputs.cache_key }}
+
+      - name: Build Doxygen Docs
+        run: |
+          cd docs
+          doxygen
