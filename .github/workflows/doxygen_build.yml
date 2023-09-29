@@ -5,7 +5,7 @@ on:
     inputs:
       cache_paths:
         description: "The paths to cache for preceeding/following jobs."
-        required: true
+        required: false
         type: string
       cache_key:
         description: "The cache key to receive from a previous job."
@@ -29,6 +29,7 @@ jobs:
           doxygen
 
       - name: Write cache
+        if: ${{ inputs.cache_key != '' }}
         uses: actions/cache@v3
         with:
           path: |
