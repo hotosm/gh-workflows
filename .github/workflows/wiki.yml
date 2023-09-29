@@ -16,7 +16,6 @@ env:
   TOKEN: ${{ secrets.GITHUB_TOKEN }}
   USER_NAME: svcfmtm
   USER_EMAIL: fmtm@hotosm.org
-  ORG: ${{ github.repository_owner }}
   REPO_NAME: ${{ github.repository }}
 
 jobs:
@@ -35,7 +34,7 @@ jobs:
           git init
           git config user.name $USER_NAME
           git config user.email $USER_EMAIL
-          git pull https://x-access-token:$TOKEN@github.com/$ORG/$REPO_NAME.wiki
+          git pull https://x-access-token:$TOKEN@github.com/$REPO_NAME.wiki
 
       - name: Push content to wiki
         run: |
@@ -46,4 +45,4 @@ jobs:
           cd tmp_wiki
           git add .
           git commit -m "docs: automated wiki update on push"
-          git push -f --set-upstream https://x-access-token:$TOKEN@github.com/$ORG/$REPO_NAME.wiki.git master
+          git push -f --set-upstream https://x-access-token:$TOKEN@github.com/$REPO_NAME.wiki.git master
