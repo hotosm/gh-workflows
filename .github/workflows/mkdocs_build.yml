@@ -48,4 +48,6 @@ jobs:
       - name: Publish
         run: |
           git config --global --add safe.directory $GITHUB_WORKSPACE
+          # Required chmod to allow write permission for `site` dir
+          chmod -R 777 $GITHUB_WORKSPACE
           ${{ inputs.prepend_command }} mkdocs gh-deploy --force
