@@ -36,6 +36,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Read cache
+        if: ${{ inputs.cache_key != "" }}
         uses: actions/cache@v3
         with:
           path: |
@@ -46,5 +47,5 @@ jobs:
 
       - name: Publish
         run: |
-          chmod -R 777 .
+          git config --global --add safe.directory ${{ github.workspace }}
           ${{ inputs.prepend_command }} mkdocs gh-deploy --force
