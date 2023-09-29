@@ -41,4 +41,7 @@ jobs:
           restore-keys: ${{ inputs.cache_key }}
 
       - name: Publish
-        run: mkdocs gh-deploy --force
+        run: |
+          echo "Repo dir: $GITHUB_WORKSPACE"
+          git config --global --add safe.directory $GITHUB_WORKSPACE
+          mkdocs gh-deploy --force
