@@ -56,7 +56,9 @@ jobs:
           output: docs/wiki.md
 
       - name: Run pre-commit hooks
-        run: pre-commit run --all-files
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
 
       - name: Verify Changed files
         uses: tj-actions/verify-changed-files@v8.6
