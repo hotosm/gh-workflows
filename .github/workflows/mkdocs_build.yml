@@ -47,5 +47,6 @@ jobs:
 
       - name: Publish
         run: |
-          git config --global --add safe.directory ${{ github.workspace }}
+          chown -R 
+          git config --global --add safe.directory $GITHUB_WORKSPACE
           ${{ inputs.prepend_command }} mkdocs gh-deploy --force
