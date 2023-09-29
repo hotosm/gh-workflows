@@ -31,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.image }}
+      options: --user root
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,6 +48,7 @@ jobs:
 
       - name: Publish
         run: |
+          echo "Repo dir: $GITHUB_WORKSPACE"
           git config --global --add safe.directory $GITHUB_WORKSPACE
           # Required chmod to allow write permission for `site` dir
           chmod -R 777 $GITHUB_WORKSPACE
