@@ -3,6 +3,11 @@ name: Publish Docs
 on:
   workflow_call:
     inputs:
+      image:
+        description: "Override the image to build mkdocs."
+        required: false
+        type: string
+        default: "docker.io/squidfunk/mkdocs-material:9"
       cache_paths:
         description: "The paths to cache for preceeding/following jobs."
         required: false
@@ -11,11 +16,11 @@ on:
         description: "The cache key to receive from a previous job."
         required: false
         type: string
-      pyproject_dir:
-        description: "The directory containing the pyproject.toml."
+      prepend_command:
+        description: "Command to run before mkdocs deploy (e.g. 'gosu appuser' to run as appuser)."
         required: false
         type: string
-        default: "."
+        default: ""
 
 permissions:
   contents: write
@@ -24,6 +29,9 @@ jobs:
   publish_docs:
     name: Publish GH Pages
     runs-on: ubuntu-latest
+    container:
+      image: ${{ inputs.image }}
+      options: --user root
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,12 +45,7 @@ jobs:
           key: ${{ inputs.cache_key }}
           restore-keys: ${{ inputs.cache_key }}
 
-      - name: Install PDM
-        run: |
-          python3 -m pip install pdm==2.9.3
-
       - name: Publish
         run: |
-          cd ${{ inputs.pyproject_dir }}
-          pdm install -G docs --no-default
-          pdm run mkdocs gh-deploy --force
+          chmod -R 777 .
+          ${{ inputs.prepend_command }} mkdocs gh-deploy --force

@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       homepage_path:
-        description: "The file to rename to Home.md for the root Wiki page."
+        description: "The file to rename to `Home.md` for the root Wiki page, relative from `docs` dir."
         required: false
         type: string
         default: "Home.md"
