@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.image }}
-      options: --user root
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
