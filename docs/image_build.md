@@ -4,28 +4,32 @@
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-|                                INPUT                                 |  TYPE   | REQUIRED |               DEFAULT                |                            DESCRIPTION                            |
-|----------------------------------------------------------------------|---------|----------|--------------------------------------|-------------------------------------------------------------------|
-|    <a name="input_build_args"></a>[build_args](#input_build_args)    | string  |  false   |                                      | Space separated list of build <br>args to use for the <br>image.  |
-| <a name="input_build_target"></a>[build_target](#input_build_target) | string  |  false   |                                      |  The target to built to <br>(default to end of the Dockerfile).   |
-|        <a name="input_context"></a>[context](#input_context)         | string  |  false   |                `"."`                 |           Root directory to start the <br>build from.             |
-|    <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)    | string  |  false   | `"${{ inputs.context }}/Dockerfile"` |  Absolute path of the dockerfile <br>(inside the context dir).    |
-|    <a name="input_image_tags"></a>[image_tags](#input_image_tags)    | string  |   true   |                                      |      Space separated list of tags <br>for the built image.        |
-|             <a name="input_push"></a>[push](#input_push)             | boolean |  false   |                `true`                |                Override prevent pushing the image.                |
-|       <a name="input_registry"></a>[registry](#input_registry)       | string  |  false   |             `"ghcr.io"`              |            Override GHCR to use an <br>external reg.              |
+| INPUT        | TYPE    | REQUIRED | DEFAULT                              | DESCRIPTION                                                  |
+| ------------ | ------- | -------- | ------------------------------------ | ------------------------------------------------------------ |
+| build_args   | string  | false    |                                      | Space separated list of build args <br>to use for the image. |
+| build_target | string  | false    |                                      | The target to built to (default to end of the Dockerfile).   |
+| context      | string  | false    | `"."`                                | Root directory to start the build <br>from.                  |
+| dockerfile   | string  | false    | `"${{ inputs.context }}/Dockerfile"` | Absolute path of the dockerfile (inside the context dir).    |
+| image_tags   | string  | true     |                                      | Space separated list of tags for <br>the built image.        |
+| push         | boolean | false    | `true`                               | Override prevent pushing the image.                          |
+| registry     | string  | false    | `"ghcr.io"`                          | Override GHCR to use an external <br>reg.                    |
 
 <!-- AUTO-DOC-INPUT:END -->
 
 ## Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
 No outputs.
+
 <!-- AUTO-DOC-OUTPUT:END -->
 
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
 No secrets.
+
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
