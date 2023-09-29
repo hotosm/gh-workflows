@@ -31,15 +31,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Read cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            .cache
-            ${{ inputs.cache_paths }}
-          key: ${{ inputs.cache_key }}
-          restore-keys: ${{ inputs.cache_key }}
-
       - name: Build OpenAPi JSON
         env:
           EXAMPLE_DOT_ENV: ${{ inputs.example_env_file_path }}
@@ -75,3 +66,11 @@ jobs:
               )
               json.dump(openapi, f, separators=(",", ":"))
           EOF
+
+      - name: Write cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .cache
+            ${{ inputs.cache_paths }}
+          key: ${{ inputs.cache_key }}
