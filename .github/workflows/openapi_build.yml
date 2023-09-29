@@ -36,7 +36,7 @@ jobs:
           EXAMPLE_DOT_ENV: ${{ inputs.example_env_file_path }}
         run: |
           chmod -R 777 .
-          gosu appuser python - <<EOF
+          python - <<EOF
           """Get OpenAPI config from FastAPI and write to file."""
 
           import os
