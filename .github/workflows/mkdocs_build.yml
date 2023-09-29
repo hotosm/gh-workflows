@@ -16,11 +16,6 @@ on:
         description: "The cache key to receive from a previous job."
         required: false
         type: string
-      prepend_command:
-        description: "Command to run before mkdocs deploy (e.g. 'gosu appuser' to run as appuser)."
-        required: false
-        type: string
-        default: ""
 
 permissions:
   contents: write
@@ -31,7 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.image }}
-      options: --user root
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,9 +41,4 @@ jobs:
           restore-keys: ${{ inputs.cache_key }}
 
       - name: Publish
-        run: |
-          echo "Repo dir: $GITHUB_WORKSPACE"
-          git config --global --add safe.directory $GITHUB_WORKSPACE
-          # Required chmod to allow write permission for `site` dir
-          chmod -R 777 $GITHUB_WORKSPACE
-          ${{ inputs.prepend_command }} mkdocs gh-deploy --force
+        run: mkdocs gh-deploy --force
