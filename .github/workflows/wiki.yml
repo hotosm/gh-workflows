@@ -2,6 +2,12 @@ name: Publish Docs to Wiki
 
 on:
   workflow_call:
+    inputs:
+      homepage_path:
+        description: "The file to rename to Home.md for the root Wiki page."
+        required: false
+        type: string
+        default: "Home.md"
 
 permissions:
   contents: write
@@ -33,7 +39,9 @@ jobs:
 
       - name: Push content to wiki
         run: |
-          apt update && apt install -y rsync
+          apt-get update && apt-get install -y rsync
+          # Rename file to Home.md for root page
+          mv docs/${{ inputs.cache_key }} docs/Home.md
           rsync -av --delete docs/ tmp_wiki/ --exclude .git
           cd tmp_wiki
           git add .
