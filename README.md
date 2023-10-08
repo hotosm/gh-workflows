@@ -14,6 +14,7 @@ Github workflows that can be shared across all HOT projects.
   - A step in the same format as others using `tj-actions/auto-doc@v3`,
     changing variables.
   - Add an entry under `files` in the **Verify Changed Files** step.
+- Add an entry to `mkdocs.yml` nav section.
 
 ## To manually document workflows using auto-doc
 
