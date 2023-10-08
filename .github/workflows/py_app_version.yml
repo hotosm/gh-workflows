@@ -15,6 +15,8 @@ on:
 jobs:
   extract-app-version:
     runs-on: ubuntu-latest
+    env:
+      PACKAGE_NAME: ${{ inputs.package_name }}
     outputs:
       app_version: ${{ steps.extract_app_version.outputs.app_version }}
 
@@ -25,5 +27,18 @@ jobs:
       - name: Extract app version
         id: extract_app_version
         run: |
-          app_version=$(python -c "from ${{ inputs.package_name }}.__version__ import __version__; print(__version__)")
+          python_code=$(cat <<EOF
+
+          from os import getenv
+          from importlib import import_module
+
+          package_name = getenv("PACKAGE_NAME")
+          module = import_module(f"{package_name}.__version__")
+          app_version = module.__version__
+
+          print(app_version)
+
+          EOF)
+
+          app_version=$(python -c "$python_code")
           echo "app_version=${app_version}" >> $GITHUB_OUTPUT
