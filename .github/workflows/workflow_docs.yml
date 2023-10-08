@@ -41,6 +41,13 @@ jobs:
           filename: .github/workflows/openapi_build.yml
           output: docs/openapi_build.md
 
+      - name: Document py_app_version
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/py_app_version.yml
+          output: docs/py_app_version.md
+
       - name: Document pypi_publish
         uses: tj-actions/auto-doc@v3
         with:
@@ -61,7 +68,7 @@ jobs:
           # Don't send exit code
           pre-commit run --all-files || true
 
-      - name: Verify Changed files
+      - name: Verify Changed Files
         uses: tj-actions/verify-changed-files@v8.6
         id: verify-changed-files
         with:
@@ -70,6 +77,7 @@ jobs:
             docs/image_build.md
             docs/mkdocs_build.md
             docs/openapi_build.md
+            docs/py_app_version.md
             docs/pypi_publish.md
             docs/wiki.md
 

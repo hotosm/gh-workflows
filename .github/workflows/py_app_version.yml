@@ -1,0 +1,32 @@
+name: Extract Python App Version
+
+on:
+  workflow_call:
+    inputs:
+      package_name:
+        description: "The package_name that __version__.py sits under."
+        required: true
+        type: string
+    outputs:
+      app_version:
+        description: "Python app version."
+        value: ${{ jobs.extract-vars.outputs.app_version }}
+
+jobs:
+  extract-app-version:
+    runs-on: ubuntu-latest
+    env:
+      PACKAGE_NAME: ${{ inputs.package_name }}
+    outputs:
+      app_version: ${{ steps.extract_app_version.outputs.app_version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract app version
+        id: extract_app_version
+        run: |
+          cd src/backend
+          app_version=$(python -c "from $PACKAGE_NAME.__version__ import __version__; print(__version__)")
+          echo "app_version=${app_version}" >> $GITHUB_OUTPUT
