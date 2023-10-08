@@ -47,5 +47,6 @@ nav:
   - Image Build: image_build.md
   - MkDocs Build: mkdocs_build.md
   - OpenAPI Build: openapi_build.md
+  - Python App Version: py_app_version.md
   - PyPi Publish: pypi_publish.md
   - Wiki Build: wiki.md
