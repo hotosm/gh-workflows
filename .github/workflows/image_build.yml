@@ -25,7 +25,7 @@ on:
         description: "Absolute path of the dockerfile (inside the context dir)."
         required: false
         type: string
-        default: "${{ inputs.context }}/Dockerfile"
+        default: "Dockerfile"
       build_target:
         description: "The target to built to (default to end of the Dockerfile)."
         required: false
@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ${{ inputs.context }}
-          file: ${{ inputs.dockerfile }}
+          file: ${{ inputs.context }}/${{ inputs.dockerfile }}
           target: ${{ inputs.build_target }}
           push: ${{ inputs.push }}
           tags: ${{ inputs.image_tags }}
