@@ -33,6 +33,5 @@ jobs:
           key: ${{ inputs.cache_key }}
 
       - name: Build Doxygen Docs
-        run: |
-          cd docs
-          doxygen
+        working-directory: docs
+        run: doxygen
