@@ -10,7 +10,7 @@ on:
     outputs:
       app_version:
         description: "Python app version."
-        value: ${{ jobs.extract-vars.outputs.app_version }}
+        value: ${{ jobs.extract-app-version.outputs.app_version }}
 
 jobs:
   extract-app-version:
