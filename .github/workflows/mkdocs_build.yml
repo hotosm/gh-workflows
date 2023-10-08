@@ -39,6 +39,7 @@ jobs:
           path: |
             .cache
             ${{ inputs.cache_paths }}
+          key: ${{ inputs.cache_key }}
           restore-keys: ${{ inputs.cache_key }}
 
       - name: Publish
