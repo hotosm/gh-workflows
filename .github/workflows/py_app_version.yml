@@ -27,6 +27,5 @@ jobs:
       - name: Extract app version
         id: extract_app_version
         run: |
-          cd src/backend
           app_version=$(python -c "from $PACKAGE_NAME.__version__ import __version__; print(__version__)")
           echo "app_version=${app_version}" >> $GITHUB_OUTPUT
