@@ -14,9 +14,9 @@
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                              | VALUE                                            | DESCRIPTION         |
-| ------------------------------------------------------------------- | ------------------------------------------------ | ------------------- |
-| <a name="output_app_version"></a>[app_version](#output_app_version) | `"${{ jobs.extract-vars.outputs.app_version }}"` | Python app version. |
+| OUTPUT                                                              | VALUE                                                   | DESCRIPTION         |
+| ------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- |
+| <a name="output_app_version"></a>[app_version](#output_app_version) | `"${{ jobs.extract-app-version.outputs.app_version }}"` | Python app version. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
