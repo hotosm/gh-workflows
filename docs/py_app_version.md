@@ -2,9 +2,31 @@
 
 ## Inputs
 
+<!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
+
+| INPUT                                                                | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                          |
+| -------------------------------------------------------------------- | ------ | -------- | ------- | ---------------------------------------------------- |
+| <a name="input_package_name"></a>[package_name](#input_package_name) | string | true     |         | The package_name that **version**.py sits <br>under. |
+
+<!-- AUTO-DOC-INPUT:END -->
+
 ## Outputs
 
+<!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
+| OUTPUT                                                              | VALUE                                            | DESCRIPTION         |
+| ------------------------------------------------------------------- | ------------------------------------------------ | ------------------- |
+| <a name="output_app_version"></a>[app_version](#output_app_version) | `"${{ jobs.extract-vars.outputs.app_version }}"` | Python app version. |
+
+<!-- AUTO-DOC-OUTPUT:END -->
+
 ## Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+No secrets.
+
+<!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
 
