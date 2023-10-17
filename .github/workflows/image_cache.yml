@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Restore Image Cache
-        id: cache-img-${{ inputs.image_name }}
+        id: cache-img
         uses: actions/cache@v3
         with:
           path: ci/cache/docker/${{ inputs.image_name }}
           key: cache-docker-${{ inputs.image_name }}
 
       - name: Update Image Cache
-        if: steps.cache-img-${{ inputs.image_name }}.outputs.cache-hit != 'true'
+        if: steps.cache-img.outputs.cache-hit != 'true'
         run: |
           docker pull ${{ inputs.image_name }}
           mkdir -p ci/cache/docker/${{ inputs.registry }}
@@ -28,5 +28,5 @@ jobs:
             --output ./ci/cache/docker/${{ inputs.image_name }}/${{ inputs.image_name }}.tar
 
       - name: Use Image Cache
-        if: steps.cache-img-${{ inputs.image_name }}.outputs.cache-hit == 'true'
+        if: steps.cache-img.outputs.cache-hit == 'true'
         run: docker image load --input ./ci/cache/docker/${{ inputs.image_name }}/${{ inputs.image_name }}.tar
