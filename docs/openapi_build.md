@@ -1,5 +1,7 @@
 # OpenAPI Build
 
+Build OpenAPI YAML for use in Swagger or ReDoc documentation sites.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->

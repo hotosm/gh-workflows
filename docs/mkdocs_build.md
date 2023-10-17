@@ -1,5 +1,12 @@
 # MKDocs Build
 
+Build docs using Python mkdocs.
+
+You need to have:
+
+- `docs` directory at root level.
+- mkdocs.yml config file.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->

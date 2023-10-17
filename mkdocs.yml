@@ -45,6 +45,7 @@ nav:
   - Home: index.md
   - Doxygen Build: doxygen_build.md
   - Image Build: image_build.md
+  - Image Cache: image_cache.md
   - MkDocs Build: mkdocs_build.md
   - OpenAPI Build: openapi_build.md
   - Python App Version: py_app_version.md

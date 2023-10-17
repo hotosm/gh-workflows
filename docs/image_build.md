@@ -1,5 +1,8 @@
 # Container Image Build
 
+This workflow is used to build container
+images in a standardised way.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->

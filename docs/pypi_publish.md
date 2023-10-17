@@ -1,5 +1,9 @@
 # PyPi Publish
 
+Publish a package to PyPi using PDM.
+
+> You must use PDM for your package management for this workflow to function.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->

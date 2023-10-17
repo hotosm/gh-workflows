@@ -1,5 +1,7 @@
 # Extract Python App Version
 
+Output the version of a Python application, using the **version**.py file.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->

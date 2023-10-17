@@ -1,5 +1,9 @@
 # Doxygen Build
 
+This workflow is used to build a Doxygen class hierarchy.
+
+It needs a Doxyfile present under `docs/Doxyfile`.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
