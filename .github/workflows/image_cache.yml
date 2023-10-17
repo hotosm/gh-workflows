@@ -3,35 +3,38 @@ name: Cache Container Image
 on:
   workflow_call:
     inputs:
-      registry_prefix:
-        description: "The registry prefix, e.g. ghcr.io/hotosm."
-        required: false
-        type: string
-        default: "docker.io"
       image_name:
-        description: "The image name to cache, with tag, e.g. fmtm:0.1.0."
+        description: "The full image name to cache, including tag."
         required: true
         type: string
+      cache_key:
+        description: "The cache key to use, e.g. img-postgis."
+        required: true
+        type: string
+    outputs:
+      cache_key:
+        description: "The cache key used during input."
+        value: ${{ inputs.cache_key }}
+      cache_path:
+        description: "The path that was cached."
+        value: ci/cache/images/${{ inputs.cache_key }}.tar
 
 jobs:
   cache-image:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Restore Image Cache
+      - name: Set Img Cache
         id: cache-img
         uses: actions/cache@v3
         with:
-          path: ci/cache/images/${{ inputs.image_name }}.tar
-          key: cache-docker-${{ inputs.image_name }}
+          path: ci/cache/images/${{ inputs.cache_key }}.tar
+          key: ${{ inputs.cache_key }}
 
-      - name: Update Image Cache
+      - name: Update Img Cache
         if: steps.cache-img.outputs.cache-hit != 'true'
         run: |
-          docker pull ${{ inputs.registry_prefix }}/${{ inputs.image_name }}
+          docker pull ${{ inputs.image_name }}
           mkdir -p ci/cache/images
-          docker image save ${{ inputs.registry_prefix }}/${{ inputs.image_name }} \
-            --output ./ci/cache/images/${{ inputs.image_name }}.tar
-
-      - name: Use Image Cache
-        if: steps.cache-img.outputs.cache-hit == 'true'
-        run: docker image load --input ./ci/cache/images/${{ inputs.image_name }}.tar
+          docker image save ${{ inputs.image_name }} \
+            --output ./ci/cache/images/${{ inputs.cache_key }}.tar
