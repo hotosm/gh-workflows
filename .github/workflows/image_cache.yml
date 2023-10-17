@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  build-and-push-images:
+  cache-image:
     runs-on: ubuntu-latest
     steps:
       - name: Restore Image Cache
