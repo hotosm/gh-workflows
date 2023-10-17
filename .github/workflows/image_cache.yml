@@ -3,8 +3,13 @@ name: Cache Container Image
 on:
   workflow_call:
     inputs:
+      registry_prefix:
+        description: "The registry prefix, e.g. ghcr.io/hotosm."
+        required: false
+        type: string
+        default: "docker.io"
       image_name:
-        description: "The full image name (with tag) to cache."
+        description: "The image name to cache, with tag, e.g. fmtm:0.1.0."
         required: true
         type: string
 
@@ -22,9 +27,9 @@ jobs:
       - name: Update Image Cache
         if: steps.cache-img.outputs.cache-hit != 'true'
         run: |
-          docker pull ${{ inputs.image_name }}
+          docker pull ${{ inputs.registry_prefix }}/${{ inputs.image_name }}
           mkdir -p ci/cache/images
-          docker image save ${{ inputs.image_name }} \
+          docker image save ${{ inputs.registry_prefix }}/${{ inputs.image_name }} \
             --output ./ci/cache/images/${{ inputs.image_name }}.tar
 
       - name: Use Image Cache
