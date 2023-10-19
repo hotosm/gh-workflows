@@ -105,7 +105,7 @@ jobs:
           file: ${{ inputs.context }}/${{ inputs.dockerfile }}
           target: ${{ inputs.build_target }}
           push: ${{ inputs.push }}
-          tags: ${{ inputs.image_tags | steps.set-tags.outputs.tags }}
+          tags: ${{ inputs.image_tags || steps.set-tags.outputs.tags }}
           build-args: ${{ inputs.build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
