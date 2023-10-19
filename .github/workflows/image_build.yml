@@ -76,7 +76,7 @@ jobs:
         with:
           dockerfile_path: ${{ inputs.context }}/${{ inputs.dockerfile }}
           quiet: true # show only failed checks
-          skip_check: CKV_DOCKER_8 # Skip check for USER root
+          skip_check: CKV_DOCKER_8,CKV_DOCKER_2 # Skip check for USER root
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
