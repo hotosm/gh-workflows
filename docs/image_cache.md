@@ -12,9 +12,33 @@ is a sensible choice.
 
 ## Inputs
 
+<!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
+
+| INPUT                                                          | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                      |
+| -------------------------------------------------------------- | ------ | -------- | ------- | ------------------------------------------------ |
+| <a name="input_cache_key"></a>[cache_key](#input_cache_key)    | string | true     |         | The cache key to use, <br>e.g. img-postgis.      |
+| <a name="input_image_name"></a>[image_name](#input_image_name) | string | true     |         | The full image name to <br>cache, including tag. |
+
+<!-- AUTO-DOC-INPUT:END -->
+
 ## Outputs
 
+<!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
+| OUTPUT                                                           | VALUE                                           | DESCRIPTION                          |
+| ---------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------ |
+| <a name="output_cache_key"></a>[cache_key](#output_cache_key)    | `"${{ inputs.cache_key }}"`                     | The cache key used during <br>input. |
+| <a name="output_cache_path"></a>[cache_path](#output_cache_path) | `"ci/cache/images/${{ inputs.cache_key }}.tar"` | The path that was cached.            |
+
+<!-- AUTO-DOC-OUTPUT:END -->
+
 ## Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+No secrets.
+
+<!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
 
