@@ -44,6 +44,22 @@ No secrets.
 
 **Standalone**
 
+Multi-arch, cached, auto-tag, auto-push:
+
+```yaml
+backend-build:
+  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@main
+  with:
+    context: src/backend
+    build_target: prod
+    image_name: ghcr.io/${{ github.repository }}/backend
+    build_args: |
+      APP_VERSION=${{ github.ref_name }}
+      COMMIT_REF=${{ github.sha }}
+```
+
+Manual tagging:
+
 ```yaml
 backend-build:
   uses: hotosm/gh-workflows/.github/workflows/image_build.yml
