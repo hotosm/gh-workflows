@@ -4,8 +4,8 @@ on:
   workflow_call:
     inputs:
       image_name:
-        description: "Name of image, without tags."
-        required: true
+        description: "Name of image, without tags. Not required if image_tags specified."
+        required: false
         type: string
       image_tags:
         description: "Default=the images are automatically tagged. Override tags with space separated list."
