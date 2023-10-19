@@ -30,6 +30,7 @@ jobs:
         if: steps.check-artifact.outputs.exists != true
         run: |
           docker pull ${{ inputs.image_name }}
+          echo "Packaging image to /tmp/${{ inputs.cache_key }}.tar"
           docker image save ${{ inputs.image_name }} \
             --output /tmp/${{ inputs.cache_key }}.tar
 
