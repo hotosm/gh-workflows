@@ -74,6 +74,7 @@ jobs:
       - name: Dockerfile Vulnerabilities
         uses: bridgecrewio/checkov-action@master
         with:
+          directory: ${{ inputs.context }}
           dockerfile_path: ${{ inputs.context }}/${{ inputs.dockerfile }}
           quiet: true # show only failed checks
           skip_check: CKV_DOCKER_8,CKV_DOCKER_2 # Skip check for USER root
