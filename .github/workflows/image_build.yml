@@ -125,10 +125,15 @@ jobs:
           imageName=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
           echo "image_name=${imageName} >> $GITHUB_OUTPUT"
 
+  scan-image:
+    needs: build-image
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Scan Container Image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ steps.get-image-name.outputs.image_name }}
+          image-ref: ${{ needs.build-image.outputs.image_name }}
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
