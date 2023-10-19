@@ -1,14 +1,14 @@
-name: Cache Container Image
+name: Cache Container Images
 
 on:
   workflow_call:
     inputs:
-      image_name:
-        description: "The full image name to cache, including tag."
+      image_names:
+        description: "A space separated list of full image names to cache, including tag."
         required: true
         type: string
       cache_key:
-        description: "The cache key to use, e.g. img-postgis."
+        description: "The cache key to use, e.g. image-cache."
         required: true
         type: string
     outputs:
@@ -17,26 +17,22 @@ on:
         value: ${{ inputs.cache_key }}
 
 jobs:
-  cache-img:
+  cache-imgs:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Img Artifact Exists
-        id: check-artifact
-        uses: xSAVIKx/artifact-exists-action@v0
-        with:
-          name: ${{ inputs.cache_key }}
-
-      - name: Package Image
-        if: steps.check-artifact.outputs.exists != true
+      - name: Package Images
         run: |
-          docker pull ${{ inputs.image_name }}
-          echo "Packaging image to /tmp/${{ inputs.cache_key }}.tar"
-          docker image save ${{ inputs.image_name }} \
-            --output /tmp/${{ inputs.cache_key }}.tar
+          mkdir -p /tmp/images
+          for image_name in "${{ inputs.image_names }}"; do
+              docker pull "${image_name}"
+              img_underscores=${image_name//\//\_}
+              echo "Packaging image to /tmp/${img_underscores}.tar"
+              docker image save "${image_name}" \
+                --output /tmp/${img_underscores}.tar
+          done
 
-      - name: Upload Artifact
-        if: steps.check-artifact.outputs.exists != true
+      - name: Upload Artifact Dir
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.cache_key }}
-          path: /tmp/${{ inputs.cache_key }}.tar
+          path: /tmp/images
