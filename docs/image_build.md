@@ -26,7 +26,9 @@ images in a standardised way.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-No outputs.
+| OUTPUT                                                           | VALUE                                          | DESCRIPTION          |
+| ---------------------------------------------------------------- | ---------------------------------------------- | -------------------- |
+| <a name="output_image_name"></a>[image_name](#output_image_name) | `"${{ jobs.build-image.outputs.image_name }}"` | The final image tag. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
