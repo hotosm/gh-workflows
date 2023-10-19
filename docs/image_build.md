@@ -7,15 +7,18 @@ images in a standardised way.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                                | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION                                                      |
-| -------------------------------------------------------------------- | ------- | -------- | -------------- | ---------------------------------------------------------------- |
-| <a name="input_build_args"></a>[build_args](#input_build_args)       | string  | false    |                | Space separated list of build <br>args to use for the <br>image. |
-| <a name="input_build_target"></a>[build_target](#input_build_target) | string  | false    |                | The target to built to <br>(default to end of the Dockerfile).   |
-| <a name="input_context"></a>[context](#input_context)                | string  | false    | `"."`          | Root directory to start the <br>build from.                      |
-| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)       | string  | false    | `"Dockerfile"` | Absolute path of the dockerfile <br>(inside the context dir).    |
-| <a name="input_image_tags"></a>[image_tags](#input_image_tags)       | string  | true     |                | Space separated list of tags <br>for the built image.            |
-| <a name="input_push"></a>[push](#input_push)                         | boolean | false    | `true`         | Override prevent pushing the image.                              |
-| <a name="input_registry"></a>[registry](#input_registry)             | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                        |
+| INPUT                                                                | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION                                                                                   |
+| -------------------------------------------------------------------- | ------- | -------- | -------------- | --------------------------------------------------------------------------------------------- |
+| <a name="input_build_args"></a>[build_args](#input_build_args)       | string  | false    |                | Space separated list of build <br>args to use for the <br>image.                              |
+| <a name="input_build_target"></a>[build_target](#input_build_target) | string  | false    |                | The target to built to <br>(default to end of the Dockerfile).                                |
+| <a name="input_cache"></a>[cache](#input_cache)                      | boolean | false    | `true`         | Use GHCR caching. Default true. <br>Set this false if registry <br>is not ghcr.io.            |
+| <a name="input_context"></a>[context](#input_context)                | string  | false    | `"."`          | Root directory to start the <br>build from.                                                   |
+| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)       | string  | false    | `"Dockerfile"` | Absolute path of the dockerfile <br>(inside the context dir).                                 |
+| <a name="input_image_name"></a>[image_name](#input_image_name)       | string  | true     |                | Name of image, without tags.                                                                  |
+| <a name="input_image_tags"></a>[image_tags](#input_image_tags)       | string  | false    |                | Default=the images are automatically tagged. <br>Override tags with space separated <br>list. |
+| <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)       | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
+| <a name="input_push"></a>[push](#input_push)                         | boolean | false    | `true`         | Override prevent pushing the image.                                                           |
+| <a name="input_registry"></a>[registry](#input_registry)             | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                                                     |
 
 <!-- AUTO-DOC-INPUT:END -->
 
