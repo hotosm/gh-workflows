@@ -125,9 +125,12 @@ jobs:
           imageName=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
           echo "image_name=${imageName} >> $GITHUB_OUTPUT"
 
-      - name: Scan Docker Image
-        uses: bridgecrewio/checkov-action@master
+      - name: Scan Container Image
+        uses: aquasecurity/trivy-action@v0.12.0
         with:
-          docker_image: ${{ steps.get-image-name.outputs.image_name }}
-          quiet: true # show only failed checks
-          container_user: 1001 # UID to run the container under for permissions
+          image-ref: ${{ steps.get-image-name.outputs.image_name }}
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL"
