@@ -25,10 +25,9 @@ is a sensible choice.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                           | VALUE                                           | DESCRIPTION                          |
-| ---------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------ |
-| <a name="output_cache_key"></a>[cache_key](#output_cache_key)    | `"${{ inputs.cache_key }}"`                     | The cache key used during <br>input. |
-| <a name="output_cache_path"></a>[cache_path](#output_cache_path) | `"ci/cache/images/${{ inputs.cache_key }}.tar"` | The path that was cached.            |
+| OUTPUT                                                        | VALUE                       | DESCRIPTION                          |
+| ------------------------------------------------------------- | --------------------------- | ------------------------------------ |
+| <a name="output_cache_key"></a>[cache_key](#output_cache_key) | `"${{ inputs.cache_key }}"` | The cache key used during <br>input. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
