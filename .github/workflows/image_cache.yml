@@ -15,26 +15,27 @@ on:
       cache_key:
         description: "The cache key used during input."
         value: ${{ inputs.cache_key }}
-      cache_path:
-        description: "The path that was cached."
-        value: ci/cache/images/${{ inputs.cache_key }}.tar
 
 jobs:
-  cache-image:
+  cache-img:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Set Img Cache
-        id: cache-img
-        uses: actions/cache@v3
+      - name: Check Img Artifact Exists
+        id: check-artifact
+        uses: xSAVIKx/artifact-exists-action@v0
         with:
-          path: ci/cache/images/${{ inputs.cache_key }}.tar
-          key: ${{ inputs.cache_key }}
+          name: ${{ inputs.cache_key }}
 
-      - name: Update Img Cache
-        if: steps.cache-img.outputs.cache-hit != 'true'
+      - name: Package Image
+        if: steps.check-artifact.outputs.exists != true
         run: |
           docker pull ${{ inputs.image_name }}
-          mkdir -p ci/cache/images
           docker image save ${{ inputs.image_name }} \
-            --output ./ci/cache/images/${{ inputs.cache_key }}.tar
+            --output /tmp/${{ inputs.cache_key }}.tar
+
+      - name: Upload Artifact
+        if: steps.check-artifact.outputs.exists != true
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.cache_key }}
+          path: /tmp/${{ inputs.cache_key }}.tar
