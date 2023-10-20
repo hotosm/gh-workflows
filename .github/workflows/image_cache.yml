@@ -22,23 +22,27 @@ jobs:
     steps:
       - name: Package Images
         run: |
+          # Make artifact dir
+          mkdir -p /tmp/images
+
           echo "Provided images:"
           echo "${{ inputs.image_names }}"
+          echo ""
 
           # Split the space-separated string into an array
           IFS=" " read -ra images_array <<< "${{ inputs.image_names }}"
           echo "Parsed array:"
-          echo "${images_array[@]}"
-
-          # Make artifact dir
-          mkdir -p /tmp/images
+          for image in "${images_array[@]}"; do
+            echo "$image"
+          done
+          echo ""
 
           # Iterate images
-          for image_name in "${images_array[@]}"; do
-              docker pull "${image_name}"
-              img_underscores=${image_name//[:\/]/_}
+          for image in "${images_array[@]}"; do
+              docker pull "${image}"
+              img_underscores=${image//[:\/.]/_}
               echo "Packaging image to /tmp/images/${img_underscores}.tar"
-              docker image save "${image_name}" \
+              docker image save "${image}" \
                 --output /tmp/images/${img_underscores}.tar
           done
 
