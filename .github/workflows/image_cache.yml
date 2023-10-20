@@ -21,11 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Package Images
-        env:
-          IMAGES: ${{ join(inputs.image_names, ' ') }}
         run: |
           echo "Provided images:"
           echo "${{ inputs.image_names }}"
+
+          # Github specific parsing
+          IMAGES_RAW=${{ inputs.image_names }}
+          IMAGES=$IMAGES_RAW<<EOF
 
           # Split the space-separated string into an array
           IFS=' ' read -ra images_array <<< "$IMAGES"
