@@ -43,12 +43,15 @@ plugins:
 
 nav:
   - Home: index.md
-  - Doxygen Build: doxygen_build.md
-  - Image Build: image_build.md
-  - Image Cache: image_cache.md
-  - MkDocs Build: mkdocs_build.md
-  - OpenAPI Build: openapi_build.md
-  - Python App Version: py_app_version.md
-  - PyPi Publish: pypi_publish.md
-  - Remote Deploy: remote_deploy.md
-  - Wiki Build: wiki.md
+  - Containers:
+      - Image Build: image_build.md
+      - Image Cache: image_cache.md
+      - Remote Deploy: remote_deploy.md
+  - Docs:
+      - MkDocs Build: mkdocs_build.md
+      - Doxygen Build: doxygen_build.md
+      - OpenAPI Build: openapi_build.md
+      - Wiki Build: wiki.md
+  - Publishing:
+      - PyPi Publish: pypi_publish.md
+      - Python App Version: py_app_version.md
