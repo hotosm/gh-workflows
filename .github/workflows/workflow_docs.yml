@@ -27,12 +27,12 @@ jobs:
           filename: .github/workflows/image_build.yml
           output: docs/image_build.md
 
-      - name: Document image_cache
+      - name: Document image_artifact
         uses: tj-actions/auto-doc@v3
         with:
           reusable: true
-          filename: .github/workflows/image_cache.yml
-          output: docs/image_cache.md
+          filename: .github/workflows/image_artifact.yml
+          output: docs/image_artifact.md
 
       - name: Document mkdocs_build
         uses: tj-actions/auto-doc@v3
@@ -89,7 +89,7 @@ jobs:
           files: |
             docs/doxygen_build.md
             docs/image_build.md
-            docs/image_cache.md
+            docs/image_artifact.md
             docs/mkdocs_build.md
             docs/openapi_build.md
             docs/py_app_version.md

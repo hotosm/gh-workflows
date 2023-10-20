@@ -1,4 +1,4 @@
-# Container Image Cache
+# Container Image Artifact
 
 This workflow is used to upload container images
 as artifacts during a workflow.
@@ -55,7 +55,7 @@ prevent download every time pytest is run.
 ```yaml
 jobs:
   artifact-imgs:
-    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
+    uses: hotosm/gh-workflows/.github/workflows/image_artifact.yml@main
     with:
       image_names: >
         docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
@@ -74,15 +74,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download Image Cache
+      - name: Download Images Tars
         id: download-images
         uses: actions/download-artifact@v3
         with:
           name: images
           path: /tmp/images
 
-      - name: Load Cached Imgs
-        id: load-cache
+      - name: Load Tar Imgs
         run: |
           for image_tar in /tmp/images/*; do
               docker image load --input $image_tar || true

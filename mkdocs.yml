@@ -45,7 +45,7 @@ nav:
   - Home: index.md
   - Containers:
       - Image Build: image_build.md
-      - Image Cache: image_cache.md
+      - Image Artifact: image_artifact.md
       - Remote Deploy: remote_deploy.md
   - Docs:
       - MkDocs Build: mkdocs_build.md
