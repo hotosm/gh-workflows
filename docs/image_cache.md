@@ -14,10 +14,10 @@ is a sensible choice.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                          | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                      |
-| -------------------------------------------------------------- | ------ | -------- | ------- | ------------------------------------------------ |
-| <a name="input_cache_key"></a>[cache_key](#input_cache_key)    | string | true     |         | The cache key to use, <br>e.g. img-postgis.      |
-| <a name="input_image_name"></a>[image_name](#input_image_name) | string | true     |         | The full image name to <br>cache, including tag. |
+| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                 |
+| ----------------------------------------------------------------- | ------ | -------- | ------- | --------------------------------------------------------------------------- |
+| <a name="input_cache_key"></a>[cache_key](#input_cache_key)       | string | true     |         | The cache key to use, <br>e.g. image-cache.                                 |
+| <a name="input_image_names"></a>[image_names](#input_image_names) | string | true     |         | A space separated list of <br>full image names to cache, <br>including tag. |
 
 <!-- AUTO-DOC-INPUT:END -->
 
