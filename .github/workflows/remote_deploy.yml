@@ -1,58 +1,57 @@
+# Note: variables: SSH_HOST and SSH_USER must be set for your environment.
+# Note: secrets: SSH_PRIVATE_KEY must be set for your environment.
+
 name: Remote Deploy (Compose)
 
 on:
   workflow_call:
     inputs:
-      ssh_host:
-        description: "The SSH host server to deploy to."
-        required: true
-        type: string
-      ssh_user:
-        description: "The SSH user to deploy as."
-        required: true
+      environment:
+        description: "The Github environment to get variables from. Default repository vars."
+        required: false
         type: string
       docker_compose_file:
         description: "Path to docker compose file to deploy."
         required: true
         type: string
-      env_vars:
-        description: "Space sparated list of env var pairs, e.g. SOME_VAR=${{ var.some_var }}."
-        required: false
-        type: string
-    secrets:
-      ssh_private_key:
-        description: "The private key for the ssh_host (with pub key on server)."
-        required: true
 
 jobs:
   remote-deploy:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create .env file
+      - name: Vars and Secrets to Env
         env:
           GIT_BRANCH: ${{ github.ref_name }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
         run: |
-          # Process the env_vars input into a .env file
-          echo "${{ inputs.env_vars }}" > .env
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
 
-          # Append GIT_BRANCH to .env
-          echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
+          echo "$GIT_BRANCH" >> $GITHUB_ENV
+          echo "$VARS_CONTEXT" | to_envs >> $GITHUB_ENV
+          echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
+
+      - name: Create .env file
+        # run: envsubst < .env.example > .env # Only use .env.example vars
+        run: env > .env
 
       - uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ secrets.ssh_private_key }}
+          ssh-private-key: "${SSH_PRIVATE_KEY}"
 
       - name: Add host keys to known_hosts
         run: |
-          ssh-keyscan ${{ inputs.ssh_host }} >> ~/.ssh/known_hosts
+          ssh-keyscan "${SSH_HOST}" >> ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
           docker compose --file ${{ inputs.docker_compose_file }} pull
           docker compose --file ${{ inputs.docker_compose_file }} up --detach --remove-orphans
         env:
-          DOCKER_HOST: ssh://${{ inputs.ssh_user }}@${{ inputs.ssh_host }}
+          DOCKER_HOST: ssh://"${SSH_USER}"@"${SSH_HOST}"
