@@ -14,10 +14,10 @@ is a sensible choice.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                 |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | --------------------------------------------------------------------------- |
-| <a name="input_cache_key"></a>[cache_key](#input_cache_key)       | string | true     |         | The cache key to use, <br>e.g. image-cache.                                 |
-| <a name="input_image_names"></a>[image_names](#input_image_names) | string | true     |         | A space separated list of <br>full image names to cache, <br>including tag. |
+| INPUT                                                                   | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                 |
+| ----------------------------------------------------------------------- | ------ | -------- | ------- | --------------------------------------------------------------------------- |
+| <a name="input_artifact_name"></a>[artifact_name](#input_artifact_name) | string | true     |         | The cache key to use, <br>e.g. image-cache.                                 |
+| <a name="input_image_names"></a>[image_names](#input_image_names)       | string | true     |         | A space separated list of <br>full image names to cache, <br>including tag. |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -25,9 +25,9 @@ is a sensible choice.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                        | VALUE                       | DESCRIPTION                          |
-| ------------------------------------------------------------- | --------------------------- | ------------------------------------ |
-| <a name="output_cache_key"></a>[cache_key](#output_cache_key) | `"${{ inputs.cache_key }}"` | The cache key used during <br>input. |
+| OUTPUT                                                                    | VALUE                           | DESCRIPTION                          |
+| ------------------------------------------------------------------------- | ------------------------------- | ------------------------------------ |
+| <a name="output_artifact_name"></a>[artifact_name](#output_artifact_name) | `"${{ inputs.artifact_name }}"` | The cache key used during <br>input. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
