@@ -27,15 +27,15 @@ jobs:
       - name: Vars and Secrets to Env
         env:
           GIT_BRANCH: ${{ github.ref_name }}
-          SECRETS_CONTEXT: ${{ toJson(secrets) }}
           VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$EOF\n\(.value)\n$EOF\n\""; }
 
           echo "$GIT_BRANCH" >> $GITHUB_ENV
-          echo "$VARS_CONTEXT" | to_envs >> $GITHUB_ENV
-          echo "$SECRETS_CONTEXT" | to_envs >> $GITHUB_ENV
+          echo "${{ env.VARS_CONTEXT }}" | to_envs >> $GITHUB_ENV
+          echo "${{ env.SECRETS_CONTEXT }}" | to_envs >> $GITHUB_ENV
 
       - name: Create .env file
         # run: envsubst < .env.example > .env # Only use .env.example vars
