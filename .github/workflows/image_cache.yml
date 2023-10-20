@@ -31,7 +31,7 @@ jobs:
           # Iterate images
           for image_name in "${image_names_array[@]}"; do
               docker pull "${image_name}"
-              img_underscores=${image_name//\//\_}
+              img_underscores=${image_name//[:\/]/_}
               echo "Packaging image to /tmp/images/${img_underscores}.tar"
               docker image save "${image_name}" \
                 --output /tmp/images/${img_underscores}.tar
