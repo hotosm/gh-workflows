@@ -1,14 +1,22 @@
 # Container Image Cache
 
-This workflow is used to cache container images
-for workflows, preventing the need to repeatedly
-download the same images.
+This workflow is used to upload container images
+as artifacts during a workflow.
 
-For example, a pytest workflow may use the same images
-every time to run required services (postgres, redis).
+This is useful for 'caching' an downloaded image, if it
+if used again within the same workflow, preventing repeated
+pulls.
 
-Running pytest should be fast, so caching these images
-is a sensible choice.
+This may or may not be faster than pulling the image again,
+as the image still has to pull from thr artifact API.
+
+However, it does prevent repeated pull from container
+registries where rate limiting is applied (e.g. dockerhub).
+
+> This strategy does not work across workflow runs.
+
+> Note that the image_names parameter uses YAML scalar
+> syntax `>` instead of literal `|`. This is important.
 
 ## Inputs
 
@@ -46,13 +54,21 @@ prevent download every time pytest is run.
 
 ```yaml
 jobs:
+  artifact-imgs:
+    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
+    with:
+      image_names: >
+        docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
+        ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
+        ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}
+        docker.io/minio/minio:${{ vars.MINIO_TAG }}
+      artifact_name: images
+
   run-pytest:
     runs-on: ubuntu-latest
+    needs: [artifact-imgs]
     environment:
       name: ${{ inputs.environment || 'test' }}
-
-    outputs:
-      img_cache_loaded: ${{ steps.load-cache.outputs.img_cache_loaded }}
 
     steps:
       - name: Checkout repository
@@ -62,18 +78,15 @@ jobs:
         id: download-images
         uses: actions/download-artifact@v3
         with:
-          name: image-cache
+          name: images
           path: /tmp/images
-        continue-on-error: true
 
       - name: Load Cached Imgs
         id: load-cache
-        if: ${{ steps.download-images.outputs.download_path == '/tmp/images' }}
         run: |
           for image_tar in /tmp/images/*; do
               docker image load --input $image_tar || true
           done
-          echo "img_cache_loaded=true" >> $GITHUB_OUTPUT
 
       - name: Run PyTest
         run: |
@@ -81,20 +94,4 @@ jobs:
             wait-for-it fmtm-db:5432 --strict \
             -- wait-for-it central:8383 --strict --timeout=30 \
             -- pytest
-
-  # This stage only runs if the images were not found in the cache
-  upload-img-cache:
-    needs: [run-pytest]
-    if: ${{ needs.run-pytest.outputs.img_cache_loaded != true}}
-    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
-    with:
-      image_names: >
-        docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
-        ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
-        ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}
-        docker.io/minio/minio:${{ vars.MINIO_TAG }}
-      artifact_name: image-cache
 ```
-
-> Note that the image_names parameter uses YAML scalar
-> syntax `>` instead of literal `|`. This is important.

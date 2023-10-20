@@ -1,19 +1,19 @@
-name: Cache Container Images
+name: Artifact Container Images
 
 on:
   workflow_call:
     inputs:
       image_names:
-        description: "A space separated list of full image names to cache, including tag."
+        description: "A space separated list of full image names to upload, including tag."
         required: true
         type: string
       artifact_name:
-        description: "The cache key to use, e.g. image-cache."
+        description: "The artifact name to use, e.g. images."
         required: true
         type: string
     outputs:
       artifact_name:
-        description: "The cache key used during input."
+        description: "The artifact name used during input."
         value: ${{ inputs.artifact_name }}
 
 jobs:
