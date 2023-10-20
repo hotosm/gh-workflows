@@ -28,7 +28,7 @@ jobs:
           # Split the space-separated string into an array
           IFS=" " read -ra images_array <<< "${{ inputs.image_names }}"
           echo "Parsed array:"
-          "${images_array[@]}"
+          echo "${images_array[@]}"
 
           # Make artifact dir
           mkdir -p /tmp/images
