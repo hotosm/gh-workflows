@@ -62,7 +62,7 @@ on:
         value: ${{ jobs.build-image.outputs.image_name }}
       image_tag:
         description: "The final image tag."
-        value: ${{ jobs.build-image.outputs.image_name }}
+        value: ${{ jobs.build-image.outputs.image_tag }}
 
 jobs:
   build-image:
