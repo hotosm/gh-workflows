@@ -22,8 +22,14 @@ jobs:
     steps:
       - name: Package Images
         run: |
+          # Split the space-separated string into an array
+          IFS=" " read -ra image_names_array <<< "${{ inputs.image_names }}"
+
+          # Make artifact dir
           mkdir -p /tmp/images
-          for image_name in "${{ inputs.image_names }}"; do
+
+          # Iterate images
+          for image_name in "${image_names_array[@]}"; do
               docker pull "${image_name}"
               img_underscores=${image_name//\//\_}
               echo "Packaging image to /tmp/${img_underscores}.tar"
