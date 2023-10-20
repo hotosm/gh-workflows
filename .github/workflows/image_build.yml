@@ -136,11 +136,11 @@ jobs:
   scan-image:
     needs: build-image
     runs-on: ubuntu-latest
+    if: ${{ inputs.scan }}
 
     steps:
       - name: Scan Container Image
         uses: aquasecurity/trivy-action@master
-        if: ${{ inputs.scan }}
         with:
           image-ref: ${{ needs.build-image.outputs.image_name }}
           format: "table"
