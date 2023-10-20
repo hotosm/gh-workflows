@@ -125,7 +125,7 @@ jobs:
         run: |
           image_names=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
           IFS=',' read -ra images_array <<< "$image_names"
-          echo "image_name=${images_array[0]} >> $GITHUB_OUTPUT"
+          echo "image_name=${images_array[0]}" >> $GITHUB_OUTPUT
 
   scan-image:
     needs: build-image
