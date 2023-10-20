@@ -24,16 +24,9 @@ jobs:
         run: |
           echo "Provided images:"
           echo "${{ inputs.image_names }}"
-          {
-            echo 'IMAGES<<EOF'
-            "${{ inputs.image_names }}"
-            echo EOF
-          } >> "$GITHUB_ENV"
-          echo "Parsed to GITHUB_ENV:"
-          echo "${IMAGES}"
 
           # Split the space-separated string into an array
-          IFS=$'\n' read -ra images_array <<< "$IMAGES"
+          IFS=" " read -ra images_array <<< "${{ inputs.image_names }}"
           echo "Parsed array:"
           "${images_array[@]}"
 

@@ -41,46 +41,60 @@ No secrets.
 
 ## Example Usage
 
-In this example, as PostGIS image is cached, to
+In this example, we cache various dependent images, to
 prevent download every time pytest is run.
 
 ```yaml
 jobs:
-  cache-img-postgis:
-    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
-    with:
-      image_name: postgis/postgis:14-3.3-alpine
-      cache_key: img-postgis
-
-  cache-img-odk:
-    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
-    with:
-      image_name: ghcr.io/hotosm/fmtm/odkcentral:v2023.2.1
-      cache_key: img-odk
-
   run-pytest:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.environment || 'test' }}
-    needs:
-      - postgis-img-cache
-      - odk-img-cache
+
+    outputs:
+      img_cache_loaded: ${{ steps.load-cache.outputs.img_cache_loaded }}
 
     steps:
-      - name: Restore Img Caches
-        id: restore-imgs
-        uses: actions/cache@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Image Cache
+        id: download-images
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            ${{ needs.postgis-img-cache.outputs.cache_path }}
-            ${{ needs.odk-img-cache.outputs.cache_path }}
-          key: |
-            ${{ needs.postgis-img-cache.outputs.cache_key }}
-            ${{ needs.odk-img-cache.outputs.cache_key }}
+          name: image-cache
+          path: /tmp/images
+        continue-on-error: true
 
       - name: Load Cached Imgs
-        if: steps.restore-imgs.outputs.cache-hit == 'true'
+        id: load-cache
+        if: ${{ steps.download-images.outputs.download_path == '/tmp/images' }}
         run: |
-          docker image load --input ${{ needs.postgis-img-cache.outputs.cache_path }} || true
-          docker image load --input ${{ needs.odk-img-cache.outputs.cache_path }} || true
+          for image_tar in /tmp/images/*; do
+              docker image load --input $image_tar || true
+          done
+          echo "img_cache_loaded=true" >> $GITHUB_OUTPUT
+
+      - name: Run PyTest
+        run: |
+          docker compose run api \
+            wait-for-it fmtm-db:5432 --strict \
+            -- wait-for-it central:8383 --strict --timeout=30 \
+            -- pytest
+
+  # This stage only runs if the images were not found in the cache
+  upload-img-cache:
+    needs: [run-pytest]
+    if: ${{ needs.run-pytest.outputs.img_cache_loaded != true}}
+    uses: hotosm/gh-workflows/.github/workflows/image_cache.yml@main
+    with:
+      image_names: >
+        docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
+        ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
+        ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}
+        docker.io/minio/minio:${{ vars.MINIO_TAG }}
+      artifact_name: image-cache
 ```
+
+> Note that the image_names parameter uses YAML scalar
+> syntax `>` instead of literal `|`. This is important.
