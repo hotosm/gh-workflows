@@ -22,8 +22,11 @@ jobs:
     steps:
       - name: Package Images
         run: |
+          # Remove leading and trailing whitespace and empty lines
+          input_vars=$(echo -e "${{ inputs.image_names }}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
           # Split the space-separated string into an array
-          IFS=$'\n' read -ra image_names_array <<< "${{ inputs.image_names }}"
+          IFS=$'\n' read -ra image_names_array <<< "$input_vars"
+          echo "Parsed array: ${image_names_array}"
 
           # Make artifact dir
           mkdir -p /tmp/images
