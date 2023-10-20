@@ -1,0 +1,58 @@
+name: Remote Deploy (Compose)
+
+on:
+  workflow_call:
+    inputs:
+      ssh_host:
+        description: "The SSH host server to deploy to."
+        required: true
+        type: string
+      ssh_user:
+        description: "The SSH user to deploy as."
+        required: true
+        type: string
+      docker_compose_file:
+        description: "Path to docker compose file to deploy."
+        required: true
+        type: string
+      env_vars:
+        description: "Space sparated list of env var pairs, e.g. SOME_VAR=${{ var.some_var }}."
+        required: false
+        type: string
+    secrets:
+      ssh_private_key:
+        description: "The private key for the ssh_host (with pub key on server)."
+        required: true
+
+jobs:
+  remote-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+        run: |
+          # Process the env_vars input into a .env file
+          echo "${{ inputs.env_vars }}" > .env
+
+          # Append GIT_BRANCH to .env
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
+
+      - uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.ssh_private_key }}
+
+      - name: Add host keys to known_hosts
+        run: |
+          ssh-keyscan ${{ inputs.ssh_host }} >> ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          docker compose --file ${{ inputs.docker_compose_file }} pull
+          docker compose --file ${{ inputs.docker_compose_file }} up --detach --remove-orphans
+        env:
+          DOCKER_HOST: ssh://${{ inputs.ssh_user }}@${{ inputs.ssh_host }}

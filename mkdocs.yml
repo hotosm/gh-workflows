@@ -50,4 +50,5 @@ nav:
   - OpenAPI Build: openapi_build.md
   - Python App Version: py_app_version.md
   - PyPi Publish: pypi_publish.md
+  - Remote Deploy: remote_deploy.md
   - Wiki Build: wiki.md

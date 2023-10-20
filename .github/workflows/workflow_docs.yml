@@ -62,6 +62,13 @@ jobs:
           filename: .github/workflows/pypi_publish.yml
           output: docs/pypi_publish.md
 
+      - name: Document remote_deploy
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/remote_deploy.yml
+          output: docs/remote_deploy.md
+
       - name: Document wiki
         uses: tj-actions/auto-doc@v3
         with:
@@ -87,6 +94,7 @@ jobs:
             docs/openapi_build.md
             docs/py_app_version.md
             docs/pypi_publish.md
+            docs/remote_deploy.md
             docs/wiki.md
 
       - name: Create Pull Request
