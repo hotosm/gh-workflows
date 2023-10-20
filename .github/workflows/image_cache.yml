@@ -21,26 +21,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Package Images
+        env:
+          IMAGES: ${{ join(inputs.image_names, '') }}
         run: |
           echo "Provided images:"
           echo "${{ inputs.image_names }}"
 
           # Split the space-separated string into an array
-          image_names_array=()
-          while IFS= read -r line; do
-            image_names_array+=("$line")
-          done <<< "${{ inputs.image_names }}"
+          read -ra images_array <<< "$IMAGES"
 
           echo ""
           echo "Parsed array:"
-          "${image_names_array[@]}"
+          "${images_array[@]}"
           echo ""
 
           # Make artifact dir
           mkdir -p /tmp/images
 
           # Iterate images
-          for image_name in "${image_names_array[@]}"; do
+          for image_name in "${images_array[@]}"; do
               docker pull "${image_name}"
               img_underscores=${image_name//[:\/]/_}
               echo "Packaging image to /tmp/images/${img_underscores}.tar"
