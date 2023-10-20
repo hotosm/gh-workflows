@@ -7,14 +7,14 @@ on:
         description: "A space separated list of full image names to cache, including tag."
         required: true
         type: string
-      cache_key:
+      artifact_name:
         description: "The cache key to use, e.g. image-cache."
         required: true
         type: string
     outputs:
-      cache_key:
+      artifact_name:
         description: "The cache key used during input."
-        value: ${{ inputs.cache_key }}
+        value: ${{ inputs.artifact_name }}
 
 jobs:
   package-and-upload:
@@ -31,7 +31,8 @@ jobs:
           IFS=' ' read -ra images_array <<< "$IMAGES"
 
           echo ""
-          echo "Parsed array: ${images_array[*]}"
+          echo "Parsed array:"
+          "${images_array[@]}"
           echo ""
 
 
@@ -50,5 +51,5 @@ jobs:
       - name: Upload Artifact Dir
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ inputs.cache_key }}
+          name: ${{ inputs.artifact_name }}
           path: /tmp/images
