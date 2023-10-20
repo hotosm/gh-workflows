@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      image_name: ${{ steps.get-image-name.outputs.image_name }}
+      image_name: ${{ steps.get_image_name.outputs.image_name }}
 
     permissions:
       contents: read
@@ -120,10 +120,12 @@ jobs:
           # Build for AMD and ARM (requires buildx+qemu)
           platforms: ${{ inputs.multi_arch == 'true' && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
 
-      - id: get-image-name
+      - id: get_image_name
+        name: Get First Image Name
         run: |
-          imageName=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
-          echo "image_name=${imageName} >> $GITHUB_OUTPUT"
+          image_names=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
+          IFS=',' read -ra images_array <<< "$image_names"
+          echo "image_name=${images_array[0]} >> $GITHUB_OUTPUT"
 
   scan-image:
     needs: build-image
