@@ -54,6 +54,11 @@ on:
         required: false
         type: boolean
         default: true
+      scan:
+        description: "Disable image scan after build."
+        required: false
+        type: boolean
+        default: true
     outputs:
       image_name:
         description: "The final image tag."
