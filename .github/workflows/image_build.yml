@@ -1,8 +1,5 @@
 name: Container Image Build
 
-permissions:
-  contents: write
-
 on:
   workflow_call:
     inputs:
