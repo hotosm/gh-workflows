@@ -130,6 +130,7 @@ jobs:
         run: |
           image_names=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
           IFS=',' read -ra images_array <<< "$image_names"
+          echo "Image Name: ${images_array[0]}"
           echo "image_name=${images_array[0]}" >> $GITHUB_OUTPUT
 
   scan-image:
@@ -139,6 +140,7 @@ jobs:
     steps:
       - name: Scan Container Image
         uses: aquasecurity/trivy-action@master
+        if: ${{ inputs.scan }}
         with:
           image-ref: ${{ needs.build-image.outputs.image_name }}
           format: "table"
