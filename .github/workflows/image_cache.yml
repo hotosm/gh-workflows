@@ -39,11 +39,17 @@ jobs:
 
           # Iterate images
           for image in "${images_array[@]}"; do
+              echo "Processing image ${image}"
               docker pull "${image}"
-              img_underscores=${image//[:\/.]/_}
-              echo "Packaging image to /tmp/images/${img_underscores}.tar"
-              docker image save "${image}" \
-                --output /tmp/images/${img_underscores}.tar
+
+              if [ $? -eq 0 ]; then
+                  img_underscores=${image//[:\/.]/_}
+                  echo "Packaging image to /tmp/images/${img_underscores}.tar"
+                  docker image save "${image}" \
+                      --output /tmp/images/${img_underscores}.tar
+              else
+                  echo "Failed to pull the image: ${image}"
+              fi
           done
 
       - name: Upload Artifact Dir
