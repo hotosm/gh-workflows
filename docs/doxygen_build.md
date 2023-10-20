@@ -8,10 +8,9 @@ It needs a Doxyfile present under `docs/Doxyfile`.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                           |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | ----------------------------------------------------- |
-| <a name="input_cache_key"></a>[cache_key](#input_cache_key)       | string | false    |         | The cache key to receive <br>from a previous job.     |
-| <a name="input_cache_paths"></a>[cache_paths](#input_cache_paths) | string | false    |         | The paths to cache for <br>preceeding/following jobs. |
+| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                |
+| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------------------- |
+| <a name="input_output_path"></a>[output_path](#input_output_path) | string | false    |         | If specified, the output dir <br>is uploaded to artifact extra-docs-files. |
 
 <!-- AUTO-DOC-INPUT:END -->
 

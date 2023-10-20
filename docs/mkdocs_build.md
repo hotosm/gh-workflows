@@ -11,11 +11,11 @@ You need to have:
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT                                   | DESCRIPTION                                           |
-| ----------------------------------------------------------------- | ------ | -------- | ----------------------------------------- | ----------------------------------------------------- |
-| <a name="input_cache_key"></a>[cache_key](#input_cache_key)       | string | false    |                                           | The cache key to receive <br>from a previous job.     |
-| <a name="input_cache_paths"></a>[cache_paths](#input_cache_paths) | string | false    |                                           | The paths to cache for <br>preceeding/following jobs. |
-| <a name="input_image"></a>[image](#input_image)                   | string | false    | `"docker.io/squidfunk/mkdocs-material:9"` | Override the image to build <br>mkdocs.               |
+| INPUT                                                 | TYPE   | REQUIRED | DEFAULT                                   | DESCRIPTION                                                       |
+| ----------------------------------------------------- | ------ | -------- | ----------------------------------------- | ----------------------------------------------------------------- |
+| <a name="input_doxygen"></a>[doxygen](#input_doxygen) | string | false    |                                           | Include doxygen output uploaded to <br>extra-docs-files artifact. |
+| <a name="input_image"></a>[image](#input_image)       | string | false    | `"docker.io/squidfunk/mkdocs-material:9"` | Override the image to build <br>mkdocs.                           |
+| <a name="input_openapi"></a>[openapi](#input_openapi) | string | false    |                                           | Include openapi output uploaded to <br>extra-docs-files artifact. |
 
 <!-- AUTO-DOC-INPUT:END -->
 
