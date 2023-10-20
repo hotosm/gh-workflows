@@ -30,7 +30,7 @@ images in a standardised way.
 | OUTPUT                                                           | VALUE                                          | DESCRIPTION                     |
 | ---------------------------------------------------------------- | ---------------------------------------------- | ------------------------------- |
 | <a name="output_image_name"></a>[image_name](#output_image_name) | `"${{ jobs.build-image.outputs.image_name }}"` | The final full image reference. |
-| <a name="output_image_tag"></a>[image_tag](#output_image_tag)    | `"${{ jobs.build-image.outputs.image_name }}"` | The final image tag.            |
+| <a name="output_image_tag"></a>[image_tag](#output_image_tag)    | `"${{ jobs.build-image.outputs.image_tag }}"`  | The final image tag.            |
 
 <!-- AUTO-DOC-OUTPUT:END -->
 
