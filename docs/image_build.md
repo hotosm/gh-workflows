@@ -19,6 +19,7 @@ images in a standardised way.
 | <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)       | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
 | <a name="input_push"></a>[push](#input_push)                         | boolean | false    | `true`         | Override prevent pushing the image.                                                           |
 | <a name="input_registry"></a>[registry](#input_registry)             | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                                                     |
+| <a name="input_scan"></a>[scan](#input_scan)                         | boolean | false    | `true`         | Disable image scan after build.                                                               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
