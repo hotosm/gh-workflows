@@ -17,13 +17,13 @@ on:
         value: ${{ inputs.cache_key }}
 
 jobs:
-  cache-imgs:
+  package-and-upload:
     runs-on: ubuntu-latest
     steps:
       - name: Package Images
         run: |
           # Split the space-separated string into an array
-          IFS=" " read -ra image_names_array <<< "${{ inputs.image_names }}"
+          IFS=$'\n' read -ra image_names_array <<< "${{ inputs.image_names }}"
 
           # Make artifact dir
           mkdir -p /tmp/images
