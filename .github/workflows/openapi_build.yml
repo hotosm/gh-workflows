@@ -11,12 +11,8 @@ on:
         description: "FastAPI must start with an environment set. Path to a .env with dummy vars."
         required: true
         type: string
-      cache_paths:
-        description: "The paths to cache for preceeding/following jobs."
-        required: false
-        type: string
-      cache_key:
-        description: "The cache key to receive from a previous job."
+      output_path:
+        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
         required: false
         type: string
 
@@ -31,15 +27,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Write cache
-        if: ${{ inputs.cache_key != '' }}
-        uses: actions/cache@v3
-        with:
-          path: |
-            .cache
-            ${{ inputs.cache_paths }}
-          key: ${{ inputs.cache_key }}
 
       - name: Build OpenAPi JSON
         env:
@@ -75,3 +62,10 @@ jobs:
               )
               json.dump(openapi, f, separators=(",", ":"))
           EOF
+
+      - name: Upload Artifact Dir
+        if: ${{ inputs.output_path }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: extra-docs-files
+          path: ${{ inputs.output_path }}

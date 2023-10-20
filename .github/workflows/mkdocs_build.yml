@@ -8,12 +8,12 @@ on:
         required: false
         type: string
         default: "docker.io/squidfunk/mkdocs-material:9"
-      cache_paths:
-        description: "The paths to cache for preceeding/following jobs."
+      doxygen:
+        description: "Include doxygen output uploaded to extra-docs-files artifact."
         required: false
         type: string
-      cache_key:
-        description: "The cache key to receive from a previous job."
+      openapi:
+        description: "Include openapi output uploaded to extra-docs-files artifact."
         required: false
         type: string
 
@@ -32,15 +32,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Read cache
-        if: ${{ inputs.cache_key != '' }}
-        uses: actions/cache@v3
+      - name: Append Extra Files
+        if: ${{ inputs.doxygen || inputs.openapi }}
+        uses: actions/download-artifact@v3
         with:
-          path: |
-            .cache
-            ${{ inputs.cache_paths }}
-          key: ${{ inputs.cache_key }}
-          restore-keys: ${{ inputs.cache_key }}
+          name: extra-docs-files
+          path: docs/
+
+      - name: Extract Doxygen Zip
+        if: ${{ inputs.doxygen }}
+        run: |
+          tar xzsf docs/doxygen.tar.gz
+          rm docs/doxygen.tar.gz
 
       - name: Publish
         run: |

@@ -3,12 +3,8 @@ name: Build Doxygen
 on:
   workflow_call:
     inputs:
-      cache_paths:
-        description: "The paths to cache for preceeding/following jobs."
-        required: false
-        type: string
-      cache_key:
-        description: "The cache key to receive from a previous job."
+      output_path:
+        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
         required: false
         type: string
 
@@ -23,15 +19,18 @@ jobs:
       - name: Setup Doxygen
         run: sudo apt-get update && sudo apt-get install -y doxygen
 
-      - name: Write cache
-        if: ${{ inputs.cache_key != '' }}
-        uses: actions/cache@v3
-        with:
-          path: |
-            .cache
-            ${{ inputs.cache_paths }}
-          key: ${{ inputs.cache_key }}
-
       - name: Build Doxygen Docs
         working-directory: docs
         run: doxygen
+
+      - name: Zip Artifact Dir
+        if: ${{ inputs.output_path }}
+        run: |
+          tar czsf ${{ inputs.output_path }} doxygen.tar.gz
+
+      - name: Upload Artifact Dir
+        if: ${{ inputs.output_path }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: extra-docs-files
+          path: doxygen.tar.gz
