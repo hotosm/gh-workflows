@@ -32,9 +32,9 @@ jobs:
           for image_name in "${image_names_array[@]}"; do
               docker pull "${image_name}"
               img_underscores=${image_name//\//\_}
-              echo "Packaging image to /tmp/${img_underscores}.tar"
+              echo "Packaging image to /tmp/images/${img_underscores}.tar"
               docker image save "${image_name}" \
-                --output /tmp/${img_underscores}.tar
+                --output /tmp/images/${img_underscores}.tar
           done
 
       - name: Upload Artifact Dir
