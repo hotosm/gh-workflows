@@ -22,18 +22,18 @@ jobs:
     steps:
       - name: Package Images
         env:
-          IMAGES: ${{ join(inputs.image_names, '') }}
+          IMAGES: ${{ join(inputs.image_names, ' ') }}
         run: |
           echo "Provided images:"
           echo "${{ inputs.image_names }}"
 
           # Split the space-separated string into an array
-          read -ra images_array <<< "$IMAGES"
+          IFS=' ' read -ra images_array <<< "$IMAGES"
 
           echo ""
-          echo "Parsed array:"
-          "${images_array[@]}"
+          echo "Parsed array: ${images_array[*]}"
           echo ""
+
 
           # Make artifact dir
           mkdir -p /tmp/images
