@@ -58,6 +58,9 @@ on:
         default: true
     outputs:
       image_name:
+        description: "The final full image reference."
+        value: ${{ jobs.build-image.outputs.image_name }}
+      image_tag:
         description: "The final image tag."
         value: ${{ jobs.build-image.outputs.image_name }}
 
@@ -67,6 +70,7 @@ jobs:
 
     outputs:
       image_name: ${{ steps.get_image_name.outputs.image_name }}
+      image_tag: ${{ steps.get_image_name.outputs.image_tag }}
 
     permissions:
       contents: read
@@ -130,8 +134,14 @@ jobs:
         run: |
           image_names=${{ fromJSON(steps.container-build.outputs.metadata)['image.name'] }}
           IFS=',' read -ra images_array <<< "$image_names"
-          echo "Image Name: ${images_array[0]}"
-          echo "image_name=${images_array[0]}" >> $GITHUB_OUTPUT
+
+          first_image=${images_array[0]}
+          echo "Image Name: ${first_image}"
+          echo "image_name=${first_image}" >> $GITHUB_OUTPUT
+
+          # Extract the tag (the part after the last colon)
+          image_tag="${first_image##*:}"
+          echo "Image Tag: $image_tag"
 
   scan-image:
     needs: build-image
