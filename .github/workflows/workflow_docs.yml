@@ -83,6 +83,13 @@ jobs:
           filename: .github/workflows/test_pytest_compose.yml
           output: docs/test_pytest_compose.md
 
+      - name: Document test_pytest
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/test_pytest.yml
+          output: docs/test_pytest.md
+
       - name: Document wiki
         uses: tj-actions/auto-doc@v3
         with:
@@ -111,6 +118,7 @@ jobs:
             docs/remote_deploy.md
             docs/test_pnpm.md
             docs/test_pytest_compose.md
+            docs/test_pytest.md
             docs/wiki.md
 
       - name: Create Pull Request
