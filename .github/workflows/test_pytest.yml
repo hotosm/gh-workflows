@@ -100,14 +100,14 @@ jobs:
           # Cache main image build
           image_name=${{ needs.test-img-build.outputs.image_name }}
           image_tag=${{ needs.test-img-build.outputs.image_tag }}
-          image_full_name=${image_name}:${image_tag}
 
-          img_underscores=${image_full_name//[:\/.]/_}
-          echo "Packaging image to /tmp/images/${img_underscores}.tar"
-          docker image save "${image_full_name}" --output "/tmp/images/${img_underscores}.tar"
+          img_underscores=${image_name//[:\/.]/_}
+          echo "Packaging image ${image_name} to /tmp/images/${img_underscores}.tar"
+          docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
 
           # Export to env
-          echo "IMAGE=${image_full_name}" >> $GITHUB_ENV
+          echo "Setting TAG_OVERRIDE=${image_tag} in github env"
+          echo "IMAGE=${image_name}" >> $GITHUB_ENV
 
       - name: Load Cached Imgs
         if: ${{ inputs.cache_image && steps.image-cache.outputs.cache-hit == 'true' }}
@@ -117,13 +117,13 @@ jobs:
 
               # Extract the image name from the image tar file name
               img_underscores=$(basename "${image_tar}".tar)
-              image_full_name=$(echo "${img_underscores}" | sed 's/_/:\//g')
+              image_name=$(echo "${img_underscores}" | sed 's/_/:\//g')
 
               # Load image
               docker image load --input "${image_tar}" || true
           done
 
-          echo "IMAGE=${image_full_name}" >> $GITHUB_ENV
+          echo "IMAGE=${image_name}" >> $GITHUB_ENV
 
       - name: Run PyTest
         run: |
