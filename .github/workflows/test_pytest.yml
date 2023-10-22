@@ -129,4 +129,4 @@ jobs:
 
       - name: Run PyTest
         run: |
-          docker run ${IMAGE} pytest
+          docker run -v ${PWD}/tests:/data/tests ${IMAGE} pytest
