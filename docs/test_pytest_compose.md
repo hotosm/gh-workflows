@@ -23,6 +23,10 @@ services:
     image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
 ```
 
+> Note: the syntax above sets the default tag to 'debug', unless the
+> TAG_OVERRIDE variable is present in the environment
+> (this workflow sets the variable).
+
 This allows the workflow to inject the tag of the image built for
 a PR, or during deployment.
 
