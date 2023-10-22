@@ -37,6 +37,8 @@ No secrets.
 
 ## Example Usage
 
+Simple publish:
+
 ```yaml
 name: Publish Docs
 
@@ -46,4 +48,43 @@ on:
 jobs:
   publish_docs:
     uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@main
+```
+
+Publish with Doxygen & OpenAPI YAML:
+
+```yaml
+name: Publish Docs
+
+on:
+  push:
+    paths:
+      - docs/**
+      - src/**
+      - mkdocs.yml
+    branches: [development]
+  # Allow manual trigger (workflow_dispatch)
+  workflow_dispatch:
+
+jobs:
+  build_doxygen:
+    uses: hotosm/gh-workflows/.github/workflows/doxygen_build.yml@main
+    with:
+      output_path: docs/apidocs
+
+  build_openapi_json:
+    uses: hotosm/gh-workflows/.github/workflows/openapi_build.yml@main
+    with:
+      image: ghcr.io/${{ github.repository }}/backend:ci-${{ github.ref_name }}
+      example_env_file_path: ".env.example"
+      output_path: docs/openapi.json
+
+  publish_docs:
+    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@main
+    needs:
+      - build_doxygen
+      - build_openapi_json
+    with:
+      image: ghcr.io/${{ github.repository }}/backend:ci-${{ github.ref_name }}
+      doxygen: true
+      openapi: true
 ```

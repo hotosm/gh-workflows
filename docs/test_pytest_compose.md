@@ -87,15 +87,17 @@ on:
 
 jobs:
   pytest:
-    uses: ./.github/workflows/r-pytest.yml
+    uses: hotosm/gh-workflows/.github/workflows/test_pytest_compose.yml@main
     with:
+      image_name: ghcr.io/${{ github.repository }}/backend
+      build_context: src/backend
+      build_args: |
+        APP_VERSION=${{ github.ref_name }}
+        COMMIT_REF=${{ github.sha }}
       docker_compose_service: api
-      cache_imgs: |
+      cache_extra_imgs: |
         "docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}"
         "docker.io/minio/minio:${{ vars.MINIO_TAG }}"
-      # For caching odk central images, add:
-      # "ghcr.io/${{ github.repository }}/odkcentral:${{ vars.ODK_CENTRAL_TAG }}"
-      # "ghcr.io/${{ github.repository }}/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}"
     secrets: inherit
 ```
 
@@ -119,10 +121,15 @@ on:
 
 jobs:
   pytest:
-    uses: ./.github/workflows/r-pytest.yml
+    uses: hotosm/gh-workflows/.github/workflows/test_pytest_compose.yml@main
     with:
-      image_tag: ci-${{ github.ref_name }}
+      image_name: ghcr.io/${{ github.repository }}/backend
+      build_context: src/backend
+      build_args: |
+        APP_VERSION=${{ github.ref_name }}
+        COMMIT_REF=${{ github.sha }}
       docker_compose_service: api
+      tag_override: ci-${{ github.ref_name }}
     secrets: inherit
 ## Continue to deploy...
 ```

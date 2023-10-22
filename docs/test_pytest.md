@@ -49,14 +49,11 @@ Running on push and PR:
 name: pytest
 
 on:
-  # Run tests on all pushed branches
   push:
-    branches:
-      - "*"
+    branches: [main]
   # Run tests on PR, prior to merge to main & development
   pull_request:
-    branches:
-      - main
+    branches: [main]
   # Allow manual trigger (workflow_dispatch)
   workflow_dispatch:
 
@@ -67,4 +64,9 @@ jobs:
       image_name: ghcr.io/${{ github.repository }}
       build_args: |
         COMMIT_REF=${{ github.sha }}
+      tag_override: ${{ github.event_name == 'push' && 'ci' || '' }}
 ```
+
+This includes a tag_override, so that in a pull_request event
+the image is tagged with the PR number, but during a push
+event the image is tagged as `ci` (to not confuse it with releases).
