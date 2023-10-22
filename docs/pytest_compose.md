@@ -8,9 +8,33 @@ underlying database, or any additional services.
 
 ## Inputs
 
+<!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
+
+| INPUT                                                                                              | TYPE   | REQUIRED | DEFAULT                | DESCRIPTION                                                                                |
+| -------------------------------------------------------------------------------------------------- | ------ | -------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| <a name="input_cache_imgs"></a>[cache_imgs](#input_cache_imgs)                                     | string | false    |                        | Space separated list of images <br>to cache on each run <br>(e.g. to avoid rate limiting). |
+| <a name="input_docker_compose_file"></a>[docker_compose_file](#input_docker_compose_file)          | string | false    | `"docker-compose.yml"` | The docker compose file used <br>to run the test.                                          |
+| <a name="input_docker_compose_service"></a>[docker_compose_service](#input_docker_compose_service) | string | true     |                        | The docker compose service to <br>run the test against.                                    |
+| <a name="input_environment"></a>[environment](#input_environment)                                  | string | false    | `"test"`               | The environment to use for <br>testing.                                                    |
+| <a name="input_image_tag"></a>[image_tag](#input_image_tag)                                        | string | false    |                        | Optional image tag override.                                                               |
+
+<!-- AUTO-DOC-INPUT:END -->
+
 ## Outputs
 
+<!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
+No outputs.
+
+<!-- AUTO-DOC-OUTPUT:END -->
+
 ## Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+No secrets.
+
+<!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
 
