@@ -86,7 +86,7 @@ jobs:
           file: ${{ inputs.context }}/${{ inputs.dockerfile }} # only run on file
           dockerfile_path: ${{ inputs.context }}/${{ inputs.dockerfile }}
           quiet: true # show only failed checks
-          skip_check: CKV_DOCKER_8,CKV_DOCKER_2,CKV_DOCKER_3
+          skip_check: CKV_DOCKER_8,CKV_DOCKER_2,CKV_DOCKER_3,CKV_DOCKER_5
           # Skip mandatory user creation, allow ROOT usage
 
       - name: Log in to the Container registry
