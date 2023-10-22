@@ -141,6 +141,7 @@ jobs:
 
           # Extract the tag (the part after the last colon)
           image_tag="${first_image##*:}"
+          echo "image_tag=${image_tag}" >> $GITHUB_OUTPUT
           echo "Image Tag: $image_tag"
 
   scan-image:
