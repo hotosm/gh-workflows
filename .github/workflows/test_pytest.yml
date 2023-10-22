@@ -118,6 +118,7 @@ jobs:
               # Extract the image name from the image tar file name
               img_underscores=$(basename "${image_tar}".tar)
               image_name=$(echo "${img_underscores}" | sed 's/_/:\//g')
+              echo "Extracted name from tar: ${image_name}"
 
               # Load image
               docker image load --input "${image_tar}" || true
