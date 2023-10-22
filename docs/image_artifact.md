@@ -13,10 +13,7 @@ as the image still has to pull from thr artifact API.
 However, it does prevent repeated pull from container
 registries where rate limiting is applied (e.g. dockerhub).
 
-> This strategy does not work across workflow runs.
-
-> Note that the image_names parameter uses YAML scalar
-> syntax `>` instead of literal `|`. This is important.
+> Note: this strategy does not work across workflow runs.
 
 ## Inputs
 
@@ -57,7 +54,7 @@ jobs:
   artifact-imgs:
     uses: hotosm/gh-workflows/.github/workflows/image_artifact.yml@main
     with:
-      image_names: >
+      image_names: |
         docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
         ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
         ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}

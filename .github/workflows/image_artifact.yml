@@ -29,9 +29,9 @@ jobs:
           echo "${{ inputs.image_names }}"
           echo ""
 
-          # Split the space-separated string into an array
-          IFS=" " read -ra images_array <<< "${{ inputs.image_names }}"
-          echo "Parsed array:"
+          images_array=(${{ inputs.image_names }})
+          echo "Parsed array: ${images_array}"
+          echo "Images to artifact:"
           for image in "${images_array[@]}"; do
             echo "$image"
           done
