@@ -47,6 +47,8 @@ nav:
       - Image Build: image_build.md
       - Image Artifact: image_artifact.md
       - Remote Deploy: remote_deploy.md
+  - Tests:
+      - PyTest Compose: pytest_compose.md
   - Docs:
       - MkDocs Build: mkdocs_build.md
       - Doxygen Build: doxygen_build.md

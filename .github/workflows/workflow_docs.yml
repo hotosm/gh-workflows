@@ -62,6 +62,13 @@ jobs:
           filename: .github/workflows/pypi_publish.yml
           output: docs/pypi_publish.md
 
+      - name: Document pytest_compose
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/pytest_compose.yml
+          output: docs/pytest_compose.md
+
       - name: Document remote_deploy
         uses: tj-actions/auto-doc@v3
         with:
@@ -94,6 +101,7 @@ jobs:
             docs/openapi_build.md
             docs/py_app_version.md
             docs/pypi_publish.md
+            docs/pytest_compose.md
             docs/remote_deploy.md
             docs/wiki.md
 
