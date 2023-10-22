@@ -13,7 +13,7 @@ images in a standardised way.
 | <a name="input_build_target"></a>[build_target](#input_build_target) | string  | false    |                | The target to built to <br>(default to end of the Dockerfile).                                |
 | <a name="input_cache"></a>[cache](#input_cache)                      | boolean | false    | `true`         | Use GHCR caching. Default true. <br>Set this false if registry <br>is not ghcr.io.            |
 | <a name="input_context"></a>[context](#input_context)                | string  | false    | `"."`          | Root directory to start the <br>build from.                                                   |
-| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)       | string  | false    | `"Dockerfile"` | Absolute path of the dockerfile <br>(inside the context dir).                                 |
+| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)       | string  | false    | `"Dockerfile"` | Name of dockerfile, relative to <br>context dir.                                              |
 | <a name="input_image_name"></a>[image_name](#input_image_name)       | string  | false    |                | Name of image, without tags. <br>Not required if image_tags specified.                        |
 | <a name="input_image_tags"></a>[image_tags](#input_image_tags)       | string  | false    |                | Default=the images are automatically tagged. <br>Override tags with space separated <br>list. |
 | <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)       | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
