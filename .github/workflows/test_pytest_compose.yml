@@ -130,7 +130,7 @@ jobs:
           echo "Caching enabled: ${CACHE_ENABLED}"
           if [[ "${CACHE_ENABLED}" == true ]]; then
               image_name=${{ needs.test-img-build.outputs.image_name }}
-              pull_and_package_image "$image"
+              pull_and_package_image "${image_name}"
 
               # Export tag to env
               image_tag=${{ needs.test-img-build.outputs.image_tag }}
@@ -144,8 +144,8 @@ jobs:
               echo "Images to cache: ${extra_images_array[@]}"
 
               # Iterate through dependency images
-              for image in "${extra_images_array[@]}"; do
-                  pull_and_package_image "$image"
+              for image_name in "${extra_images_array[@]}"; do
+                  pull_and_package_image "${image_name}"
               done
           fi
 
