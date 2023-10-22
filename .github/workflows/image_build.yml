@@ -27,7 +27,7 @@ on:
         type: string
         default: "."
       dockerfile:
-        description: "Absolute path of the dockerfile (inside the context dir)."
+        description: "Name of dockerfile, relative to context dir."
         required: false
         type: string
         default: "Dockerfile"
