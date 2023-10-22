@@ -115,7 +115,7 @@ jobs:
 
             if [ $? -eq 0 ]; then
               img_underscores=${image//[:\/.]/_}
-              echo "Packaging image to /tmp/images/${img_underscores}.tar"
+              echo "Packaging image ${image} to /tmp/images/${img_underscores}.tar"
               docker image save "${image}" --output "/tmp/images/${img_underscores}.tar"
             else
               echo "Failed to pull the image: ${image}"
@@ -130,13 +130,10 @@ jobs:
           echo "Caching enabled: ${CACHE_ENABLED}"
           if [[ "${CACHE_ENABLED}" == true ]]; then
               image_name=${{ needs.test-img-build.outputs.image_name }}
+              pull_and_package_image "$image"
+
+              # Export tag to env
               image_tag=${{ needs.test-img-build.outputs.image_tag }}
-
-              img_underscores=${image_name//[:\/.]/_}
-              echo "Packaging image ${image_name} to /tmp/images/${img_underscores}.tar"
-              docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
-
-              # Export to env
               echo "Setting TAG_OVERRIDE=${image_tag} in github env"
               echo "TAG_OVERRIDE=${image_tag}" >> $GITHUB_ENV
           fi

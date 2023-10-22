@@ -102,10 +102,11 @@ jobs:
           image_tag=${{ needs.test-img-build.outputs.image_tag }}
 
           img_underscores=${image_name//[:\/.]/_}
+          docker pull "${image_name}"
           echo "Packaging image ${image_name} to /tmp/images/${img_underscores}.tar"
           docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
 
-          # Export to env
+          # Export tag to env
           echo "Setting TAG_OVERRIDE=${image_tag} in github env"
           echo "IMAGE=${image_name}" >> $GITHUB_ENV
 
