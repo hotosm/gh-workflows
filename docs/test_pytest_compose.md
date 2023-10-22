@@ -41,7 +41,7 @@ a PR, or during deployment.
 | <a name="input_docker_compose_file"></a>[docker_compose_file](#input_docker_compose_file)          | string  | false    | `"docker-compose.yml"` | The docker compose file used <br>to run the test.                                          |
 | <a name="input_docker_compose_service"></a>[docker_compose_service](#input_docker_compose_service) | string  | true     |                        | The docker compose service to <br>run the test against.                                    |
 | <a name="input_environment"></a>[environment](#input_environment)                                  | string  | false    | `"test"`               | The environment to use for <br>testing.                                                    |
-| <a name="input_image_name"></a>[image_name](#input_image_name)                                     | string  | true     |                        | The image root name, without <br>tag. E.g. 'ghcr.io/${{ github.repository }}'              |
+| <a name="input_image_name"></a>[image_name](#input_image_name)                                     | string  | true     |                        | The image root name, without <br>tag. E.g. 'ghcr.io/[dollar]{{ github.repository }}'       |
 | <a name="input_tag_override"></a>[tag_override](#input_tag_override)                               | string  | false    |                        | An override for the build <br>image tag. Must include tests <br>and have PyTest installed  |
 
 <!-- AUTO-DOC-INPUT:END -->
