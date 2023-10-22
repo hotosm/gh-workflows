@@ -1,0 +1,127 @@
+name: PyTest
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        description: "The image root name, without tag. E.g. 'ghcr.io/${{ github.repository }}'"
+        required: true
+        type: string
+      build_context:
+        description: "Root directory to start the build from."
+        required: false
+        type: string
+        default: "."
+      build_dockerfile:
+        description: "Name of dockerfile, relative to context dir."
+        required: false
+        type: string
+        default: "Dockerfile"
+      build_target:
+        description: "The target to built to (default to ci stage)."
+        required: false
+        type: string
+        default: "ci"
+      build_args:
+        description: "Space separated list of build args to use for the image."
+        required: false
+        type: string
+      tag_override:
+        description: "An override for the build image tag. Must include tests and have PyTest installed"
+        required: false
+        type: string
+      cache_image:
+        description: "Cache the built image, for the next run. Default true."
+        required: false
+        type: boolean
+        default: true
+      environment:
+        description: "The environment to use for testing."
+        required: false
+        type: string
+        default: "test"
+
+jobs:
+  check-img-cache:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.cache_image }}
+    environment:
+      name: ${{ inputs.environment }}
+    outputs:
+      cache-hit: ${{ steps.image-cache.outputs.cache-hit }}
+    steps:
+      - id: image-cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/images
+          key: image-cache-${{ runner.os }}
+
+  test-img-build:
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@main
+    needs: [check-img-cache]
+    if: ${{ needs.check-img-cache.outputs.cache-hit != 'true' }}
+    with:
+      context: ${{ inputs.build_context }}
+      build_target: ${{ inputs.build_target }}
+      image_name: ${{ inputs.image_name }}
+      # Default to auto-tag, unless override specified
+      image_tags: ${{ inputs.tag_override && format('{0}:{1}', inputs.image_name, inputs.tag_override) || '' }}
+      build_args: ${{ inputs.build_args }}
+      # Build temp image for PR, no multi-arch, scan, or ghcr cache required
+      multi_arch: false
+      scan: false
+      cache: false
+
+  run-pytest:
+    runs-on: ubuntu-latest
+    needs: [test-img-build]
+    # Ensure it runs, even if test-img-build does not run
+    if: always()
+    environment:
+      name: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: image-cache
+        if: ${{ inputs.cache_image }}
+        uses: actions/cache@v3
+        with:
+          path: /tmp/images
+          key: image-cache-${{ runner.os }}
+
+      - name: Save Local Image
+        if: ${{ inputs.cache_image && steps.image-cache.outputs.cache-hit != 'true' }}
+        run: |
+          # Make artifact dir
+          mkdir -p /tmp/images
+
+          # Cache main image build
+          image_name=${{ needs.test-img-build.outputs.image_name }}
+          img_underscores=${image_name//[:\/.]/_}
+          echo "Packaging image to /tmp/images/${img_underscores}.tar"
+          docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
+
+          # Export to env
+          echo "IMAGE=${image_name}" >> $GITHUB_ENV
+
+      - name: Load Cached Imgs
+        if: ${{ inputs.cache_image && steps.image-cache.outputs.cache-hit == 'true' }}
+        run: |
+          for image_tar in /tmp/images/*; do
+              docker image load --input $image_tar || true
+
+              # Extract the image name from the image tar file name
+              img_underscores=$(basename "${image_tar}" .tar)
+              image_name=$(echo "${img_underscores}" | sed 's/_/:\//g')
+
+              # Load image
+              docker image load --input "${image_tar}" || true
+          done
+
+          echo "IMAGE=${image_name}" >> $GITHUB_ENV
+
+      - name: Run PyTest
+        run: |
+          docker run ${IMAGE} pytest
