@@ -26,7 +26,7 @@ jobs:
       - name: Zip Artifact Dir
         if: ${{ inputs.output_path }}
         run: |
-          tar czsf ${{ inputs.output_path }} doxygen.tar.gz
+          tar -cvzf doxygen.tar.gz ${{ inputs.output_path }}
 
       - name: Upload Artifact Dir
         if: ${{ inputs.output_path }}

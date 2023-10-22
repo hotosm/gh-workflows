@@ -42,7 +42,7 @@ jobs:
       - name: Extract Doxygen Zip
         if: ${{ inputs.doxygen }}
         run: |
-          tar xzsf docs/doxygen.tar.gz
+          tar -xvzf docs/doxygen.tar.gz
           rm docs/doxygen.tar.gz
 
       - name: Publish
