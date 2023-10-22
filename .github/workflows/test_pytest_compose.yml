@@ -130,19 +130,22 @@ jobs:
           if [[ "${CACHE_ENABLED}" == true ]]; then
               image_name=${{ needs.test-img-build.outputs.image_name }}
               image_tag=${{ needs.test-img-build.outputs.image_tag }}
-              pull_and_package_image "$image_name"
+
+              img_underscores=${image_name//[:\/.]/_}
+              echo "Packaging image to /tmp/images/${img_underscores}.tar"
+              docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
+
               echo "TAG_OVERRIDE=${image_tag}" >> $GITHUB_ENV
           fi
 
           # Cache extra images
-          EXTRA_IMGS=${{ inputs.cache_extra_imgs }}
-          if [[ -n "${EXTRA_IMGS}" ]]; then
-              extra_images_array=(${EXTRA_IMGS})
-              echo "Images to cache: ${extra_images_array}"
+          extra_images_array=(${{ inputs.cache_extra_imgs }})
+          if [[ -n "${extra_images_array[@]}" ]]; then
+              echo "Images to cache: ${extra_images_array[@]}"
 
               # Iterate through dependency images
               for image in "${extra_images_array[@]}"; do
-                pull_and_package_image "$image"
+                  pull_and_package_image "$image"
               done
           fi
 
