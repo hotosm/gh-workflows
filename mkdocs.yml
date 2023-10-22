@@ -49,7 +49,7 @@ nav:
       - Remote Deploy: remote_deploy.md
   - Tests:
       - PyTest Compose: test_pytest_compose.md
-      - PNPM: test_pytest_compose.md
+      - PNPM: test_pnpm.md
   - Docs:
       - MkDocs Build: mkdocs_build.md
       - Doxygen Build: doxygen_build.md
