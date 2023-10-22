@@ -1,0 +1,38 @@
+name: Frontend Tests
+
+on:
+  workflow_call:
+    inputs:
+      working_dir:
+        description: "The directory containing the package.json file."
+        required: false
+        type: string
+        default: "."
+
+jobs:
+  test:
+    name: Run Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+          cache-dependency-path: "${{inputs.working_dir}}/pnpm-lock.yaml"
+
+      - name: Install dependencies
+        working-directory: ${{inputs.working_dir}}
+        run: pnpm install
+
+      - name: Test Frontend
+        working-directory: ${{inputs.working_dir}}
+        run: pnpm run test

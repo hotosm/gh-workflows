@@ -62,19 +62,26 @@ jobs:
           filename: .github/workflows/pypi_publish.yml
           output: docs/pypi_publish.md
 
-      - name: Document pytest_compose
-        uses: tj-actions/auto-doc@v3
-        with:
-          reusable: true
-          filename: .github/workflows/pytest_compose.yml
-          output: docs/pytest_compose.md
-
       - name: Document remote_deploy
         uses: tj-actions/auto-doc@v3
         with:
           reusable: true
           filename: .github/workflows/remote_deploy.yml
           output: docs/remote_deploy.md
+
+      - name: Document test_pnpm
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/test_pnpm.yml
+          output: docs/test_pnpm.md
+
+      - name: Document test_pytest_compose
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/test_pytest_compose.yml
+          output: docs/test_pytest_compose.md
 
       - name: Document wiki
         uses: tj-actions/auto-doc@v3
@@ -101,8 +108,9 @@ jobs:
             docs/openapi_build.md
             docs/py_app_version.md
             docs/pypi_publish.md
-            docs/pytest_compose.md
             docs/remote_deploy.md
+            docs/test_pnpm.md
+            docs/test_pytest_compose.md
             docs/wiki.md
 
       - name: Create Pull Request
