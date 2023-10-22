@@ -6,6 +6,25 @@ and as part of the docker compose stack.
 This is useful for tests when the tests require, e.g. an
 underlying database, or any additional services.
 
+## Prerequisites
+
+1. The tests must be available either:
+- Built into your container image at available under WORKDIR.
+- Mounted within the docker-compose.yml file under WORKDIR.
+
+2. PyTest must be installed for the dockerfile USER.
+
+3. The service in the docker-compose.yml must have a tag override.
+
+```yaml
+services:
+  api:
+    image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
+```
+
+This allows the workflow to inject the tag of the image built for
+a PR, or during deployment.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
