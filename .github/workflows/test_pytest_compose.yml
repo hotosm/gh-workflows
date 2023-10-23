@@ -178,15 +178,28 @@ jobs:
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
-          to_envs() { jq -r "to_entries[] | \"\(.key)=\(.value)\""; }
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set all vars
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
           echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
           echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
           echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
 
       - name: Create .env file
-        run: env > .env
+        run: |
+          # Get a8m/envsubst (required for default vals syntax ${VAR:-default})
+          echo "Downloading envsubst"
+          curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+          chmod +x envsubst
+
+          ./envsubst < .env.example > .env
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
 
       - name: Run PyTest
         run: |
