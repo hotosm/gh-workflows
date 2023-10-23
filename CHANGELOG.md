@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.0.1 (2023-10-23)
+
+### Fix
+
+- add is_empty_json check for VARS_CONTEXT
+- pytest_test pin image_build=1.0.1
+- pytest extraction of image name from tar
+- case where no build args passed to image_build
+
+### Refactor
+
+- update workflows to use tagged versions
+
 ## 1.0.0 (2023-10-23)
 
 ### Feat
