@@ -143,10 +143,11 @@ jobs:
           target: ${{ inputs.build_target }}
           push: ${{ inputs.push }}
           tags: ${{ inputs.image_tags || steps.set-tags.outputs.tags }}
+          # TODO fix to allow passing all env vars and secrets (currently hardcoded)
           build-args: |
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
-            ${{ fromJSON(env) }}
+            VITE_API_URL=${{ env.VITE_API_URL }}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
