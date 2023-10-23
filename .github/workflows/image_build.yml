@@ -146,7 +146,7 @@ jobs:
           echo "Image Tag: $image_tag"
 
   scan-image:
-    needs: build-image
+    needs: [build-image]
     runs-on: ubuntu-latest
     if: ${{ inputs.scan }}
 
