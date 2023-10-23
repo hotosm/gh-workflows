@@ -108,9 +108,11 @@ jobs:
         id: verify-changed-files
         with:
           files: |
+            docs/index.md
+            docs/intro.md
             docs/doxygen_build.md
-            docs/image_build.md
             docs/image_artifact.md
+            docs/image_build.md
             docs/mkdocs_build.md
             docs/openapi_build.md
             docs/py_app_version.md
