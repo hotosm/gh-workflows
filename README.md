@@ -1,8 +1,26 @@
 # gh-workflows
 
+[![GH Workflow Docs](https://github.com/hotosm/gh-workflows/actions/workflows/workflow_docs.yml/badge.svg)](https://github.com/hotosm/gh-workflows/actions/workflows/workflow_docs.yml)
+
+[![Publish Docs](https://github.com/hotosm/gh-workflows/actions/workflows/docs.yml/badge.svg)](https://github.com/hotosm/gh-workflows/actions/workflows/docs.yml)
+
 Github workflows that can be shared across all HOT projects.
 
 🕮 [Documentation](https://hotosm.github.io/gh-workflows/)
+
+⚙️ [Intro to Workflows](https://hotosm.github.io/gh-workflows/intro)
+
+## Intro
+
+This repo contains reusable workflows, that can be called from any
+other repo.
+
+Motivations for creating this:
+
+- Reduce code duplication for workflows across our repos.
+- Easy version control and upgrading of our workflows over time.
+- Attempt to find the best possible implementation of the workflow,
+  then standardise across repos.
 
 ## To add new workflows
 
