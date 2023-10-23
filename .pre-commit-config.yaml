@@ -11,4 +11,4 @@ repos:
     rev: v0.31.1
     hooks:
       - id: markdownlint
-        args: [--fix]
+        args: [--fix, --ignore, CHANGELOG.md]
