@@ -273,7 +273,7 @@ do-something-else:
 
 ### Cache
 
-Caching is used for persisting data **between** workflows.
+Caching is used for persisting data **across** workflow multiple runs.
 
 Example flow:
 
@@ -292,7 +292,7 @@ many times consecutively.
 
 ### Artifacts
 
-Artifacts are used for persisting files **within** workflows.
+Artifacts are used for persisting files **within** a single workflow run.
 
 Example flow:
 
