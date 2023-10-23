@@ -146,8 +146,8 @@ jobs:
           build-args: |
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
-            ${ALL_VARS}
-            ${ALL_SECRETS}
+            ${{ github.env.ALL_VARS }}
+            ${{ github.env.ALL_SECRETS }}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
