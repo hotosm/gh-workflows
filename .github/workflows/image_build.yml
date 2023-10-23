@@ -85,22 +85,19 @@ jobs:
 
       - name: Vars and Secrets to Env
         env:
-          APP_VERSION: ${{ github.ref_name }}
-          COMMIT_REF: ${{ github.sha }}
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
-          # Random delimeter string for security
-          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          # Parse JSON to key=value pairs
+          to_key_value() { jq -r "to_entries[] | \"\(.key)=\(.value)\""; }
 
-          # Parse JSON with multiline strings, using delimeter (Github specific)
-          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+          # Set all vars in a single variable
+          ALL_VARS=$(echo "${VARS_CONTEXT}" | to_key_value)
+          ALL_SECRETS=$(echo "${SECRETS_CONTEXT}" | to_key_value)
 
-          # Set all vars
-          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
-          echo "COMMIT_REF=${COMMIT_REF}" >> $GITHUB_ENV
-          echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
-          echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          # Set the variables in GITHUB_ENV
+          echo "ALL_VARS=${ALL_VARS}" >> $GITHUB_ENV
+          echo "ALL_SECRETS=${ALL_SECRETS}" >> $GITHUB_ENV
 
       - name: Dockerfile Vulnerabilities
         uses: bridgecrewio/checkov-action@master
@@ -147,7 +144,10 @@ jobs:
           push: ${{ inputs.push }}
           tags: ${{ inputs.image_tags || steps.set-tags.outputs.tags }}
           build-args: |
-            ${{ github.env }}
+            APP_VERSION=${{ github.ref_name }}
+            COMMIT_REF=${{ github.sha }}
+            ${ALL_VARS}
+            ${ALL_SECRETS}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
