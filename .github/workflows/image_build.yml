@@ -147,7 +147,7 @@ jobs:
           push: ${{ inputs.push }}
           tags: ${{ inputs.image_tags || steps.set-tags.outputs.tags }}
           build-args: |
-            $GITHUB_ENV
+            ${{ github.env }}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
