@@ -83,7 +83,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Vars and Secrets to Env
+      - id: vars_and_secrets
+        name: Vars and Secrets to Env
         env:
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
@@ -95,9 +96,9 @@ jobs:
           ALL_VARS=$(echo "${VARS_CONTEXT}" | to_key_value)
           ALL_SECRETS=$(echo "${SECRETS_CONTEXT}" | to_key_value)
 
-          # Set the variables in GITHUB_ENV
-          echo "ALL_VARS=${ALL_VARS}" >> $GITHUB_ENV
-          echo "ALL_SECRETS=${ALL_SECRETS}" >> $GITHUB_ENV
+          # Set the variables in GITHUB_OUTPUT
+          echo "ALL_VARS=${ALL_VARS}" >> $GITHUB_OUTPUT
+          echo "ALL_SECRETS=${ALL_SECRETS}" >> $GITHUB_OUTPUT
 
       - name: Dockerfile Vulnerabilities
         uses: bridgecrewio/checkov-action@master
@@ -146,8 +147,8 @@ jobs:
           build-args: |
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
-            ${{ github.env.ALL_VARS }}
-            ${{ github.env.ALL_SECRETS }}
+            ${{ steps.vars_and_secrets.outputs.ALL_VARS }}
+            ${{ steps.vars_and_secrets.outputs.ALL_SECRETS }}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
