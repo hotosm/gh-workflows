@@ -54,15 +54,15 @@ jobs:
 
       - uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: "${SSH_PRIVATE_KEY}"
+          ssh-private-key: "${{ secrets.SSH_PRIVATE_KEY }}"
 
       - name: Add host keys to known_hosts
         run: |
-          ssh-keyscan "${SSH_HOST}" >> ~/.ssh/known_hosts
+          ssh-keyscan "${{ vars.SSH_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Deploy
         run: |
           docker compose --file ${{ inputs.docker_compose_file }} pull
           docker compose --file ${{ inputs.docker_compose_file }} up --detach --remove-orphans
         env:
-          DOCKER_HOST: ssh://"${SSH_USER}"@"${SSH_HOST}"
+          DOCKER_HOST: ssh://"${{ vars.SSH_USER }}"@"${{ vars.SSH_HOST }}"
