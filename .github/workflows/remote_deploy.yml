@@ -65,4 +65,4 @@ jobs:
           docker compose --file ${{ inputs.docker_compose_file }} pull
           docker compose --file ${{ inputs.docker_compose_file }} up --detach --remove-orphans
         env:
-          DOCKER_HOST: ssh://"${{ vars.SSH_USER }}"@"${{ vars.SSH_HOST }}"
+          DOCKER_HOST: "ssh://${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}"
