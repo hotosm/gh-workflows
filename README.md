@@ -18,16 +18,15 @@
       <img src="https://img.shields.io/github/license/hotosm/gh-workflows.svg" alt="License">
   </a>
 </p>
-
----
-
-🕮 **Documentation**: <a href="<<https://hotosm.github.io/gh-workflows/>>" target="_blank">https://hotosm.github.io/gh-workflows/</a>
-
-🖥️ **Source Code**: <a href="<<https://github.com/hotosm/gh-workflows>>" target="_blank">https://github.com/hotosm/gh-workflows</a>
-
----
-
 <!-- markdownlint-enable -->
+
+---
+
+🕮 **Documentation**: [https://hotosm.github.io/gh-workflows](https://hotosm.github.io/gh-workflows){:target="\_blank"}
+
+🖥️ **Source Code**: [https://github.com/hotosm/gh-workflows](https://github.com/hotosm/gh-workflows){:target="\_blank"}
+
+---
 
 ## Intro
 
