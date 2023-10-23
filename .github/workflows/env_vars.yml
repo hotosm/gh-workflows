@@ -1,0 +1,46 @@
+name: Get Env Vars
+
+on:
+  workflow_call:
+    environment:
+      image_name:
+        description: "The Github environment to retreive the env and secret var for."
+        required: true
+        type: string
+    outputs:
+      all_vars:
+        description: "All parsed variables and secrets."
+        value: ${{ jobs.get_env_vars.outputs.all_vars }}
+
+jobs:
+  get_env_vars:
+    runs-on: ubuntu-latest
+
+    outputs:
+      all_vars: ${{ steps.vars_and_secrets.outputs.all_vars }}
+
+    environment:
+      name: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: vars_and_secrets
+        name: Vars and Secrets to Env
+        env:
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: |
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set all vars to variable
+          echo "${VARS_CONTEXT}" | to_envs >> $all_vars
+          echo "${SECRETS_CONTEXT}" | to_envs >> $all_vars
+
+          # Export as output
+          echo "all_vars=${all_vars}" >> $GITHUB_OUTPUT

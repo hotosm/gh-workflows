@@ -123,10 +123,10 @@ jobs:
 
               # Load image
               docker image load --input "${image_tar}" || true
-
-              # Set IMAGE env var
-              echo "IMAGE=${image_name}" >> $GITHUB_ENV
           done
+
+          # Set IMAGE env var
+          echo "IMAGE=${image_name}" >> $GITHUB_ENV
 
       - name: Run PyTest
         run: |
