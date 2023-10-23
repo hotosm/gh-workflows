@@ -114,15 +114,9 @@ jobs:
         if: ${{ inputs.cache_image && steps.image-cache.outputs.cache-hit == 'true' }}
         run: |
           for image_tar in /tmp/images/*; do
-              docker image load --input $image_tar || true
-
-              # Extract the image name from the image tar file name
-              img_underscores=$(basename "${image_tar}".tar)
-              image_name=$(echo "${img_underscores}" | sed 's/_/:\//g')
+              output=$(docker image load --input "${image_tar}" || true)
+              image_name=$(echo "$output" | grep -oE 'Loaded image: (.+)' | cut -d' ' -f3)
               echo "Extracted name from tar: ${image_name}"
-
-              # Load image
-              docker image load --input "${image_tar}" || true
           done
 
           # Set IMAGE env var
