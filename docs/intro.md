@@ -45,7 +45,7 @@ Important Info:
   from another parent workflow.
 - Useful if you repeat the same job multiple times, i.e. DRY code.
 
-### Reusable Remote Workflows
+#### Reusable Remote Workflows
 
 - Located under `.github/workflows/workflow_name.yml`, but within
   another Git repository.
@@ -53,7 +53,7 @@ Important Info:
   from other repos.
 - Exactly what this repo is!
 
-### Github Actions
+#### Github Actions
 
 - A single workflow job packaged up for use / calling from within
   another workflow.
