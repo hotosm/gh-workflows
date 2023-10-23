@@ -56,10 +56,6 @@ on:
         required: false
         type: boolean
         default: true
-      environment:
-        description: "Environment to extract variables and secrets from and pass to extra_build_args."
-        required: false
-        type: boolean
     outputs:
       image_name:
         description: "The final full image reference."
@@ -73,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ inputs.environment }}
+      name: ${{ github.ref_name }}
 
     outputs:
       image_name: ${{ steps.get_image_name.outputs.image_name }}
