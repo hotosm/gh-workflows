@@ -95,13 +95,9 @@ jobs:
           # Parse JSON with multiline strings, using delimeter (Github specific)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
-          # Set all vars in a single variable
-          ALL_VARS=$(echo "${VARS_CONTEXT}" | to_envs)
-          ALL_SECRETS=$(echo "${SECRETS_CONTEXT}" | to_envs)
-
-          # Set the variables in GITHUB_OUTPUT
-          echo "ALL_VARS=${ALL_VARS}" >> $GITHUB_OUTPUT
-          echo "ALL_SECRETS=${ALL_SECRETS}" >> $GITHUB_OUTPUT
+          # Set values to GITHUB_ENV
+          echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
 
       - name: Dockerfile Vulnerabilities
         uses: bridgecrewio/checkov-action@master
@@ -150,8 +146,7 @@ jobs:
           build-args: |
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
-            ${{ steps.vars_and_secrets.outputs.ALL_VARS }}
-            ${{ steps.vars_and_secrets.outputs.ALL_SECRETS }}
+            ${{ fromJSON(env) }}
             ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
