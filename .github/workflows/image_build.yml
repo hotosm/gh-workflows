@@ -89,12 +89,15 @@ jobs:
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
         run: |
-          # Parse JSON to key=value pairs
-          to_key_value() { jq -r "to_entries[] | \"\(.key)=\(.value)\""; }
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
           # Set all vars in a single variable
-          ALL_VARS=$(echo "${VARS_CONTEXT}" | to_key_value)
-          ALL_SECRETS=$(echo "${SECRETS_CONTEXT}" | to_key_value)
+          ALL_VARS=$(echo "${VARS_CONTEXT}" | to_envs)
+          ALL_SECRETS=$(echo "${SECRETS_CONTEXT}" | to_envs)
 
           # Set the variables in GITHUB_OUTPUT
           echo "ALL_VARS=${ALL_VARS}" >> $GITHUB_OUTPUT
