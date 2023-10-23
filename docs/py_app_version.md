@@ -47,6 +47,6 @@ jobs:
       build_target: ci
       image_tags: |
         "ghcr.io/hotosm/osm-fieldwork:ci-${{ github.ref_name }}"
-      build_args: |
+      extra_build_args: |
         APP_VERSION=${{ needs.extract-vars.outputs.app_version }}
 ```

@@ -112,7 +112,7 @@ frontend-build:
     dockerfile: prod.dockerfile
     build_target: prod
     image_name: ghcr.io/${{ github.repository }}/frontend
-    build_args: |
+    extra_build_args: |
       APP_VERSION=${{ github.ref_name }}
       COMMIT_REF=${{ github.sha }}
       VITE_API_URL=${{ vars.URL_SCHEME }}://${{ vars.API_URL }}"

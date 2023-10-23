@@ -7,19 +7,19 @@ images in a standardised way.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                                | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION                                                                                   |
-| -------------------------------------------------------------------- | ------- | -------- | -------------- | --------------------------------------------------------------------------------------------- |
-| <a name="input_build_args"></a>[build_args](#input_build_args)       | string  | false    |                | Space separated list of build <br>args to use for the <br>image.                              |
-| <a name="input_build_target"></a>[build_target](#input_build_target) | string  | false    |                | The target to built to <br>(default to end of the Dockerfile).                                |
-| <a name="input_cache"></a>[cache](#input_cache)                      | boolean | false    | `true`         | Use GHCR caching. Default true. <br>Set this false if registry <br>is not ghcr.io.            |
-| <a name="input_context"></a>[context](#input_context)                | string  | false    | `"."`          | Root directory to start the <br>build from.                                                   |
-| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)       | string  | false    | `"Dockerfile"` | Name of dockerfile, relative to <br>context dir.                                              |
-| <a name="input_image_name"></a>[image_name](#input_image_name)       | string  | false    |                | Name of image, without tags. <br>Not required if image_tags specified.                        |
-| <a name="input_image_tags"></a>[image_tags](#input_image_tags)       | string  | false    |                | Default=the images are automatically tagged. <br>Override tags with space separated <br>list. |
-| <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)       | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
-| <a name="input_push"></a>[push](#input_push)                         | boolean | false    | `true`         | Override prevent pushing the image.                                                           |
-| <a name="input_registry"></a>[registry](#input_registry)             | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                                                     |
-| <a name="input_scan"></a>[scan](#input_scan)                         | boolean | false    | `true`         | Disable image scan after build.                                                               |
+| INPUT                                                                            | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION                                                                                   |
+| -------------------------------------------------------------------------------- | ------- | -------- | -------------- | --------------------------------------------------------------------------------------------- |
+| <a name="input_extra_build_args"></a>[extra_build_args](#input_extra_build_args) | string  | false    |                | Space separated list of build <br>args to use for the <br>image.                              |
+| <a name="input_build_target"></a>[build_target](#input_build_target)             | string  | false    |                | The target to built to <br>(default to end of the Dockerfile).                                |
+| <a name="input_cache"></a>[cache](#input_cache)                                  | boolean | false    | `true`         | Use GHCR caching. Default true. <br>Set this false if registry <br>is not ghcr.io.            |
+| <a name="input_context"></a>[context](#input_context)                            | string  | false    | `"."`          | Root directory to start the <br>build from.                                                   |
+| <a name="input_dockerfile"></a>[dockerfile](#input_dockerfile)                   | string  | false    | `"Dockerfile"` | Name of dockerfile, relative to <br>context dir.                                              |
+| <a name="input_image_name"></a>[image_name](#input_image_name)                   | string  | false    |                | Name of image, without tags. <br>Not required if image_tags specified.                        |
+| <a name="input_image_tags"></a>[image_tags](#input_image_tags)                   | string  | false    |                | Default=the images are automatically tagged. <br>Override tags with space separated <br>list. |
+| <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)                   | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
+| <a name="input_push"></a>[push](#input_push)                                     | boolean | false    | `true`         | Override prevent pushing the image.                                                           |
+| <a name="input_registry"></a>[registry](#input_registry)                         | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                                                     |
+| <a name="input_scan"></a>[scan](#input_scan)                                     | boolean | false    | `true`         | Disable image scan after build.                                                               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -55,7 +55,7 @@ backend-build:
     context: src/backend
     build_target: prod
     image_name: ghcr.io/${{ github.repository }}/backend
-    build_args: |
+    extra_build_args: |
       APP_VERSION=${{ github.ref_name }}
       COMMIT_REF=${{ github.sha }}
 ```
@@ -70,7 +70,7 @@ backend-build:
     build_target: prod
     image_tags: |
       "ghcr.io/hotosm/fmtm/backend:latest"
-    build_args: |
+    extra_build_args: |
       APP_VERSION=0.1.0
 ```
 
@@ -133,6 +133,6 @@ jobs:
       image_tags: |
         "ghcr.io/hotosm/fmtm/backend:${{ needs.extract-vars.outputs.api_version }}-${{ github.ref_name }}"
         "ghcr.io/hotosm/fmtm/backend:latest"
-      build_args: |
+      extra_build_args: |
         APP_VERSION=${{ needs.extract-vars.outputs.api_version }}
 ```

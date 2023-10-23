@@ -14,7 +14,7 @@ Run pytest for your application, inside a container.
 
 | INPUT                                                                            | TYPE    | REQUIRED | DEFAULT        | DESCRIPTION                                                                               |
 | -------------------------------------------------------------------------------- | ------- | -------- | -------------- | ----------------------------------------------------------------------------------------- |
-| <a name="input_build_args"></a>[build_args](#input_build_args)                   | string  | false    |                | Space separated list of build <br>args to use for the <br>image.                          |
+| <a name="input_extra_build_args"></a>[extra_build_args](#input_extra_build_args) | string  | false    |                | Space separated list of build <br>args to use for the <br>image.                          |
 | <a name="input_build_context"></a>[build_context](#input_build_context)          | string  | false    | `"."`          | Root directory to start the <br>build from.                                               |
 | <a name="input_build_dockerfile"></a>[build_dockerfile](#input_build_dockerfile) | string  | false    | `"Dockerfile"` | Name of dockerfile, relative to <br>context dir.                                          |
 | <a name="input_build_target"></a>[build_target](#input_build_target)             | string  | false    | `"ci"`         | The target to built to <br>(default to ci stage).                                         |
@@ -62,7 +62,7 @@ jobs:
     uses: hotosm/gh-workflows/.github/workflows/test_pytest.yml@main
     with:
       image_name: ghcr.io/${{ github.repository }}
-      build_args: |
+      extra_build_args: |
         COMMIT_REF=${{ github.sha }}
       tag_override: ${{ github.event_name == 'push' && 'ci' || '' }}
 ```

@@ -57,7 +57,7 @@ on:
         type: boolean
         default: true
       environment:
-        description: "Environment to extract variables and secrets from and pass to build_args."
+        description: "Environment to extract variables and secrets from and pass to extra_build_args."
         required: false
         type: boolean
     outputs:

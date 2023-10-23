@@ -22,7 +22,7 @@ on:
         required: false
         type: string
         default: "ci"
-      build_args:
+      extra_build_args:
         description: "Space separated list of build args to use for the image."
         required: false
         type: string
@@ -66,7 +66,7 @@ jobs:
       image_name: ${{ inputs.image_name }}
       # Default to auto-tag, unless override specified
       image_tags: ${{ inputs.tag_override && format('{0}:{1}', inputs.image_name, inputs.tag_override) || '' }}
-      build_args: ${{ inputs.build_args }}
+      extra_build_args: ${{ inputs.extra_build_args }}
       # Build temp image for PR, no multi-arch, scan, or ghcr cache required
       multi_arch: false
       scan: false
