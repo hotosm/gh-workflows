@@ -23,6 +23,13 @@ services:
     image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
 ```
 
+4. There must be a `.env.example` file in the root of your repo.
+
+- This file describes all possible environment variables,
+  with examples.
+- The variables in this file are substituted to produce the
+  `.env` file from Github environment variables.
+
 > Note: the syntax above sets the default tag to 'debug', unless the
 > TAG_OVERRIDE variable is present in the environment
 > (this workflow sets the variable).

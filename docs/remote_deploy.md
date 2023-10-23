@@ -2,7 +2,15 @@
 
 Deploy to a remote server using docker compose and SSH keys.
 
-This workflow uses the DOCKER_HOST variable underneath during deploy.
+> This workflow uses the DOCKER_HOST variable underneath during deploy.
+
+## Prerequisites
+
+- There must be a `.env.example` file in the root of your repo.
+- This file describes all possible environment variables,
+  with examples.
+- The variables in this file are substituted to produce the
+  `.env` file used during deploy.
 
 ## Inputs
 
