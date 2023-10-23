@@ -92,16 +92,19 @@ jobs:
           # Random delimeter string for security
           delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 
-          # Parse JSON with multiline strings, using delimeter (Github specific)
+          # Func to check if json empty
+          is_empty_json() { [[ -z "$1" || "$1" = '{}' ]]; }
+
+          # Func to parse JSON with multiline strings, using delimeter (Github specific)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
           # Set values to GITHUB_ENV, if present
-          if [ -n "${VARS_CONTEXT}" ]; then
+          if [ is_empty_json "${VARS_CONTEXT}" ]; then
             echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
           fi
 
           # Set values to GITHUB_ENV, if present
-          if [ -n "${SECRETS_CONTEXT}" ]; then
+          if [ is_empty_json "${SECRETS_CONTEXT}" ]; then
             echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
           fi
 
