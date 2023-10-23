@@ -1,3 +1,7 @@
+# Note: this workflow is not currently working and is undocumented
+# Update to fix the ambiguous redirect error for
+# echo "all_vars=${all_vars}" >> $GITHUB_OUTPUT
+
 name: Get Env Vars
 
 on:
@@ -43,4 +47,4 @@ jobs:
           echo "${SECRETS_CONTEXT}" | to_envs >> $all_vars
 
           # Export as output
-          echo "all_vars=${all_vars}" >> $env:GITHUB_OUTPUT
+          echo "all_vars=${all_vars}" >> $GITHUB_OUTPUT
