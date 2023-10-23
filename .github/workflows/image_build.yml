@@ -12,8 +12,8 @@ on:
         required: false
         type: string
         default: ""
-      build_args:
-        description: "Space separated list of build args to use for the image."
+      extra_build_args:
+        description: "Space separated list of extra build args to use for the image."
         required: false
         type: string
       registry:
@@ -56,6 +56,10 @@ on:
         required: false
         type: boolean
         default: true
+      environment:
+        description: "Environment to extract variables and secrets from and pass to build_args."
+        required: false
+        type: boolean
     outputs:
       image_name:
         description: "The final full image reference."
@@ -68,6 +72,9 @@ jobs:
   build-image:
     runs-on: ubuntu-latest
 
+    environment:
+      name: ${{ inputs.environment }}
+
     outputs:
       image_name: ${{ steps.get_image_name.outputs.image_name }}
       image_tag: ${{ steps.get_image_name.outputs.image_tag }}
@@ -79,6 +86,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Vars and Secrets to Env
+        env:
+          APP_VERSION: ${{ github.ref_name }}
+          COMMIT_REF: ${{ github.sha }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: |
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set all vars
+          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
+          echo "COMMIT_REF=${COMMIT_REF}" >> $GITHUB_ENV
+          echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
 
       - name: Dockerfile Vulnerabilities
         uses: bridgecrewio/checkov-action@master
@@ -124,7 +150,9 @@ jobs:
           target: ${{ inputs.build_target }}
           push: ${{ inputs.push }}
           tags: ${{ inputs.image_tags || steps.set-tags.outputs.tags }}
-          build-args: ${{ inputs.build_args }}
+          build-args: |
+            $GITHUB_ENV
+            ${{ inputs.extra_build_args }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
           # Build for AMD and ARM (requires buildx+qemu)
