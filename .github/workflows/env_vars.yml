@@ -2,8 +2,8 @@ name: Get Env Vars
 
 on:
   workflow_call:
-    environment:
-      image_name:
+    inputs:
+      environment:
         description: "The Github environment to retreive the env and secret var for."
         required: true
         type: string
