@@ -43,4 +43,4 @@ jobs:
           echo "${SECRETS_CONTEXT}" | to_envs >> $all_vars
 
           # Export as output
-          echo "all_vars=${all_vars}" >> $GITHUB_OUTPUT
+          echo "all_vars=${all_vars}" >> $env:GITHUB_OUTPUT
