@@ -54,8 +54,8 @@ nav:
       - Image Artifact: image_artifact.md
       - Remote Deploy: remote_deploy.md
   - Tests:
+      - Compose: test_compose.md
       - PyTest: test_pytest.md
-      - PyTest Compose: test_compose.md
       - PNPM: test_pnpm.md
   - Docs:
       - MkDocs Build: mkdocs_build.md

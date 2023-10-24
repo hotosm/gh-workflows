@@ -1,7 +1,7 @@
-# PyTest (via Docker Compose)
+# Test via Docker Compose
 
-Run pytest for your application, inside a container,
-and as part of the docker compose stack.
+Run tests inside a container, as part of a docker
+compose stack.
 
 This is useful for tests when the tests require, e.g. an
 underlying database, or any additional services.
@@ -13,7 +13,7 @@ underlying database, or any additional services.
 - Built into your container image at available under WORKDIR.
 - Mounted within the docker-compose.yml file under WORKDIR.
 
-2. PyTest must be installed for the dockerfile USER.
+2. The testing tool must be installed for the dockerfile USER.
 
 3. The service in the docker-compose.yml must have a tag override.
 
@@ -23,7 +23,8 @@ services:
     image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
 ```
 
-4. There must be a `.env.example` file in the root of your repo.
+4. There should be a `.env.example` file in the root of your repo,
+if you require an environment variables to run your service.
 
 - This file describes all possible environment variables,
   with examples.
