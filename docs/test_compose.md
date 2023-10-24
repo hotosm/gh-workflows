@@ -24,7 +24,7 @@ services:
 ```
 
 4. There should be a `.env.example` file in the root of your repo,
-if you require an environment variables to run your service.
+   if you require an environment variables to run your service.
 
 - This file describes all possible environment variables,
   with examples.
