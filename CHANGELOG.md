@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 (2023-10-24)
+
+### Feat
+
+- replace test_pytest_compose with generic test_compose
+
 ## 1.0.1 (2023-10-23)
 
 ### Fix
