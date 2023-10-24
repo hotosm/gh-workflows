@@ -19,8 +19,9 @@ repository = "https://github.com/hotosm/gh-workflows"
 [project.optional-dependencies]
 docs = [
     "mkdocs>=1.5.3",
-    "mkdocs-material>=9.4.2",
+    "mkdocs-material>=9.4.6",
     "mkdocs-exclude>=1.0.2",
+    "mkdocstrings-python>=1.7.3",
 ]
 [tool.commitizen]
 name = "cz_conventional_commits"

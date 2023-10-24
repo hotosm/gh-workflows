@@ -7,7 +7,7 @@ on:
         description: "Override the image to build mkdocs."
         required: false
         type: string
-        default: "docker.io/squidfunk/mkdocs-material:9"
+        default: "ghcr.io/hotosm/gh-workflows/mkdocs:main"
       doxygen:
         description: "Include doxygen output uploaded to extra-docs-files artifact."
         required: false
