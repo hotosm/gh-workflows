@@ -76,12 +76,12 @@ jobs:
           filename: .github/workflows/test_pnpm.yml
           output: docs/test_pnpm.md
 
-      - name: Document test_pytest_compose
+      - name: Document test_compose
         uses: tj-actions/auto-doc@v3
         with:
           reusable: true
-          filename: .github/workflows/test_pytest_compose.yml
-          output: docs/test_pytest_compose.md
+          filename: .github/workflows/test_compose.yml
+          output: docs/test_compose.md
 
       - name: Document test_pytest
         uses: tj-actions/auto-doc@v3
@@ -119,7 +119,7 @@ jobs:
             docs/pypi_publish.md
             docs/remote_deploy.md
             docs/test_pnpm.md
-            docs/test_pytest_compose.md
+            docs/test_compose.md
             docs/test_pytest.md
             docs/wiki.md
 

@@ -22,7 +22,7 @@
 
 ---
 
-🕮 **Documentation**: [https://hotosm.github.io/gh-workflows](https://hotosm.github.io/gh-workflows)
+📖 **Documentation**: [https://hotosm.github.io/gh-workflows](https://hotosm.github.io/gh-workflows)
 
 🖥️ **Source Code**: [https://github.com/hotosm/gh-workflows](https://github.com/hotosm/gh-workflows)
 

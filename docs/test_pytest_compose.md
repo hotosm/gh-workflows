@@ -94,7 +94,7 @@ on:
 
 jobs:
   pytest:
-    uses: hotosm/gh-workflows/.github/workflows/test_pytest_compose.yml@main
+    uses: hotosm/gh-workflows/.github/workflows/test_compose.yml@main
     with:
       image_name: ghcr.io/${{ github.repository }}/backend
       build_context: src/backend
@@ -102,6 +102,7 @@ jobs:
         APP_VERSION=${{ github.ref_name }}
         COMMIT_REF=${{ github.sha }}
       docker_compose_service: api
+      docker_compose_command: wait-for-it fmtm-db:5432 --strict -- wait-for-it central:8383 --strict --timeout=30 -- pytest
       cache_extra_imgs: |
         "docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}"
         "docker.io/minio/minio:${{ vars.MINIO_TAG }}"
@@ -128,7 +129,7 @@ on:
 
 jobs:
   pytest:
-    uses: hotosm/gh-workflows/.github/workflows/test_pytest_compose.yml@main
+    uses: hotosm/gh-workflows/.github/workflows/test_compose.yml@main
     with:
       image_name: ghcr.io/${{ github.repository }}/backend
       build_context: src/backend
@@ -136,6 +137,7 @@ jobs:
         APP_VERSION=${{ github.ref_name }}
         COMMIT_REF=${{ github.sha }}
       docker_compose_service: api
+      docker_compose_command: wait-for-it fmtm-db:5432 --strict -- wait-for-it central:8383 --strict --timeout=30 -- pytest
       tag_override: ci-${{ github.ref_name }}
     secrets: inherit
 ## Continue to deploy...

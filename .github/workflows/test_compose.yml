@@ -1,4 +1,6 @@
-name: PyTest
+# A generic workflow to run tests within a docker compose stack
+
+name: Run Tests
 
 on:
   workflow_call:
@@ -27,7 +29,7 @@ on:
         required: false
         type: string
       tag_override:
-        description: "An override for the build image tag. Must include tests and have PyTest installed"
+        description: "An override for the build image tag. Must include tests and have test software installed"
         required: false
         type: string
       cache_image:
@@ -39,13 +41,17 @@ on:
         description: "Space separated list of images to cache on each run (e.g. to avoid rate limiting)."
         required: false
         type: string
-      docker_compose_file:
+      compose_file:
         description: "The docker compose file used to run the test."
         required: false
         type: string
         default: docker-compose.yml
-      docker_compose_service:
+      compose_service:
         description: "The docker compose service to run the test against."
+        required: true
+        type: string
+      compose_command:
+        description: "The command to run within the docker compose service."
         required: true
         type: string
       environment:
@@ -85,7 +91,7 @@ jobs:
       scan: false
       cache: false
 
-  run-pytest:
+  run-tests:
     runs-on: ubuntu-latest
     needs: [test-img-build]
     # Ensure it runs, even if test-img-build does not run
@@ -202,10 +208,7 @@ jobs:
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
 
-      - name: Run PyTest
+      - name: Run Tests
         run: |
           docker compose --file ${{ inputs.docker_compose_file }} \
-            run ${{ inputs.docker_compose_service }} \
-            wait-for-it fmtm-db:5432 --strict \
-            -- wait-for-it central:8383 --strict --timeout=30 \
-            -- pytest
+            run ${{ inputs.docker_compose_service }} ${{ inputs.docker_compose_command }}

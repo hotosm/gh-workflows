@@ -55,7 +55,7 @@ nav:
       - Remote Deploy: remote_deploy.md
   - Tests:
       - PyTest: test_pytest.md
-      - PyTest Compose: test_pytest_compose.md
+      - PyTest Compose: test_compose.md
       - PNPM: test_pnpm.md
   - Docs:
       - MkDocs Build: mkdocs_build.md
