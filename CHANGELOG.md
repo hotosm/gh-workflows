@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 (2023-10-25)
+
+### Fix
+
+- test_compose incorrect linked input names
+
 ## 1.1.0 (2023-10-24)
 
 ### Feat
