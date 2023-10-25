@@ -210,5 +210,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          docker compose --file ${{ inputs.docker_compose_file }} \
-            run ${{ inputs.docker_compose_service }} ${{ inputs.docker_compose_command }}
+          docker compose --file ${{ inputs.compose_file }} \
+            run ${{ inputs.compose_service }} ${{ inputs.compose_command }}
