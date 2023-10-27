@@ -98,29 +98,29 @@ jobs:
           mkdir -p /tmp/images
 
           # Cache main image build
-          image_name=${{ needs.test-img-build.outputs.image_name }}
+          image_fullname=${{ needs.test-img-build.outputs.image_name }}
           image_tag=${{ needs.test-img-build.outputs.image_tag }}
 
-          img_underscores=${image_name//[:\/.]/_}
-          docker pull "${image_name}"
-          echo "Packaging image ${image_name} to /tmp/images/${img_underscores}.tar"
-          docker image save "${image_name}" --output "/tmp/images/${img_underscores}.tar"
+          img_underscores=${image_fullname//[:\/.]/_}
+          docker pull "${image_fullname}"
+          echo "Packaging image ${image_fullname} to /tmp/images/${img_underscores}.tar"
+          docker image save "${image_fullname}" --output "/tmp/images/${img_underscores}.tar"
 
-          # Export tag to env
-          echo "Setting TAG_OVERRIDE=${image_tag} in github env"
-          echo "IMAGE=${image_name}" >> $GITHUB_ENV
+          # Set IMAGE env var
+          echo "Setting IMAGE=${image_fullname} in github env"
+          echo "IMAGE=${image_fullname}" >> $GITHUB_ENV
 
       - name: Load Cached Imgs
         if: ${{ inputs.cache_image && steps.image-cache.outputs.cache-hit == 'true' }}
         run: |
           for image_tar in /tmp/images/*; do
               output=$(docker image load --input "${image_tar}" || true)
-              image_name=$(echo "$output" | grep -oE 'Loaded image: (.+)' | cut -d' ' -f3)
-              echo "Extracted name from tar: ${image_name}"
+              image_fullname=$(echo "$output" | grep -oE 'Loaded image: (.+)' | cut -d' ' -f3)
+              echo "Extracted name from tar: ${image_fullname}"
           done
 
           # Set IMAGE env var
-          echo "IMAGE=${image_name}" >> $GITHUB_ENV
+          echo "IMAGE=${image_fullname}" >> $GITHUB_ENV
 
       - name: Run PyTest
         run: |
