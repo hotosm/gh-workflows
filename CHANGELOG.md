@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 (2023-10-27)
+
+### Fix
+
+- hardcode passing VITE_API_URL to build-args
+
 ## 1.1.1 (2023-10-25)
 
 ### Fix
