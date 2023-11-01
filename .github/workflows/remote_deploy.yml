@@ -63,6 +63,7 @@ jobs:
       - name: Deploy
         run: |
           docker compose --file ${{ inputs.docker_compose_file }} pull
-          docker compose --file ${{ inputs.docker_compose_file }} up --detach --remove-orphans
+          docker compose --file ${{ inputs.docker_compose_file }} up \
+            --detach --remove-orphans --force-recreate
         env:
           DOCKER_HOST: "ssh://${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}"
