@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 (2023-11-01)
+
+### Feat
+
+- add npm_publish workflow
+
 ## 1.1.3 (2023-11-01)
 
 ### Fix
