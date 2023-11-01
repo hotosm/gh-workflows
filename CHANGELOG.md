@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3 (2023-11-01)
+
+### Fix
+
+- add --force-recreate to remote deploy command
+
 ## 1.1.2 (2023-10-27)
 
 ### Fix
