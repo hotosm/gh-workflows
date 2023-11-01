@@ -41,6 +41,13 @@ jobs:
           filename: .github/workflows/mkdocs_build.yml
           output: docs/mkdocs_build.md
 
+      - name: Document npm_publish
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/npm_publish.yml
+          output: docs/npm_publish.md
+
       - name: Document openapi_build
         uses: tj-actions/auto-doc@v3
         with:
@@ -114,6 +121,7 @@ jobs:
             docs/image_artifact.md
             docs/image_build.md
             docs/mkdocs_build.md
+            docs/npm_publish.md
             docs/openapi_build.md
             docs/py_app_version.md
             docs/pypi_publish.md

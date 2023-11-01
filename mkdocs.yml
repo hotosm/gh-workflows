@@ -64,4 +64,5 @@ nav:
       - Wiki Build: wiki.md
   - Publishing:
       - PyPi Publish: pypi_publish.md
+      - NPM Publish: npm_publish.md
       - Python App Version: py_app_version.md
