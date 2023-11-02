@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1 (2023-11-02)
+
+### Fix
+
+- add pre_command input options for test_compose
+
 ## 1.2.0 (2023-11-01)
 
 ### Feat
