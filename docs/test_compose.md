@@ -55,6 +55,7 @@ a PR, or during deployment.
 | <a name="input_environment"></a>[environment](#input_environment)                | string  | false    | `"test"`               | The environment to use for <br>testing.                                                          |
 | <a name="input_extra_build_args"></a>[extra_build_args](#input_extra_build_args) | string  | false    |                        | Space separated list of build <br>args to use for the <br>image.                                 |
 | <a name="input_image_name"></a>[image_name](#input_image_name)                   | string  | true     |                        | The image root name, without <br>tag. E.g. 'ghcr.io/[dollar]{{ github.repository }}'             |
+| <a name="input_pre_command"></a>[pre_command](#input_pre_command)                | string  | false    |                        | A initialisation command to run <br>prior to the docker compose <br>command.                     |
 | <a name="input_tag_override"></a>[tag_override](#input_tag_override)             | string  | false    |                        | An override for the build <br>image tag. Must include tests <br>and have test software installed |
 
 <!-- AUTO-DOC-INPUT:END -->
