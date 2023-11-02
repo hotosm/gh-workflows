@@ -54,6 +54,10 @@ on:
         description: "The command to run within the docker compose service."
         required: true
         type: string
+      pre_command:
+        description: "A initialisation command to run prior to the docker compose command."
+        required: false
+        type: string
       environment:
         description: "The environment to use for testing."
         required: false
@@ -210,5 +214,6 @@ jobs:
 
       - name: Run Tests
         run: |
+          ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
             run ${{ inputs.compose_service }} ${{ inputs.compose_command }}
