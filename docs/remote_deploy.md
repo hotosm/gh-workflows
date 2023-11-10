@@ -6,35 +6,35 @@ Deploy to a remote server using docker compose and SSH keys.
 
 ## Prerequisites
 
-1. There must be a `.env.example` file in the root of your repo.
+- There must be a `.env.example` file in the root of your repo.
 
-- This file describes all possible environment variables,
-  with examples.
-- The variables in this file are substituted to produce the
-  `.env` file used during deploy.
+  - This file describes all possible environment variables,
+    with examples.
+  - The variables in this file are substituted to produce the
+    `.env` file used during deploy.
 
-```dotenv
-SECRET_KEY=${SECRET_KEY:-somesuperdupersecretkeyfortesting}
-ALLOWED_HOSTS=${ALLOWED_HOSTS:-["*"]}
-DB_NAME=${DB_NAME:-""}
-DB_USER=${DB_USER:-""}
-DB_PASSWORD=${DB_PASSWORD:-""}
-DB_HOST=${DB_HOST:-""}
-DB_PORT=${DB_PORT:-5432}
-```
+  ```dotenv
+  SECRET_KEY=${SECRET_KEY:-somesuperdupersecretkeyfortesting}
+  ALLOWED_HOSTS=${ALLOWED_HOSTS:-["*"]}
+  DB_NAME=${DB_NAME:-""}
+  DB_USER=${DB_USER:-""}
+  DB_PASSWORD=${DB_PASSWORD:-""}
+  DB_HOST=${DB_HOST:-""}
+  DB_PORT=${DB_PORT:-5432}
+  ```
 
-2. You must have variables configured for your Github environment:
+- You must have variables configured for your Github environment:
 
-- SSH_HOST (var) - the domain name or IP address for deploy.
-- SSH_USER (var) - the user the SSH keypair was generated for.
-- SSH_PRIVATE_KEY (secret) - the private key of the keypair.
+  - SSH_HOST (var) - the domain name or IP address for deploy.
+  - SSH_USER (var) - the user the SSH keypair was generated for.
+  - SSH_PRIVATE_KEY (secret) - the private key of the keypair.
 
-3. When calling the workflow:
+- When calling the workflow:
 
-- You need to pass the `environment` variable to
-  extract the variables from your deployment environment.
-- This can be `environment: ${{ github.ref_name }}` to use the git branch name.
-- **Important**: the secrets param must be: `secrets: inherit`.
+  - You need to pass the `environment` variable to
+    extract the variables from your deployment environment.
+  - This can be `environment: ${{ github.ref_name }}` to use the git branch name.
+  - **Important**: the secrets param must be: `secrets: inherit`.
 
 ## Inputs
 
