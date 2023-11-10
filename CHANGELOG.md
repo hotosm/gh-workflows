@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3 (2023-11-10)
+
+### Fix
+
+- update all env releated workflows to not fail if empty
+
 ## 1.2.2 (2023-11-10)
 
 ### Fix
