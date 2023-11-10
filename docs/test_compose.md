@@ -11,53 +11,53 @@ underlying database, or any additional services.
 
 ## Prerequisites
 
-1. The tests by two possible options:
+- The tests by two possible options:
 
-   - Built into your container image at available under WORKDIR.
-   - Mounted within the docker-compose.yml file under WORKDIR.
+  - Built into your container image at available under WORKDIR.
+  - Mounted within the docker-compose.yml file under WORKDIR.
 
-2. The testing tool must be installed for the dockerfile USER.
+- The testing tool must be installed for the dockerfile USER.
 
-3. The service in the docker-compose.yml must have a tag override.
+- The service in the docker-compose.yml must have a tag override.
 
-   ```yaml
-   services:
-     api:
-       image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
-   ```
+  ```yaml
+  services:
+    api:
+      image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
+  ```
 
-   This allows the workflow to inject the tag of the image built for
-   a PR, or during deployment.
+  This allows the workflow to inject the tag of the image built for
+  a PR, or during deployment.
 
-4. There should be a `.env.example` file in the root of your repo,
-   if you require any environment variables to run your service.
+- There should be a `.env.example` file in the root of your repo,
+  if you require any environment variables to run your service.
 
-   - This file describes all possible environment variables,
-     with examples.
-   - The variables in this file are substituted to produce the
-     `.env` file from Github environment variables.
+  - This file describes all possible environment variables,
+    with examples.
+  - The variables in this file are substituted to produce the
+    `.env` file from Github environment variables.
 
-   ```dotenv
-   SECRET_KEY=${SECRET_KEY:-somesuperdupersecretkeyfortesting}
-   ALLOWED_HOSTS=${ALLOWED_HOSTS:-["*"]}
-   DB_NAME=${DB_NAME:-""}
-   DB_USER=${DB_USER:-""}
-   DB_PASSWORD=${DB_PASSWORD:-""}
-   DB_HOST=${DB_HOST:-""}
-   DB_PORT=${DB_PORT:-5432}
-   ```
+  ```dotenv
+  SECRET_KEY=${SECRET_KEY:-somesuperdupersecretkeyfortesting}
+  ALLOWED_HOSTS=${ALLOWED_HOSTS:-["*"]}
+  DB_NAME=${DB_NAME:-""}
+  DB_USER=${DB_USER:-""}
+  DB_PASSWORD=${DB_PASSWORD:-""}
+  DB_HOST=${DB_HOST:-""}
+  DB_PORT=${DB_PORT:-5432}
+  ```
 
-   > Note: the syntax above sets the default tag to 'debug', unless the
-   > TAG_OVERRIDE variable is present in the environment
-   > (this workflow sets the variable).
+  > Note: the syntax above sets the default tag to 'debug', unless the
+  > TAG_OVERRIDE variable is present in the environment
+  > (this workflow sets the variable).
 
-5. Finally, the environment variables you wish to substitute
-   must be present as environment variables or secrets in your
-   Github repository settings.
+- Finally, the environment variables you wish to substitute
+  must be present as environment variables or secrets in your
+  Github repository settings.
 
-   - The environment name default is `test`.
-   - It is possible to override which environment to use by setting
-     workflow input `environment`.
+  - The environment name default is `test`.
+  - It is possible to override which environment to use by setting
+    workflow input `environment`.
 
 ## Inputs
 
