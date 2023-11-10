@@ -45,9 +45,12 @@ jobs:
       - name: Publish
         run: |
           echo "Repo dir: $GITHUB_WORKSPACE"
-          git config --global --add safe.directory $GITHUB_WORKSPACE
 
-          # Default entrypoint is `mkdocs`
+          docker pull ${{ inputs.image }}
+
           docker run --volume $PWD:$PWD --workdir $PWD \
-            ${{ inputs.image }} \
-            gh-deploy --force
+            --entrypoint=/bin/sh ${{ inputs.image }} \
+            -c "\
+              git config --global --add safe.directory $PWD \
+              && mkdocs gh-deploy --force \
+            "
