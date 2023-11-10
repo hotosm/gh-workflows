@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.4 (2023-11-10)
+
+### Fix
+
+- handle cases when no .env.example in repo
+
 ## 1.2.3 (2023-11-10)
 
 ### Fix
