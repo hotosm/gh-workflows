@@ -30,3 +30,4 @@ version = "1.2.1"
 version_files = [
     "pyproject.toml:version",
 ]
+update_changelog_on_bump = true
