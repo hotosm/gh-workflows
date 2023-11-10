@@ -80,7 +80,7 @@ jobs:
           key: image-cache-${{ runner.os }}
 
   test-img-build:
-    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.0.0
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.2.1
     needs: [check-img-cache]
     if: ${{ needs.check-img-cache.outputs.cache-hit != 'true' }}
     with:
