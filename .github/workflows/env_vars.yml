@@ -31,23 +31,39 @@ jobs:
         env:
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
-          ALL_VARS: ""
         run: |
+          parsed_vars=$(jq -n --argjson VARS_CONTEXT "$VARS_CONTEXT" --argjson SECRETS_CONTEXT "$SECRETS_CONTEXT" '$VARS_CONTEXT + $SECRETS_CONTEXT')
+          echo "Concat vars+secrets: ${parsed_vars}"
+
           # Random delimeter string for security
           delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
 
-          # Parse JSON with multiline strings, using delimeter (Github specific)
-          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+          # Func to parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)=\(.value)\n\""; }
 
-          # Set all vars to variable
-          if [ "${VARS_CONTEXT}" != "null" ]; then
-            echo "${VARS_CONTEXT}" | to_envs >> $ALL_VARS
-          fi
-          if [ "${SECRETS_CONTEXT}" != "null" ]; then
-            echo "${SECRETS_CONTEXT}" | to_envs >> $ALL_VARS
-          fi
+          all_kv_pairs=$(echo "$parsed_vars" | to_envs)
+          echo "key=value pairs: ${all_kv_pairs}"
 
-          # Export as multiline output with delim
-          echo all_vars<<$delim >> $GITHUB_OUTPUT
-          ${ALL_VARS} >> $GITHUB_OUTPUT
-          $delim >> $GITHUB_OUTPUT
+          # Export wrapped multiline to GITHUB_OUTPUT
+          echo "all_vars<<EOF" >> $GITHUB_OUTPUT
+          echo $all_kv_pairs >> $GITHUB_OUTPUT 
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "Final GITHUB_ENV:"
+          cat $GITHUB_OUTPUT
+
+          ## Comma separated output
+          # parsed_vars=$(jq -n --argjson VARS_CONTEXT "$VARS_CONTEXT" --argjson SECRETS_CONTEXT "$SECRETS_CONTEXT" '$VARS_CONTEXT + $SECRETS_CONTEXT')
+          # echo "Concat vars+secrets: ${parsed_vars}"
+
+          # # Parse all json as key=value pairs, single line, space separated
+          # to_comma_separated_kvs() { jq -r 'to_entries | map("\(.key)=\(.value)") | join(",")'; }
+
+          # all_kv_pairs=$(echo "$parsed_vars" | to_comma_separated_kvs)
+          # echo "key=value pairs: ${all_kv_pairs}"
+
+          # # Export as single line var
+          # echo "all_vars=${all_kv_pairs}" >> $GITHUB_ENV
+
+          # echo "Final GITHUB_ENV:"
+          # cat $GITHUB_ENV
