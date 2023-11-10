@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.2.2 (2023-11-10)
+
+### Fix
+
+- mkdocs_build run git config prior to gh-deploy
+- update mkdocs_build to use docker run over container
+- update workflows refs to use latest tag
+- test workflow use build_dockerfile arg correctly
+- enable environment var injection to test_pytest
+
+### Refactor
+
+- replace @main --> @1.2.2 for docs build
+
 ## 1.2.1 (2023-11-02)
 
 ### Fix
