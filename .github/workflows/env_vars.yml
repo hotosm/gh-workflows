@@ -63,7 +63,7 @@ jobs:
           # echo "key=value pairs: ${all_kv_pairs}"
 
           # # Export as single line var
-          # echo "all_vars=${all_kv_pairs}" >> $GITHUB_ENV
+          # echo "all_vars=${all_kv_pairs}" >> $GITHUB_OUTPUT
 
-          # echo "Final GITHUB_ENV:"
-          # cat $GITHUB_ENV
+          # echo "Final GITHUB_OUTPUT:"
+          # cat $GITHUB_OUTPUT

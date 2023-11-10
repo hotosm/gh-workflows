@@ -1,5 +1,7 @@
 # Extract Env Vars
 
+THIS WORKFLOW IS CURRENTLY NON-FUNCTIONAL
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
