@@ -11,7 +11,7 @@ underlying database, or any additional services.
 
 ## Prerequisites
 
-- The tests by two possible options:
+- The tests inside the container, by two possible options:
 
   - Built into your container image at available under WORKDIR.
   - Mounted within the docker-compose.yml file under WORKDIR.
