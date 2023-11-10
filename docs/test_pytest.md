@@ -4,9 +4,9 @@ Run pytest for your application, inside a container.
 
 ## Prerequisites
 
-- The tests must be included in the image (via Dockerfile).
+1. The tests must be included in the image (via Dockerfile).
 
-- PyTest must be installed for the dockerfile USER.
+2. PyTest must be installed for the dockerfile USER.
 
 > Note: this workflow also injects dotenv vars present in your
 > Github environment called `test` (or set by `inputs.environment`).
