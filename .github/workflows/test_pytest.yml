@@ -62,6 +62,7 @@ jobs:
     if: ${{ needs.check-img-cache.outputs.cache-hit != 'true' }}
     with:
       context: ${{ inputs.build_context }}
+      dockerfile: ${{ inputs.build_dockerfile }}
       build_target: ${{ inputs.build_target }}
       image_name: ${{ inputs.image_name }}
       # Default to auto-tag, unless override specified
