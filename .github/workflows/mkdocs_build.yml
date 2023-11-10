@@ -24,9 +24,6 @@ jobs:
   publish_docs:
     name: Publish GH Pages
     runs-on: ubuntu-latest
-    container:
-      image: ${{ inputs.image }}
-      options: --user root
 
     steps:
       - name: Checkout repository
@@ -49,5 +46,8 @@ jobs:
         run: |
           echo "Repo dir: $GITHUB_WORKSPACE"
           git config --global --add safe.directory $GITHUB_WORKSPACE
-          pip list
-          mkdocs gh-deploy --force
+
+          # Default entrypoint is `mkdocs`
+          docker run --volume $PWD:$PWD --workdir $PWD \
+            ${{ inputs.image }} \
+            gh-deploy --force
