@@ -35,6 +35,7 @@ jobs:
         env:
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          ALL_VARS: ""
         run: |
           # Random delimeter string for security
           delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
@@ -43,8 +44,12 @@ jobs:
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
           # Set all vars to variable
-          echo "${VARS_CONTEXT}" | to_envs >> $all_vars
-          echo "${SECRETS_CONTEXT}" | to_envs >> $all_vars
+          if [ "${VARS_CONTEXT}" != "null" ]; then
+            echo "${VARS_CONTEXT}" | to_envs >> $ALL_VARS
+          fi
+          if [ "${SECRETS_CONTEXT}" != "null" ]; then
+            echo "${SECRETS_CONTEXT}" | to_envs >> $ALL_VARS
+          fi
 
           # Export as output
-          echo "all_vars=${all_vars}" >> $GITHUB_OUTPUT
+          echo "all_vars=${ALL_VARS}" >> $GITHUB_OUTPUT

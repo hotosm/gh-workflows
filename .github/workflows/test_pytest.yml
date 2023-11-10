@@ -143,8 +143,16 @@ jobs:
 
           # Set all vars
           echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
-          echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
-          echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+
+          # Set VARS_CONTEXT if not null
+          if [ "${VARS_CONTEXT}" != "null" ]; then
+            echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+          # Set SECRETS_CONTEXT if not null
+          if [ "${SECRETS_CONTEXT}" != "null" ]; then
+            echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
 
       - name: Create .env file
         run: |
