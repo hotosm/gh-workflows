@@ -54,6 +54,7 @@ nav:
       - Image Build: image_build.md
       - Image Artifact: image_artifact.md
       - Remote Deploy: remote_deploy.md
+      - Get Env Vars: env_vars.md
   - Tests:
       - Compose: test_compose.md
       - PyTest: test_pytest.md

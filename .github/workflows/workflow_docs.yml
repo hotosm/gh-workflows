@@ -20,6 +20,13 @@ jobs:
           filename: .github/workflows/doxygen_build.yml
           output: docs/doxygen_build.md
 
+      - name: Document env_vars
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/env_vars.yml
+          output: docs/env_vars.md
+
       - name: Document image_build
         uses: tj-actions/auto-doc@v3
         with:
@@ -118,6 +125,7 @@ jobs:
             docs/index.md
             docs/intro.md
             docs/doxygen_build.md
+            docs/env_vars.md
             docs/image_artifact.md
             docs/image_build.md
             docs/mkdocs_build.md
