@@ -8,6 +8,10 @@ Run pytest for your application, inside a container.
 
 2. PyTest must be installed for the dockerfile USER.
 
+> Note: this workflow also injects dotenv vars present in your
+> Github environment called `test` (or set by `inputs.environment`).
+> See the test_compose docs for more details.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
