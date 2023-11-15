@@ -59,6 +59,81 @@ underlying database, or any additional services.
   - It is possible to override which environment to use by setting
     workflow input `environment`.
 
+## FAQ
+
+### Environment variables are not injecting
+
+There may be an issue with your `.env.example`.
+
+A template such as the example above is required
+to generate a `.env` file from `.env.example`.
+
+In this example:
+
+```dotenv
+ALLOWED_HOSTS=${ALLOWED_HOSTS:-["*"]}
+```
+
+The variable `ALLOWED_HOSTS` will be substituted to:
+
+```dotenv
+# If ALLOWED_HOSTS is present in your environment
+ALLOWED_HOSTS=["https://some.domain.org"]
+# ["https://some.domain.org"] is the value in your Github environment
+
+# If no variable is set in your environment, the default is used.
+# This is the value after the :- above (in bash substitution syntax).
+ALLOWED_HOSTS=["*"]
+```
+
+### Hostnames are not resolving
+
+For example, your app requires the database,
+but the database service name is not available.
+
+An example in Django would look like:
+
+```
+django.db.utils.OperationalError: could not translate
+host name "db" to address: Temporary failure in name resolution
+```
+
+This may be because the database has not initialised completely,
+prior to running the command.
+
+To solve this, update your docker compose file to use `depends_on`,
+under your app service:
+
+```yaml
+services:
+  app:
+    ...
+    depends_on:
+      db:
+        condition: service_healthy
+```
+
+To facilitate this, it is good practice to add a healthcheck to
+containers. We should use a healthcheck that determines the database
+has started and is healthy.
+
+If building a custom Dockerfile, you can add a HEATHCHECK directive.
+
+But many will use a standard unmodified database image, so the
+heathcheck is added in docker compose:
+
+```yaml
+services:
+  db:
+    ...
+    healthcheck:
+      test: pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-postgres}
+      start_period: 5s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+```
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
