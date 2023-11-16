@@ -13,12 +13,12 @@ underlying database, or any additional services.
 
 - The tests inside the container, by two possible options:
 
-  - Built into your container image at available under WORKDIR.
-  - Mounted within the docker-compose.yml file under WORKDIR.
+  - Copied into your container build under **WORKDIR**.
+  - Mounted within the docker-compose.yml file under **WORKDIR**.
 
-- The testing tool must be installed for the dockerfile USER.
+- The testing tool must be installed for the dockerfile **USER**.
 
-- The service in the docker-compose.yml must have a tag override.
+- The service in the docker-compose.yml must have a **TAG_OVERRIDE**.
 
   ```yaml
   services:
@@ -58,6 +58,8 @@ underlying database, or any additional services.
   - The environment name default is `test`.
   - It is possible to override which environment to use by setting
     workflow input `environment`.
+  - **Important**: to ensure that secrets are passed to the workflow,
+    you must add `secrets: inherit` (see examples below).
 
 ## FAQ
 

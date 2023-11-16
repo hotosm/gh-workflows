@@ -127,6 +127,33 @@ As you can see, `uses` is to define the workflow you want to run:
 The `with` key is used to specify all of the **inputs** to pass to the workflow.
 (these are predefined by the creator of the reusable workflow).
 
+### Using Secrets in Reusable Workflows
+
+By default reusable workflows will not have access to environment
+secrets, unless specified in the workflow definition.
+
+There are two ways to do this:
+
+1. Specify secrets individually:
+
+```yaml
+jobs:
+  pytest:
+    uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
+    secrets:
+      SECRET_VAR_1: ${{ secrets.SECRET_VAR_1 }}
+      SECRET_VAR_2: ${{ secrets.SECRET_VAR_2 }}
+```
+
+2. Inherit all secrets (recommended):
+
+```yaml
+jobs:
+  pytest:
+    uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
+    secrets: inherit
+```
+
 ## Passing Info Between Workflows
 
 As noted above, each reusable workflow runs on a different machine (runner).
