@@ -99,12 +99,12 @@ jobs:
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
           # Set values to GITHUB_ENV, if present
-          if [ is_empty_json "${VARS_CONTEXT}" ]; then
+          if is_empty_json "${VARS_CONTEXT}"; then
             echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
           fi
 
           # Set values to GITHUB_ENV, if present
-          if [ is_empty_json "${SECRETS_CONTEXT}" ]; then
+          if is_empty_json "${SECRETS_CONTEXT}"; then
             echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
           fi
 
