@@ -7,9 +7,31 @@ npm command that builds the stories dist.
 
 ## Inputs
 
+<!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
+
+| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                |
+| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------------------- |
+| <a name="input_command"></a>[command](#input_command)             | string | true     |         | The pnpm command to run <br>in package.json.                               |
+| <a name="input_output_path"></a>[output_path](#input_output_path) | string | false    |         | If specified, the output dir <br>is uploaded to artifact extra-docs-files. |
+| <a name="input_working_dir"></a>[working_dir](#input_working_dir) | string | false    | `"."`   | The directory containing the package.json <br>file.                        |
+
+<!-- AUTO-DOC-INPUT:END -->
+
 ## Outputs
 
+<!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
+No outputs.
+
+<!-- AUTO-DOC-OUTPUT:END -->
+
 ## Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+No secrets.
+
+<!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
 
