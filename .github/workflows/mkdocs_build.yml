@@ -16,6 +16,10 @@ on:
         description: "Include openapi output uploaded to extra-docs-files artifact."
         required: false
         type: string
+      stories:
+        description: "Include story build output uploaded to extra-docs-files artifact."
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -30,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Append Extra Files
-        if: ${{ inputs.doxygen || inputs.openapi }}
+        if: ${{ inputs.doxygen || inputs.openapi || inputs.stories }}
         uses: actions/download-artifact@v3
         with:
           name: extra-docs-files
@@ -41,6 +45,12 @@ jobs:
         run: |
           tar -xvzf docs/doxygen.tar.gz
           rm docs/doxygen.tar.gz
+
+      - name: Extract Stories Zip
+        if: ${{ inputs.stories }}
+        run: |
+          tar -xvzf docs/stories.tar.gz
+          rm docs/stories.tar.gz
 
       - name: Publish
         run: |

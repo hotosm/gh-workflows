@@ -1,0 +1,58 @@
+name: Frontend Tests
+
+on:
+  workflow_call:
+    inputs:
+      working_dir:
+        description: "The directory containing the package.json file."
+        required: false
+        type: string
+        default: "."
+      command:
+        description: "The pnpm command to run in package.json."
+        required: true
+        type: string
+      output_path:
+        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
+        required: false
+        type: string
+
+jobs:
+  test:
+    name: Run Frontend Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+          cache-dependency-path: "${{inputs.working_dir}}/pnpm-lock.yaml"
+
+      - name: Install dependencies
+        working-directory: ${{inputs.working_dir}}
+        run: pnpm install
+
+      - name: Build Stories
+        working-directory: ${{inputs.working_dir}}
+        run: pnpm run ${{ inputs.command }}
+
+      - name: Zip Artifact Dir
+        if: ${{ inputs.output_path }}
+        run: |
+          tar -cvzf stories.tar.gz ${{ inputs.output_path }}
+
+      - name: Upload Artifact Dir
+        if: ${{ inputs.output_path }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: extra-docs-files
+          path: stories.tar.gz
