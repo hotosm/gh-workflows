@@ -83,6 +83,13 @@ jobs:
           filename: .github/workflows/remote_deploy.yml
           output: docs/remote_deploy.md
 
+      - name: Document stories_build
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/stories_build.yml
+          output: docs/stories_build.md
+
       - name: Document test_pnpm
         uses: tj-actions/auto-doc@v3
         with:
@@ -134,6 +141,7 @@ jobs:
             docs/py_app_version.md
             docs/pypi_publish.md
             docs/remote_deploy.md
+            docs/stories_build.md
             docs/test_pnpm.md
             docs/test_compose.md
             docs/test_pytest.md

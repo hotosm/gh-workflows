@@ -1,0 +1,41 @@
+# Stories Build
+
+This workflow is used to build stories for UI components.
+
+The workflow uses PNPM to install dependnecies and run the
+npm command that builds the stories dist.
+
+## Inputs
+
+## Outputs
+
+## Secrets
+
+## Example Usage
+
+```yaml
+name: 📖 Publish Docs
+
+on:
+  push:
+    paths:
+      - docs/**
+      - src/**
+      - mkdocs.yml
+    branches: [main]
+  # Allow manual trigger (workflow_dispatch)
+  workflow_dispatch:
+
+jobs:
+  build_stories:
+    uses: hotosm/gh-workflows/.github/workflows/stories_build.yml@1.2.1
+    with:
+      npm_cmd: build:docs
+      output_path: docs/stories
+
+  publish_docs:
+    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.2.1
+    needs: [build_stories]
+    with:
+      stories: true
+```
