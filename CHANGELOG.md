@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.0 (2023-11-20)
+
+### Feat
+
+- add env_vars workflow to extract all env vars
+
+### Fix
+
+- add stories_build, plus mkdocs_build compatibility
+- is_empty_json check during image_build context check
+- re-add VITE_API_URL hardcode until fixed
+
+### Refactor
+
+- remove VITE_API_URL hardcode from image_build
+
 ## 1.2.4 (2023-11-10)
 
 ### Fix
