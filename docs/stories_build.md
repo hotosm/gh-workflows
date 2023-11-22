@@ -50,13 +50,13 @@ on:
 
 jobs:
   build_stories:
-    uses: hotosm/gh-workflows/.github/workflows/stories_build.yml@1.2.1
+    uses: hotosm/gh-workflows/.github/workflows/stories_build.yml@1.3.1
     with:
       npm_cmd: build:docs
       output_path: docs/stories
 
   publish_docs:
-    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.2.1
+    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.3.1
     needs: [build_stories]
     with:
       stories: true

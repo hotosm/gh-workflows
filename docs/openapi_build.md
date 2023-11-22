@@ -47,14 +47,14 @@ on:
 
 jobs:
   build_openapi_json:
-    uses: hotosm/gh-workflows/.github/workflows/openapi_build.yml@1.2.2
+    uses: hotosm/gh-workflows/.github/workflows/openapi_build.yml@1.3.1
     with:
       image: ghcr.io/${{ github.repository }}/backend:ci-${{ github.ref_name }}
       example_env_file_path: ".env.example"
       output_path: docs/openapi.json
 
   publish_docs:
-    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.2.2
+    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.3.1
     needs:
       - build_openapi_json
     with:
