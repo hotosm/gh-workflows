@@ -137,7 +137,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Set up QEMU
-        if: ${{ inputs.multi_arch == 'true' }}
+        if: ${{ inputs.multi_arch }}
         uses: docker/setup-qemu-action@v3
 
       - name: Setup Buildx
@@ -163,7 +163,7 @@ jobs:
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
           cache-to: ${{ inputs.cache == 'true' && 'type=gha,mode=max' || '' }}
           # Build for AMD and ARM (requires buildx+qemu)
-          platforms: ${{ inputs.multi_arch == 'true' && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
+          platforms: ${{ inputs.multi_arch && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
 
       - id: get_image_name
         name: Get First Image Name
