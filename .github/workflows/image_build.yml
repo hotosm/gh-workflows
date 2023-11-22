@@ -187,7 +187,7 @@ jobs:
 
     steps:
       - name: Scan Container Image
-        uses: aquasecurity/trivy-action@v0.14.0
+        uses: aquasecurity/trivy-action@0.14.0
         with:
           image-ref: ${{ needs.build-image.outputs.image_name }}
           format: "table"
