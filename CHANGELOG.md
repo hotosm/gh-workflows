@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.1 (2023-11-22)
+
+### Fix
+
+- correct pin for trivy v0.14.0 --> 0.14.0
+- multi-arch image_build conditional trigger
+- update all usage of image_build --> 1.3.1
+- update image_build action versions, pin all
+
 ## 1.3.0 (2023-11-20)
 
 ### Feat
