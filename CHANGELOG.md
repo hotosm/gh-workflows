@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.4.0 (2023-11-23)
+
+### Feat
+
+- add image_build_multi workflow
+
+### Fix
+
+- default multi_arch removed for test workflows
+
+### Refactor
+
+- update all refs 1.3.2 --> 1.4.0
+
 ## 1.3.2 (2023-11-23)
 
 ### Fix
