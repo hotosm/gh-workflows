@@ -85,10 +85,11 @@ on native architecture, instead of via emulation.
 | <a name="input_extra_build_args"></a>[extra_build_args](#input_extra_build_args) | string  | false    |                | Space separated list of extra <br>build args to use for <br>the image.                        |
 | <a name="input_image_name"></a>[image_name](#input_image_name)                   | string  | false    |                | Name of image, without tags. <br>Not required if image_tags specified.                        |
 | <a name="input_image_tags"></a>[image_tags](#input_image_tags)                   | string  | false    |                | Default=the images are automatically tagged. <br>Override tags with space separated <br>list. |
-| <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)                   | boolean | false    | `true`         | Build a multi-arch image for <br>AMD/ARM.                                                     |
+| <a name="input_multi_arch"></a>[multi_arch](#input_multi_arch)                   | boolean | false    | `false`        | Build a multi-arch image for <br>AMD64/ARM64.                                                 |
 | <a name="input_push"></a>[push](#input_push)                                     | boolean | false    | `true`         | Override prevent pushing the image.                                                           |
 | <a name="input_registry"></a>[registry](#input_registry)                         | string  | false    | `"ghcr.io"`    | Override GHCR to use an <br>external reg.                                                     |
-| <a name="input_scan"></a>[scan](#input_scan)                                     | boolean | false    | `true`         | Disable image scan after build.                                                               |
+| <a name="input_scan_dockerfile"></a>[scan_dockerfile](#input_scan_dockerfile)    | boolean | false    | `true`         | Enable dockerfile vulnerability scanning, prior <br>to build.                                 |
+| <a name="input_scan_image"></a>[scan_image](#input_scan_image)                   | boolean | false    | `true`         | Enable image vulnerability scan, after <br>build.                                             |
 
 <!-- AUTO-DOC-INPUT:END -->
 
