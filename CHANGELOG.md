@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.2 (2023-11-23)
+
+### Fix
+
+- image_build config dockerfile vulnerability scan
+
+### Refactor
+
+- update image_build usage --> 1.3.2
+
 ## 1.3.1 (2023-11-22)
 
 ### Fix
