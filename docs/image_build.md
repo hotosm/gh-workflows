@@ -9,7 +9,7 @@ Basic usage of this action only requires the image_name input.
 
 ```yaml
 test-img-build:
-  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.3.2
+  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.4.0
   with:
     image_name: ghcr.io/${{ github.repository }}
 ```
