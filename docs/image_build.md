@@ -69,8 +69,17 @@ Please note, however, that using `multi_arch` may increase your build time
 by up to 3x.
 
 If speed is important, there is another workflow availble named
-**image_build_multi** that will build across multiple Github runners
-on native architecture, instead of via emulation.
+[image_build_multi](https://hotosm.github.io/gh-workflows/image_build_multi)
+that will build across multiple Github runners
+and should be faster (amd64 | arm/v6 | arm/v7 | arm64).
+
+> Note: you should carefully consider if multi-architecture builds
+> are worth the performance tradeoff.
+>
+> As of 2023, deployment on architectures other than AMD64 is rare.
+> To accomodate MacOS users during app development, it is suggested
+> they build the image themselves on their own architecture (often
+> a single command).
 
 ## Inputs
 
