@@ -50,9 +50,14 @@ on:
         description: "Build a multi-arch image for AMD/ARM."
         required: false
         type: boolean
+        default: false
+      scan_dockerfile:
+        description: "Enable dockerfile vulnerability scanning, default true."
+        required: false
+        type: boolean
         default: true
-      scan:
-        description: "Disable image scan after build."
+      scan_image:
+        description: "Enable image scan after build, default true."
         required: false
         type: boolean
         default: true
@@ -109,6 +114,7 @@ jobs:
           fi
 
       - name: Dockerfile Vulnerabilities
+        if: ${{ inputs.scan_dockerfile }}
         uses: bridgecrewio/checkov-action@v12.1347.0
         with:
           file: ${{ inputs.context }}/${{ inputs.dockerfile }} # only run on file
@@ -183,7 +189,7 @@ jobs:
   scan-image:
     needs: [build-image]
     runs-on: ubuntu-latest
-    if: ${{ inputs.scan }}
+    if: ${{ inputs.scan_image }}
 
     steps:
       - name: Scan Container Image
