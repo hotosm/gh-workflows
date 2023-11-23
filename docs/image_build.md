@@ -1,7 +1,76 @@
 # Container Image Build
 
-This workflow is used to build container
-images in a standardised way.
+This workflow is used to build container images
+in a standardised way.
+
+## Usage
+
+Basic usage of this action only requires the image_name input.
+
+```yaml
+test-img-build:
+  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.3.2
+  with:
+    image_name: ghcr.io/${{ github.repository }}
+```
+
+This will build an image for the repository.
+
+If multiple images are built in the same repository, it is
+possible to name the images under separate paths:
+
+```yaml
+ghcr.io/${{ github.repository }}/backend
+ghcr.io/${{ github.repository }}/frontend
+ghcr.io/${{ github.repository }}/some-other-service
+```
+
+### Defaults
+
+- Build an image using the root directory, and file `Dockerfile`.
+- Automatically tag your image, depending on the branch or
+  version number.
+- Inject the build-args:
+  - APP_VERSION=${{ github.ref_name }} (the current branch or tag)
+  - COMMIT_REF=${{ github.sha }} (the current commit)
+- Cache your image in the Github Container Registry for future builds.
+- Push your image to the registry for future use.
+
+## Vulnerability Scanning
+
+Two types of vulnerability scan are available.
+
+Both are enabled by default.
+
+### Static Code Analysis of Dockerfile
+
+Scanning of Dockerfiles for best practice security is done
+by [checkov](https://github.com/bridgecrewio/checkov-action).
+
+This can be disabled with the input parameter:
+`scan_dockerfile: false`.
+
+### CVE Scanning of Built Image
+
+The built image is scanned for CVEs present in the installed software
+by [Trivy](https://github.com/aquasecurity/trivy-action).
+
+This can be disabled with the input parameter:
+`scan_image: false`.
+
+## Multi Architecture Builds
+
+There is basic support for building multi-architecture images.
+
+By using the `multi_arch: true` option, builds can be made for
+AMD64 (default Linux/Windows), and ARM64 (newer MacOS M-chips).
+
+Please note, however, that using `multi_arch` may increase your build time
+by up to 3x.
+
+If speed is important, there is another workflow availble named
+**image_build_multi** that will build across multiple Github runners
+on native architecture, instead of via emulation.
 
 ## Inputs
 

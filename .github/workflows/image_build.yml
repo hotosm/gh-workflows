@@ -47,17 +47,17 @@ on:
         type: boolean
         default: true
       multi_arch:
-        description: "Build a multi-arch image for AMD/ARM."
+        description: "Build a multi-arch image for AMD64/ARM64."
         required: false
         type: boolean
         default: false
       scan_dockerfile:
-        description: "Enable dockerfile vulnerability scanning, default true."
+        description: "Enable dockerfile vulnerability scanning, prior to build."
         required: false
         type: boolean
         default: true
       scan_image:
-        description: "Enable image scan after build, default true."
+        description: "Enable image vulnerability scan, after build."
         required: false
         type: boolean
         default: true
