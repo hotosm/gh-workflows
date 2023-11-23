@@ -69,7 +69,6 @@ jobs:
       image_tags: ${{ inputs.tag_override && format('{0}:{1}', inputs.image_name, inputs.tag_override) || '' }}
       extra_build_args: ${{ inputs.extra_build_args }}
       # Build temp image for PR, no multi-arch, scan, or ghcr cache required
-      multi_arch: false
       scan_image: false
       cache: false
 
