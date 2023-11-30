@@ -70,6 +70,7 @@ jobs:
       extra_build_args: ${{ inputs.extra_build_args }}
       # Build temp image for PR, no multi-arch, scan, or ghcr cache required
       scan_image: false
+      scan_dockerfile: false
       cache: false
 
   run-pytest:
