@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1 (2023-11-30)
+
+### Refactor
+
+- skip dockerfile scan for testing workflow builds
+
 ## 1.4.0 (2023-11-23)
 
 ### Feat
