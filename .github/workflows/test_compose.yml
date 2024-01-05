@@ -231,4 +231,5 @@ jobs:
         run: |
           ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
-            run ${{ inputs.compose_service }} ${{ inputs.compose_command }}
+            run --no-TTY \
+            ${{ inputs.compose_service }} ${{ inputs.compose_command }}
