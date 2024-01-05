@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.2 (2024-01-05)
+
+### Fix
+
+- add --no-TTY to docker compose run
+
 ## 1.4.1 (2023-11-30)
 
 ### Refactor
