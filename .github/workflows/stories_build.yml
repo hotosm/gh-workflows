@@ -19,7 +19,7 @@ on:
 
 jobs:
   test:
-    name: Run Frontend Tests
+    name: Build Stories
     runs-on: ubuntu-latest
 
     steps:
