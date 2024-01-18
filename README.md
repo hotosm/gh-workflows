@@ -14,7 +14,7 @@
   <a href="https://github.com/hotosm/gh-workflows/actions/workflows/docs.yml" target="_blank">
       <img src="https://github.com/hotosm/gh-workflows/workflows/Publish Docs/badge.svg" alt="Publish Docs">
   </a>
-  <a href="https://github.com/hotosm/gh-workflows/blob/main/LICENSE" target="_blank">
+  <a href="https://github.com/hotosm/gh-workflows/blob/main/LICENSE.md" target="_blank">
       <img src="https://img.shields.io/github/license/hotosm/gh-workflows.svg" alt="License">
   </a>
 </p>
