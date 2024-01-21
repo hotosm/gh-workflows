@@ -38,7 +38,7 @@ jobs:
 
       - name: Push content to wiki
         run: |
-          apt-get update && apt-get install -y rsync
+          sudo apt-get update && sudo apt-get install -y rsync
           # Rename file to Home.md for root page
           mv docs/${{ inputs.homepage_path }} docs/Home.md
           rsync -av --delete docs/ tmp_wiki/ --exclude .git
