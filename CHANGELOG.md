@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.3 (2024-01-21)
+
+### Fix
+
+- wiki publishing workflow using sudo apt
+
+### Refactor
+
+- typo in stories workflow name
+
 ## 1.4.2 (2024-01-05)
 
 ### Fix
