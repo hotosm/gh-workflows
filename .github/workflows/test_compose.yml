@@ -245,7 +245,7 @@ jobs:
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
       - name: Run Tests With Coverage
-        if: ${{ github.event.inputs.coverage == 'true' }}
+        if: ${{ inputs.coverage == 'false' }}
         run: |
           ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
@@ -259,7 +259,7 @@ jobs:
             && mv coverage.svg /tmp/coverage/coverage.svg"
 
       - name: Upload Coverage
-        if: ${{ github.event.inputs.coverage == 'true' }}
+        if: ${{ inputs.coverage == 'true' }}
         run: |
           # Pull content from gh-pages
           mkdir tmp_pages
