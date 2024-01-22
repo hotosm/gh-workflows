@@ -263,15 +263,18 @@ jobs:
         if: ${{ inputs.coverage }}
         run: |
           # Checkout to gh-pages
+          mkdir tmp_pages
+          cd tmp_pages
+          git init
           git config user.name svchot
           git config user.email sysadmin@hotosm.org
-          git checkout gh-pages
+          git pull https://x-access-token:$TOKEN@github.com/${{ github.repository }}.git gh-pages
 
           # Overwrite coverage index and badge
           echo "Coverage dir contents:"
           ls ${{ github.workspace }}/coverage
           echo ""
-          mv -f ${{ github.workspace }}/coverage/* ${{ github.workspace }}
+          cp ${{ github.workspace }}/coverage/* .
 
           # Push content to gh-pages
           git add .
