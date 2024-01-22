@@ -46,6 +46,10 @@ on:
         required: false
         type: string
         default: docker-compose.yml
+      # compose_entrypoint:
+      #   description: "Override the default entrypoint for the compose service."
+      #   required: false
+      #   type: string
       compose_service:
         description: "The docker compose service to run the test against."
         required: true
@@ -54,6 +58,11 @@ on:
         description: "The command to run within the docker compose service."
         required: true
         type: string
+      coverage:
+        description: "Generate a coverage HTML report (requires coverage.py installed)."
+        required: false
+        type: boolean
+        default: false
       pre_command:
         description: "A initialisation command to run prior to the docker compose command."
         required: false
@@ -228,8 +237,51 @@ jobs:
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
 
       - name: Run Tests
+        if: ${{ github.event.inputs.coverage == 'false' }}
         run: |
           ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
             run --no-TTY \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
+
+      - name: Run Tests With Coverage
+        if: ${{ github.event.inputs.coverage == 'true' }}
+        run: |
+          ${{ inputs.pre_command }}
+          docker compose --file ${{ inputs.compose_file }} \
+            run --no-TTY --entrypoint "sh -c" \
+            --volume ${{ github.workspace }}/coverage:/tmp/coverage \
+            ${{ inputs.compose_service }} \
+            "coverage run -m ${{ inputs.compose_command }} \
+            && coverage report && coverage html \
+            && coverage-badge -o coverage.svg \
+            && mv htmlcov/index.html /tmp/coverage/coverage.html \
+            && mv coverage.svg /tmp/coverage/coverage.svg"
+
+      - name: Upload Coverage
+        if: ${{ github.event.inputs.coverage == 'true' }}
+        run: |
+          # Pull content from gh-pages
+          mkdir tmp_pages
+          cd tmp_pages
+          git init
+          git config user.name svchot
+          git config user.email sysadmin@hotosm.org
+          git pull https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki
+          cd ..
+
+          # Sync coverage index and badge using rsync
+          sudo apt-get update && sudo apt-get install -y rsync --no-install-recommends
+
+          echo "Coverage dir contents:"
+          ls ${{ github.workspace }}/coverage
+          echo ""
+
+          cp ${{ github.workspace }}/coverage/coverage.* docs/
+          rsync -av --delete docs/ tmp_pages/ --exclude .git
+
+          # Push content to gh-pages
+          cd tmp_pages
+          git add .
+          git commit -m "docs: automated wiki update on push"
+          git push -f --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master
