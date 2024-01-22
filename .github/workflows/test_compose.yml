@@ -265,7 +265,7 @@ jobs:
           # Checkout to gh-pages
           mkdir tmp_pages
           cd tmp_pages
-          git init
+          git init --initial-branch=gh-pages
           git config user.name svchot
           git config user.email sysadmin@hotosm.org
           git pull https://x-access-token:$TOKEN@github.com/${{ github.repository }}.git gh-pages
@@ -279,4 +279,4 @@ jobs:
           # Push content to gh-pages
           git add .
           git commit -m "docs: update coverage summary and badge"
-          git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
+          git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
