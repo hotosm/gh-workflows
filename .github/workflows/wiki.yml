@@ -14,8 +14,8 @@ permissions:
 
 env:
   TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  USER_NAME: svcfmtm
-  USER_EMAIL: fmtm@hotosm.org
+  USER_NAME: svchot
+  USER_EMAIL: sysadmin@hotosm.org
   REPO_NAME: ${{ github.repository }}
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
 
       - name: Push content to wiki
         run: |
-          sudo apt-get update && sudo apt-get install -y rsync
+          sudo apt-get update && sudo apt-get install -y rsync --no-install-recommends
           # Rename file to Home.md for root page
           mv docs/${{ inputs.homepage_path }} docs/Home.md
           rsync -av --delete docs/ tmp_wiki/ --exclude .git
