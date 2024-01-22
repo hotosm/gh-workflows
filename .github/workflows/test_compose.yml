@@ -237,7 +237,7 @@ jobs:
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
 
       - name: Run Tests
-        if: ${{ github.event.inputs.coverage == 'false' }}
+        if: ${{ ! inputs.coverage }}
         run: |
           ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
@@ -245,7 +245,7 @@ jobs:
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
       - name: Run Tests With Coverage
-        if: ${{ inputs.coverage == 'false' }}
+        if: ${{ inputs.coverage }}
         run: |
           ${{ inputs.pre_command }}
           docker compose --file ${{ inputs.compose_file }} \
@@ -259,7 +259,7 @@ jobs:
             && mv coverage.svg /tmp/coverage/coverage.svg"
 
       - name: Upload Coverage
-        if: ${{ inputs.coverage == 'true' }}
+        if: ${{ inputs.coverage }}
         run: |
           # Pull content from gh-pages
           mkdir tmp_pages

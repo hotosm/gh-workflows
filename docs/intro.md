@@ -136,23 +136,23 @@ There are two ways to do this:
 
 1. Specify secrets individually:
 
-```yaml
-jobs:
-  pytest:
-    uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
-    secrets:
-      SECRET_VAR_1: ${{ secrets.SECRET_VAR_1 }}
-      SECRET_VAR_2: ${{ secrets.SECRET_VAR_2 }}
-```
+   ```yaml
+   jobs:
+     pytest:
+       uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
+       secrets:
+         SECRET_VAR_1: ${{ secrets.SECRET_VAR_1 }}
+         SECRET_VAR_2: ${{ secrets.SECRET_VAR_2 }}
+   ```
 
 2. Inherit all secrets (recommended):
 
-```yaml
-jobs:
-  pytest:
-    uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
-    secrets: inherit
-```
+   ```yaml
+   jobs:
+     pytest:
+       uses: hotosm/gh-workflows/.github/workflows/some_workflow.yml@main
+       secrets: inherit
+   ```
 
 ## Passing Info Between Workflows
 
