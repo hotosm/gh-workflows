@@ -8,6 +8,9 @@
   <em>Github workflows that can be shared across all HOT projects.</em>
 </p>
 <p align="center">
+  <a href="https://github.com/hotosm/fmtm/releases" target="_blank">
+      <img src="https://img.shields.io/github/v/release/hotosm/gh-workflows?logo=github" alt="Version">
+  </a>
   <a href="https://github.com/hotosm/gh-workflows/actions/workflows/workflow_docs.yml" target="_blank">
       <img src="https://github.com/hotosm/gh-workflows/workflows/GH Workflow Docs/badge.svg" alt="Build Docs">
   </a>
