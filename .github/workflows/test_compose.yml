@@ -271,7 +271,7 @@ jobs:
           echo "Coverage dir contents:"
           ls ${{ github.workspace }}/coverage
           echo ""
-          mv ${{ github.workspace }}/coverage/* ${{ github.workspace }}
+          mv -f ${{ github.workspace }}/coverage/* ${{ github.workspace }}
 
           # Push content to gh-pages
           git add .
