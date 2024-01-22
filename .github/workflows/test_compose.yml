@@ -73,6 +73,9 @@ on:
         type: string
         default: "test"
 
+permissions:
+  contents: write
+
 jobs:
   check-img-cache:
     runs-on: ubuntu-latest
@@ -204,10 +207,6 @@ jobs:
           # Parse JSON with multiline strings, using delimeter (Github specific)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
-          # Set all vars
-          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
-          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
-
           # Set VARS_CONTEXT if not null
           if [ "${VARS_CONTEXT}" != "null" ]; then
             echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -230,11 +229,12 @@ jobs:
             echo "Substituting variables from .env.example --> .env"
             ./envsubst < .env.example > .env
           else
-            echo ".env.example not found, creating .env with GIT_BRANCH only"
-            echo "GIT_BRANCH=${GIT_BRANCH}" > .env
+            echo ".env.example not found, creating .env"
+            touch .env
           fi
 
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
       - name: Run Tests
         if: ${{ ! inputs.coverage }}
@@ -261,27 +261,18 @@ jobs:
       - name: Upload Coverage
         if: ${{ inputs.coverage }}
         run: |
-          # Pull content from gh-pages
-          mkdir tmp_pages
-          cd tmp_pages
-          git init
+          # Checkout to gh-pages
           git config user.name svchot
           git config user.email sysadmin@hotosm.org
-          git pull https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki
-          cd ..
+          git checkout gh-pages
 
-          # Sync coverage index and badge using rsync
-          sudo apt-get update && sudo apt-get install -y rsync --no-install-recommends
-
+          # Overwrite coverage index and badge
           echo "Coverage dir contents:"
           ls ${{ github.workspace }}/coverage
           echo ""
-
-          cp ${{ github.workspace }}/coverage/coverage.* docs/
-          rsync -av --delete docs/ tmp_pages/ --exclude .git
+          mv ${{ github.workspace }}/coverage/* ${{ github.workspace }}
 
           # Push content to gh-pages
-          cd tmp_pages
           git add .
-          git commit -m "docs: automated wiki update on push"
-          git push -f --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master
+          git commit -m "docs: update coverage summary and badge"
+          git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages

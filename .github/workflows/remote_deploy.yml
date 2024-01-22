@@ -36,9 +36,6 @@ jobs:
           # Parse JSON with multiline strings, using delimeter (Github specific)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
-          # Set all vars
-          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
-
           # Set VARS_CONTEXT if not null
           if [ "${VARS_CONTEXT}" != "null" ]; then
             echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -61,8 +58,8 @@ jobs:
             echo "Substituting variables from .env.example --> .env"
             ./envsubst < .env.example > .env
           else
-            echo ".env.example not found, creating .env with GIT_BRANCH only"
-            echo "GIT_BRANCH=${GIT_BRANCH}" > .env
+            echo ".env.example not found, creating .env"
+            touch .env
           fi
 
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
