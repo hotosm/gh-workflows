@@ -136,6 +136,13 @@ services:
       retries: 3
 ```
 
+### Coverage files are overwritten
+
+- If you run this workflow, then the mkdocs_build workflow directly
+  afterwards, the coverage files may get overwritten.
+- To solve this, add the `keep_extra_files` variable to the mkdocs_build
+  workflow to retain the `coverage.html` and `coverage.svg` badge.
+
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
