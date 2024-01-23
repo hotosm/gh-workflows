@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.5 (2024-01-23)
+
+### Fix
+
+- add keep_extra_files flag to mkdocs_build workflow
+
 ## 1.4.4 (2024-01-23)
 
 ### Fix
