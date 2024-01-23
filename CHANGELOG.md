@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.4.4 (2024-01-23)
+
+### Fix
+
+- export .env vars to env prior to echo
+- coverage step push HEAD:gh-pages
+- coverage push using separate dir for repo
+- force move coverage files to overwrite
+- add packages: write to test_compose for build downstream
+- use gh-pages over wiki for coverage push
+- conditional to trigger coverage for test_compose
+- update test_compose for optional test coverage upload
+
+### Refactor
+
+- fix trigger condition for coverage in test_compose
+- update git user for wiki sync workflow
+
 ## 1.4.3 (2024-01-21)
 
 ### Fix
