@@ -141,6 +141,10 @@ jobs:
           # Parse JSON with multiline strings, using delimeter (Github specific)
           to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
 
+          # Set vars to env for next step
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
+
           # Set VARS_CONTEXT if not null
           if [ "${VARS_CONTEXT}" != "null" ]; then
             echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -168,6 +172,7 @@ jobs:
           fi
 
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
       - name: Run PyTest
         run: |
