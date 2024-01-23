@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: "ghcr.io/hotosm/gh-workflows/mkdocs:main"
+      keep_extra_files:
+        description: "Only update modified files. Default false, to clean repo before push."
+        required: false
+        type: boolean
+        default: false
       doxygen:
         description: "Include doxygen output uploaded to extra-docs-files artifact."
         required: false
@@ -63,4 +68,5 @@ jobs:
             -c "\
               git config --global --add safe.directory $PWD \
               && mkdocs gh-deploy --force \
+              ${{ inputs.keep_extra_files == 'true' && '--clean' || '--dirty' }}
             "
