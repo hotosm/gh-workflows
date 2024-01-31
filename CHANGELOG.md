@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.6 (2024-01-31)
+
+### Fix
+
+- correctly set image labels from meta action
+
 ## 1.4.5 (2024-01-23)
 
 ### Fix
