@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.7 (2024-02-06)
+
+### Fix
+
+- substitute example.env prior to openapi.json gen
+
 ## 1.4.6 (2024-01-31)
 
 ### Fix
