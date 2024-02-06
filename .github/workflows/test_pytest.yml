@@ -167,7 +167,7 @@ jobs:
             echo "Substituting variables from .env.example --> .env"
             ./envsubst < .env.example > .env
           else
-            echo ".env.example not found, creating .env"
+            echo ".env.example not found, creating empty .env"
             touch .env
           fi
 

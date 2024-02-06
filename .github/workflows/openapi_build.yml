@@ -28,9 +28,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        env:
+          EXAMPLE_DOTENV: ${{ inputs.example_env_file_path }}
+        run: |
+          # Get a8m/envsubst (required for default vals syntax ${VAR:-default})
+          echo "Downloading envsubst"
+          curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+          chmod +x envsubst
+
+          echo "Checking if ${EXAMPLE_DOTENV} exists"
+          if [ -f ${EXAMPLE_DOTENV} ]; then
+            echo "Substituting variables from ${EXAMPLE_DOTENV} --> .env"
+            ./envsubst < "${EXAMPLE_DOTENV}" > .env
+          else
+            echo "${EXAMPLE_DOTENV} not found, creating empty .env"
+            touch .env
+          fi
+
       - name: Build OpenAPi JSON
         env:
-          EXAMPLE_DOT_ENV: ${{ inputs.example_env_file_path }}
+          DOTENV_FILE: .env
         run: |
           python - <<EOF
           """Get OpenAPI config from FastAPI and write to file."""
@@ -42,7 +60,7 @@ jobs:
           from fastapi.openapi.utils import get_openapi
           from dotenv import load_dotenv
 
-          load_dotenv(Path(os.getenv("EXAMPLE_DOT_ENV")))
+          load_dotenv(Path(os.getenv("DOTENV_FILE")))
 
           from app.main import api  # noqa: E402
 
