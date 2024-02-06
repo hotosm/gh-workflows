@@ -46,7 +46,7 @@ jobs:
             touch .env
           fi
 
-      - name: Build OpenAPi JSON
+      - name: Build OpenAPI JSON
         env:
           DOTENV_FILE: .env
         run: |
