@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.8 (2024-02-24)
+
+### Fix
+
+- configurable example dotenv file location
+- allow tests to pass if coverage files have no update
+- do not download envsubst if not required
+
+### Refactor
+
+- fix typo in openapi json workflow
+
 ## 1.4.7 (2024-02-06)
 
 ### Fix
