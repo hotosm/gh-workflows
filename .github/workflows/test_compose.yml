@@ -281,5 +281,5 @@ jobs:
 
           # Push content to gh-pages
           git add .
-          git commit -m "docs: update coverage summary and badge"
+          git commit -m "docs: update coverage summary and badge" || true
           git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
