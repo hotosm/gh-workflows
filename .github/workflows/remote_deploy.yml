@@ -14,6 +14,10 @@ on:
         description: "Path to docker compose file to deploy."
         required: true
         type: string
+      example_env_file_path:
+        description: "Path to example dotenv file to substitute variables for."
+        type: string
+        default: .env.example
 
 jobs:
   remote-deploy:
@@ -51,6 +55,8 @@ jobs:
           fi
 
       - name: Create .env file
+        env:
+          EXAMPLE_DOTENV: ${{ inputs.example_env_file_path }}
         run: |
           echo "Checking if ${EXAMPLE_DOTENV} exists"
           if [ -f ${EXAMPLE_DOTENV} ]; then
