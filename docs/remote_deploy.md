@@ -40,10 +40,11 @@ Deploy to a remote server using docker compose and SSH keys.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                                                     | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                |
-| ----------------------------------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------------------- |
-| <a name="input_docker_compose_file"></a>[docker_compose_file](#input_docker_compose_file) | string | true     |         | Path to docker compose file <br>to deploy.                                 |
-| <a name="input_environment"></a>[environment](#input_environment)                         | string | false    |         | The Github environment to get <br>variables from. Default repository vars. |
+| INPUT                                                                                           | TYPE   | REQUIRED | DEFAULT          | DESCRIPTION                                                                |
+| ----------------------------------------------------------------------------------------------- | ------ | -------- | ---------------- | -------------------------------------------------------------------------- |
+| <a name="input_docker_compose_file"></a>[docker_compose_file](#input_docker_compose_file)       | string | true     |                  | Path to docker compose file <br>to deploy.                                 |
+| <a name="input_environment"></a>[environment](#input_environment)                               | string | false    |                  | The Github environment to get <br>variables from. Default repository vars. |
+| <a name="input_example_env_file_path"></a>[example_env_file_path](#input_example_env_file_path) | string | false    | `".env.example"` | Path to example dotenv file <br>to substitute variables for.               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
