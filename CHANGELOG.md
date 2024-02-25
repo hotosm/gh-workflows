@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.9 (2024-02-25)
+
+### Fix
+
+- add NODE_ENV var to images builds
+
 ## 1.4.8 (2024-02-24)
 
 ### Fix
