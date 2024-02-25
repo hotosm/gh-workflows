@@ -165,6 +165,7 @@ jobs:
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
             VITE_API_URL=${{ vars.VITE_API_URL }}
+            NODE_ENV=${{ vars.NODE_ENV || 'production' }}
             ${{ inputs.extra_build_args }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
