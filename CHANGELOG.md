@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.10 (2024-04-08)
+
+### Fix
+
+- track bridgecrewio/checkov @v12 (updated via patches)
+
 ## 1.4.9 (2024-02-25)
 
 ### Fix
