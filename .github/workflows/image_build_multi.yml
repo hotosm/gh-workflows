@@ -73,7 +73,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Dockerfile Vulnerabilities
-        uses: bridgecrewio/checkov-action@v12.1347.0
+        uses: bridgecrewio/checkov-action@v12
         with:
           file: ${{ inputs.context }}/${{ inputs.dockerfile }} # only run on file
           dockerfile_path: ${{ inputs.context }}/${{ inputs.dockerfile }}
