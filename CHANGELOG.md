@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 (2024-04-10)
+
+### Feat
+
+- allow specifying a container for test_pnpm, for e.g. playwright
+
+### Fix
+
+- add optional run_command var for test_pnpm workflow
+
 ## 1.4.10 (2024-04-08)
 
 ### Fix
