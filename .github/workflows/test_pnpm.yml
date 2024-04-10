@@ -3,6 +3,11 @@ name: Frontend Tests
 on:
   workflow_call:
     inputs:
+      run_command:
+        description: "The command to run: `pnpm run xxx`."
+        required: false
+        type: string
+        default: "test"
       working_dir:
         description: "The directory containing the package.json file."
         required: false
@@ -35,4 +40,4 @@ jobs:
 
       - name: Test Frontend
         working-directory: ${{inputs.working_dir}}
-        run: pnpm run test
+        run: pnpm run ${{inputs.run_command}}
