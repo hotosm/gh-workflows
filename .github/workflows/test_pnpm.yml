@@ -13,11 +13,17 @@ on:
         required: false
         type: string
         default: "."
+      container_config:
+        description: "Run with a custom docker image, instead of directly on Ubuntu machine."
+        required: false
+        type: string
+        default: '{"image": null}'
 
 jobs:
   test:
     name: Run Frontend Tests
     runs-on: ubuntu-latest
+    container: ${{ fromJSON(inputs.container) }}
 
     steps:
       - name: Checkout code
