@@ -23,7 +23,7 @@ jobs:
   test:
     name: Run Frontend Tests
     runs-on: ubuntu-latest
-    container: ${{ fromJSON(inputs.container) }}
+    container: ${{ fromJSON(inputs.container_config) }}
 
     steps:
       - name: Checkout code
