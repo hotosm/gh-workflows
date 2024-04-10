@@ -7,9 +7,11 @@ Set up the PNPM environment and run tests using
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                         |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | --------------------------------------------------- |
-| <a name="input_working_dir"></a>[working_dir](#input_working_dir) | string | false    | `"."`   | The directory containing the package.json <br>file. |
+| INPUT                                                                            | TYPE   | REQUIRED | DEFAULT               | DESCRIPTION                                                                    |
+| -------------------------------------------------------------------------------- | ------ | -------- | --------------------- | ------------------------------------------------------------------------------ |
+| <a name="input_container_config"></a>[container_config](#input_container_config) | string | false    | `"{\"image\": null}"` | Run with a custom docker <br>image, instead of directly on <br>Ubuntu machine. |
+| <a name="input_run_command"></a>[run_command](#input_run_command)                | string | false    | `"test"`              | The command to run: `pnpm run xxx`.                                            |
+| <a name="input_working_dir"></a>[working_dir](#input_working_dir)                | string | false    | `"."`                 | The directory containing the package.json <br>file.                            |
 
 <!-- AUTO-DOC-INPUT:END -->
 
