@@ -31,10 +31,24 @@ No secrets.
 
 ## Example Usage
 
+Run commands directly on `ubuntu-latest` machine.
+
 ```yaml
 jobs:
   frontend-tests:
     uses: hotosm/gh-workflows/.github/workflows/test_pnpm.yml@main
     with:
       working_dir: src/frontend
+```
+
+Run using a custom container. For example Playwright:
+
+```yaml
+jobs:
+  frontend-tests:
+    uses: hotosm/gh-workflows/.github/workflows/test_pnpm.yml@main
+    with:
+      container_config: '{"image": "mcr.microsoft.com/playwright:v1.43.0"}'
+      working_dir: src/frontend
+      run_command: "test:e2e"
 ```
