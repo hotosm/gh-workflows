@@ -45,5 +45,10 @@ jobs:
         run: pnpm install
 
       - name: Test Frontend
+        env:
+          # Adding HOME=/root is necessary for checks that $HOME, $XDG_RUNTIME_DIR
+          # and $XAUTHORITY are owned by the current user (in GH Workflows + Playwright)
+          HOME: /root
+          CI: true
         working-directory: ${{inputs.working_dir}}
         run: pnpm run ${{inputs.run_command}}
