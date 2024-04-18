@@ -51,23 +51,23 @@ plugins:
 nav:
   - Home: index.md
   - Intro to Workflows: intro.md
-  - Containers:
+  - Build & Deploy (Containers):
       - Image Build: image_build.md
       - Image Artifact: image_artifact.md
       - Remote Deploy: remote_deploy.md
       - Get Env Vars: env_vars.md
       - Image Multi-Arch: image_build_multi.md
-  - Tests:
+  - Running Tests:
       - Compose: test_compose.md
       - PyTest: test_pytest.md
       - PNPM: test_pnpm.md
-  - Docs:
+  - Updating Docs:
       - MkDocs Build: mkdocs_build.md
       - Doxygen Build: doxygen_build.md
       - OpenAPI Build: openapi_build.md
       - Stories Build: stories_build.md
       - Wiki Build: wiki.md
-  - Publishing:
+  - Publishing Packages:
       - PyPi Publish: pypi_publish.md
       - NPM Publish: npm_publish.md
       - Python App Version: py_app_version.md
