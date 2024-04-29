@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1 (2024-04-29)
+
+### Fix
+
+- add WITH_MONITORING as image build arg until pass in fixed
+
 ## 1.5.0 (2024-04-10)
 
 ### Feat
