@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.2 (2024-05-29)
+
+### Refactor
+
+- update WITH_MONITORING var --> MONITORING for docker builds
+
 ## 1.5.1 (2024-04-29)
 
 ### Fix

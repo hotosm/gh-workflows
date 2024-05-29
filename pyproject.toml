@@ -27,7 +27,7 @@ docs = [
 ]
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "1.5.1"
+version = "1.5.2"
 version_files = [
     "pyproject.toml:version",
 ]
