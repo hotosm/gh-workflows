@@ -172,7 +172,7 @@ jobs:
             COMMIT_REF=${{ github.sha }}
             VITE_API_URL=${{ vars.VITE_API_URL }}
             NODE_ENV=${{ vars.NODE_ENV || 'production' }}
-            WITH_MONITORING=${{ vars.WITH_MONITORING }}
+            MONITORING=${{ vars.MONITORING }}
             ${{ inputs.extra_build_args }}
           labels: ${{ steps.meta.outputs.labels }}
           # cache-from: ${{ inputs.cache == 'true' && 'type=gha' || '' }}
