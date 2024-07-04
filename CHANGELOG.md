@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0 (2024-07-04)
+
+### Feat
+
+- upgrade to latest action versions (except artifact upload)
+
 ## 1.5.2 (2024-05-29)
 
 ### Refactor
