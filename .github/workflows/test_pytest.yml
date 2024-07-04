@@ -55,13 +55,13 @@ jobs:
       cache-hit: ${{ steps.image-cache.outputs.cache-hit }}
     steps:
       - id: image-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/images
           key: image-cache-${{ runner.os }}
 
   test-img-build:
-    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.4.0
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.6.0
     needs: [check-img-cache]
     if: ${{ needs.check-img-cache.outputs.cache-hit != 'true' }}
     with:
@@ -91,7 +91,7 @@ jobs:
 
       - id: image-cache
         if: ${{ inputs.cache_image }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /tmp/images
           key: image-cache-${{ runner.os }}

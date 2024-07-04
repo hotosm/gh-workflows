@@ -151,7 +151,7 @@ jobs:
 
       - name: Build Container Image
         id: container-build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.context }}
           file: ${{ inputs.context }}/${{ inputs.dockerfile }}
@@ -196,7 +196,7 @@ jobs:
 
     steps:
       - name: Scan Container Image
-        uses: aquasecurity/trivy-action@0.14.0
+        uses: aquasecurity/trivy-action@0.23.0
         with:
           image-ref: ${{ needs.build-image.outputs.image_name }}
           format: "table"
