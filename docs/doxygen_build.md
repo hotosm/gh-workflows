@@ -47,12 +47,12 @@ on:
 
 jobs:
   build_doxygen:
-    uses: hotosm/gh-workflows/.github/workflows/doxygen_build.yml@1.4.0
+    uses: hotosm/gh-workflows/.github/workflows/doxygen_build.yml@1.6.0
     with:
       output_path: docs/apidocs
 
   publish_docs:
-    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.4.0
+    uses: hotosm/gh-workflows/.github/workflows/mkdocs_build.yml@1.6.0
     needs:
       - build_doxygen
     with:

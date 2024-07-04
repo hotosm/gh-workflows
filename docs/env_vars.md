@@ -34,12 +34,12 @@ No secrets.
 
 ```yaml
 get-env-vars:
-  uses: hotosm/gh-workflows/.github/workflows/env_vars.yml@1.4.0
+  uses: hotosm/gh-workflows/.github/workflows/env_vars.yml@1.6.0
   with:
     environment: ${{ github.ref_name }}
 
 frontend-build:
-  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.4.0
+  uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.6.0
   needs:
     - frontend-tests
     - get-env-vars
