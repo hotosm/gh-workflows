@@ -265,6 +265,7 @@ jobs:
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
       # Run the tests via a pre-configured docker compose service
+      # For --no-TTY explanation, see: https://github.com/actions/runner-images/issues/5022
       - name: Run Tests
         if: ${{ ! inputs.coverage }}
         run: |
