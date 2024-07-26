@@ -60,4 +60,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ${{ inputs.output_path }}
-          key: build
+          name: build

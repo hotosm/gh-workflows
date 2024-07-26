@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: /tmp/images
-          key: images
+          name: images
