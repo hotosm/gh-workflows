@@ -1,4 +1,4 @@
-# Remote Deploy
+# Remote Deploy (Docker Compose)
 
 Deploy to a remote server using docker compose and SSH keys.
 
@@ -71,7 +71,7 @@ deploy-containers:
   needs:
     - smoke-test-backend
     - smoke-test-frontend
-  uses: hotosm/gh-workflows/.github/workflows/remote_deploy.yml@main
+  uses: hotosm/gh-workflows/.github/workflows/remote_deploy_compose.yml@main
   with:
     environment: ${{ github.ref_name }}
     docker_compose_file: "docker-compose.${{ github.ref_name }}.yml"
