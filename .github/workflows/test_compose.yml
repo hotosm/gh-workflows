@@ -9,6 +9,11 @@ on:
         description: "The image root name, without tag. E.g. 'ghcr.io/[dollar]{{ github.repository }}'"
         required: true
         type: string
+      build_img:
+        description: "If the image must be built first, or false to just pull."
+        required: false
+        type: boolean
+        default: true
       build_context:
         description: "Root directory to start the build from."
         required: false
@@ -82,9 +87,10 @@ permissions:
   packages: write
 
 jobs:
+  # Get cached images from previous runs (when running multiple times)
   check-img-cache:
     runs-on: ubuntu-latest
-    if: ${{ inputs.cache_extra_imgs || inputs.cache_image }}
+    if: ${{ inputs.build_img && inputs.cache_image }}
     environment:
       name: ${{ inputs.environment }}
     outputs:
@@ -96,10 +102,12 @@ jobs:
           path: /tmp/images
           key: image-cache-${{ runner.os }}
 
+  # Build the test image if required (unless `inputs.build_img: false`)
   test-img-build:
     uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.6.0
     needs: [check-img-cache]
-    if: ${{ needs.check-img-cache.outputs.cache-hit != 'true' }}
+    # Only build if no cached image is found
+    if: ${{ inputs.build_img && needs.check-img-cache.outputs.cache-hit != 'true' }}
     with:
       context: ${{ inputs.build_context }}
       dockerfile: ${{ inputs.build_dockerfile }}
@@ -132,6 +140,7 @@ jobs:
           path: /tmp/images
           key: image-cache-${{ runner.os }}
 
+      # Cache the newly built image, plus extra images used in the compose file
       - name: Save Local Images
         if: ${{ (inputs.cache_extra_imgs || inputs.cache_image) && steps.image-cache.outputs.cache-hit != 'true' }}
         run: |
@@ -177,6 +186,7 @@ jobs:
               done
           fi
 
+      # Load the cached image .tar files via `docker image load`
       - name: Load Cached Imgs
         if: ${{ (inputs.cache_extra_imgs || inputs.cache_image) && steps.image-cache.outputs.cache-hit == 'true' }}
         run: |
@@ -199,6 +209,8 @@ jobs:
               echo "TAG_OVERRIDE=${image_tag}" >> $GITHUB_ENV
           fi
 
+      # Extract repo vars/secrets into environment variables for the next step
+      # NOTE it may look like secrets are exposed, but they are hidden in the GUI
       - name: Vars and Secrets to Env
         env:
           TAG_OVERRIDE: ${{ env.TAG_OVERRIDE || 'ci-development' }}
@@ -226,6 +238,8 @@ jobs:
             echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
           fi
 
+      # From generated environment variables, create a `.env` file in repo root
+      # If a .env.example exists, the variables are substituted in from Github env
       - name: Create .env file
         env:
           EXAMPLE_DOTENV: ${{ inputs.example_env_file_path }}
@@ -250,10 +264,12 @@ jobs:
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
+      # Run the tests via a pre-configured docker compose service
       - name: Run Tests
         if: ${{ ! inputs.coverage }}
         run: |
           ${{ inputs.pre_command }}
+
           docker compose --file ${{ inputs.compose_file }} \
             run --no-TTY \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
@@ -262,6 +278,7 @@ jobs:
         if: ${{ inputs.coverage }}
         run: |
           ${{ inputs.pre_command }}
+
           docker compose --file ${{ inputs.compose_file }} \
             run --no-TTY --entrypoint "sh -c" \
             --volume ${{ github.workspace }}/coverage:/tmp/coverage \
