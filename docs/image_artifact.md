@@ -59,7 +59,6 @@ jobs:
         ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
         ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}
         docker.io/minio/minio:${{ vars.MINIO_TAG }}
-      artifact_name: images
 
   run-pytest:
     runs-on: ubuntu-latest
@@ -73,9 +72,8 @@ jobs:
 
       - name: Download Images Tars
         id: download-images
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: images
           path: /tmp/images
 
       - name: Load Tar Imgs
