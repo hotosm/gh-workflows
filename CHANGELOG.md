@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.0.0 (2024-07-26)
+
+### BREAKING CHANGE
+
+- Rename to workflow remote_deploy (allow for other remote deploy types)
+
+### Feat
+
+- add option to not build image for test_compose
+
+### Fix
+
+- make compose_command not mandatory for test_compose
+- add check if envsubst download success, else exit workflow
+
+### Refactor
+
+- rename remote_deploy --> remote_deploy_compose
+
 ## 1.6.0 (2024-07-04)
 
 ### Feat
