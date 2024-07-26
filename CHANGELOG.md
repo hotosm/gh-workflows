@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.1 (2024-07-26)
+
+### Fix
+
+- artifact-upload key --> name variable
+
+### Refactor
+
+- rename stories_build to more generic pnpm_build
+- replace upload/download artifact workflows with v4
+
 ## 2.0.0 (2024-07-26)
 
 ### BREAKING CHANGE
