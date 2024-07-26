@@ -83,12 +83,12 @@ jobs:
           filename: .github/workflows/pypi_publish.yml
           output: docs/pypi_publish.md
 
-      - name: Document remote_deploy
+      - name: Document remote_deploy_compose
         uses: tj-actions/auto-doc@v3
         with:
           reusable: true
-          filename: .github/workflows/remote_deploy.yml
-          output: docs/remote_deploy.md
+          filename: .github/workflows/remote_deploy_compose.yml
+          output: docs/remote_deploy_compose.md
 
       - name: Document stories_build
         uses: tj-actions/auto-doc@v3
@@ -132,32 +132,15 @@ jobs:
           pre-commit run --all-files || true
 
       - name: Verify Changed Files
-        uses: tj-actions/verify-changed-files@v8.6
+        uses: tj-actions/verify-changed-files@v20
         id: verify-changed-files
         with:
           files: |
-            docs/index.md
-            docs/intro.md
-            docs/doxygen_build.md
-            docs/env_vars.md
-            docs/image_artifact.md
-            docs/image_build.md
-            docs/image_build_multi.md
-            docs/mkdocs_build.md
-            docs/npm_publish.md
-            docs/openapi_build.md
-            docs/py_app_version.md
-            docs/pypi_publish.md
-            docs/remote_deploy.md
-            docs/stories_build.md
-            docs/test_pnpm.md
-            docs/test_compose.md
-            docs/test_pytest.md
-            docs/wiki.md
+            docs/*.md
 
       - name: Create Pull Request
         if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v6
         with:
           base: "main"
           title: "auto-doc: updated workflows docs"
