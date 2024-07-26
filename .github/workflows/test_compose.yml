@@ -60,8 +60,8 @@ on:
         required: true
         type: string
       compose_command:
-        description: "The command to run within the docker compose service."
-        required: true
+        description: "The command to run for the container. Default to built-in image command."
+        required: false
         type: string
       coverage:
         description: "Generate a coverage HTML report (requires coverage.py installed)."
