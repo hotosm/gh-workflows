@@ -4,9 +4,13 @@ on:
   workflow_call:
     inputs:
       output_path:
-        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
+        description: "If specified, the output dir is uploaded named `artifact`."
         required: false
         type: string
+    outputs:
+      artifact_name:
+        description: "The artifact name (default: `artifact`)."
+        value: "artifact"
 
 jobs:
   build_doxygen:
@@ -25,14 +29,15 @@ jobs:
         working-directory: docs
         run: doxygen
 
-      - name: Zip Artifact Dir
-        if: ${{ inputs.output_path }}
-        run: |
-          tar -cvzf doxygen.tar.gz ${{ inputs.output_path }}
+      # TODO check if this is required since upload-artifact v4
+      # - name: Zip Artifact Dir
+      #   if: ${{ inputs.output_path }}
+      #   run: |
+      #     tar -cvzf doxygen.tar.gz ${{ inputs.output_path }}
 
       - name: Upload Artifact Dir
         if: ${{ inputs.output_path }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: extra-docs-files
-          path: doxygen.tar.gz
+          path: ${{ inputs.output_path }}
+          key: doxygen

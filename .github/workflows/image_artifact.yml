@@ -7,14 +7,10 @@ on:
         description: "A space separated list of full image names to upload, including tag."
         required: true
         type: string
-      artifact_name:
-        description: "The artifact name to use, e.g. images."
-        required: true
-        type: string
     outputs:
       artifact_name:
-        description: "The artifact name used during input."
-        value: ${{ inputs.artifact_name }}
+        description: "The artifact name (default: `artifact`)."
+        value: "artifact"
 
 jobs:
   package-and-upload:
@@ -53,7 +49,7 @@ jobs:
           done
 
       - name: Upload Artifact Dir
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact_name }}
           path: /tmp/images
+          key: images

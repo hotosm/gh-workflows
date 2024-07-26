@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       output_path:
-        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
+        description: "If specified, the output dir is uploaded to the `artifact` key."
         required: false
         type: string
 
@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload Artifact Dir
         if: ${{ inputs.output_path }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: extra-docs-files
           path: ${{ inputs.output_path }}
+          key: openapi

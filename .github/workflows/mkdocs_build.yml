@@ -13,16 +13,19 @@ on:
         required: false
         type: boolean
         default: false
+      # TODO refactor to use single variable `include_artifacts`
       doxygen:
-        description: "Include doxygen output uploaded to extra-docs-files artifact."
+        description: "Include doxygen output uploaded to `artifact` key."
         required: false
         type: string
+      # TODO refactor to use single variable `include_artifacts`
       openapi:
-        description: "Include openapi output uploaded to extra-docs-files artifact."
+        description: "Include openapi output uploaded to `artifact` key."
         required: false
         type: string
-      stories:
-        description: "Include story build output uploaded to extra-docs-files artifact."
+      # TODO refactor to a single variable `include_artifacts`
+      include_artifacts:
+        description: "Include all uploaded artifacts from the workflow."
         required: false
         type: string
 
@@ -39,23 +42,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Append Extra Files
-        if: ${{ inputs.doxygen || inputs.openapi || inputs.stories }}
-        uses: actions/download-artifact@v3
+        if: ${{ inputs.include_artifacts || inputs.doxygen || inputs.openapi }}
+        uses: actions/download-artifact@v4
         with:
-          name: extra-docs-files
+          # Default downloads all available artifacts to path
           path: docs/
 
-      - name: Extract Doxygen Zip
-        if: ${{ inputs.doxygen }}
-        run: |
-          tar -xvzf docs/doxygen.tar.gz
-          rm docs/doxygen.tar.gz
+      # TODO remove if zip is not required for upload
+      # - name: Extract Doxygen Zip
+      #   if: ${{ inputs.doxygen }}
+      #   run: |
+      #     tar -xvzf docs/doxygen.tar.gz
+      #     rm docs/doxygen.tar.gz
 
-      - name: Extract Stories Zip
-        if: ${{ inputs.stories }}
-        run: |
-          tar -xvzf docs/stories.tar.gz
-          rm docs/stories.tar.gz
+      # - name: Extract Stories Zip
+      #   if: ${{ inputs.stories }}
+      #   run: |
+      #     tar -xvzf docs/stories.tar.gz
+      #     rm docs/stories.tar.gz
 
       - name: Publish
         run: |

@@ -187,10 +187,10 @@ jobs:
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: digests
           path: /tmp/digests/*
+          key: digest
           if-no-files-found: error
           retention-days: 1
 
@@ -214,9 +214,8 @@ jobs:
     needs: [build-images]
     steps:
       - name: Download Img Digests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: digests
           path: /tmp/digests
 
       - name: Setup Buildx
