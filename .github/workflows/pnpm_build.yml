@@ -1,4 +1,4 @@
-name: Frontend Tests
+name: PNPM Build
 
 on:
   workflow_call:
@@ -13,13 +13,17 @@ on:
         required: true
         type: string
       output_path:
-        description: "If specified, the output dir is uploaded to artifact extra-docs-files."
+        description: "If specified, the output dir is uploaded to a key named `artifact`."
         required: false
         type: string
+    outputs:
+      artifact_name:
+        description: "The artifact name (default: `artifact`)."
+        value: "artifact"
 
 jobs:
-  test:
-    name: Build Stories
+  build:
+    name: PNPM Build
     runs-on: ubuntu-latest
 
     steps:
@@ -41,18 +45,19 @@ jobs:
         working-directory: ${{inputs.working_dir}}
         run: pnpm install
 
-      - name: Build Stories
+      - name: Build
         working-directory: ${{inputs.working_dir}}
         run: pnpm run ${{ inputs.command }}
 
-      - name: Zip Artifact Dir
-        if: ${{ inputs.output_path }}
-        run: |
-          tar -cvzf stories.tar.gz ${{ inputs.output_path }}
+      # TODO check if this is required since upload-artifact v4
+      # - name: Zip Artifact Dir
+      #   if: ${{ inputs.output_path }}
+      #   run: |
+      #     tar -cvzf ${{ inputs.output_key }}.tar.gz ${{ inputs.output_path }}
 
       - name: Upload Artifact Dir
         if: ${{ inputs.output_path }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: extra-docs-files
-          path: stories.tar.gz
+          path: ${{ inputs.output_path }}
+          key: build

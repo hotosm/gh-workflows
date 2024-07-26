@@ -50,7 +50,7 @@ on:
 
 jobs:
   build_stories:
-    uses: hotosm/gh-workflows/.github/workflows/stories_build.yml@1.6.0
+    uses: hotosm/gh-workflows/.github/workflows/pnpm_build.yml@1.6.0
     with:
       npm_cmd: build:docs
       output_path: docs/stories

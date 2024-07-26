@@ -65,7 +65,7 @@ nav:
       - MkDocs Build: mkdocs_build.md
       - Doxygen Build: doxygen_build.md
       - OpenAPI Build: openapi_build.md
-      - Stories Build: stories_build.md
+      - PNPM Build: pnpm_build.md
       - Wiki Build: wiki.md
   - Publishing Packages:
       - PyPi Publish: pypi_publish.md
