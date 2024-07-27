@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4 (2024-07-27)
+
+### Fix
+
+- add extra step for pnpm_build to configure gh-pages
+
 ## 2.0.3 (2024-07-27)
 
 ### Fix
