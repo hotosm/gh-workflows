@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2 (2024-07-27)
+
+### Fix
+
+- add option to upload pnpm_artifact in gh-pages format
+
 ## 2.0.1 (2024-07-26)
 
 ### Fix
