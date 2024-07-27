@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.3 (2024-07-27)
+
+### Fix
+
+- add stage to deploy gh-pages directly to pnpm_build workflow
+
 ## 2.0.2 (2024-07-27)
 
 ### Fix
