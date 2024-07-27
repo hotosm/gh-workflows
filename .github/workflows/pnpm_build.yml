@@ -13,13 +13,17 @@ on:
         required: true
         type: string
       output_path:
-        description: "If specified, the output dir is uploaded to a key named `artifact`."
+        description: "The output path is uploaded to a key named `artifact`."
         required: false
         type: string
+      github_pages:
+        description: "Upload in format specific for Github Pages `actions/deploy-pages`."
+        type: boolean
+        default: false
     outputs:
       artifact_name:
         description: "The artifact name (default: `artifact`)."
-        value: "artifact"
+        value: "build"
 
 jobs:
   build:
@@ -56,8 +60,14 @@ jobs:
       #     tar -cvzf ${{ inputs.output_key }}.tar.gz ${{ inputs.output_path }}
 
       - name: Upload Artifact Dir
-        if: ${{ inputs.output_path }}
+        if: ${{ inputs.output_path && !inputs.github_pages }}
         uses: actions/upload-artifact@v4
         with:
           path: ${{ inputs.output_path }}
           name: build
+
+      - name: Upload GH Pages Artifact
+        if: ${{ inputs.output_path && inputs.github_pages }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ inputs.output_path }}

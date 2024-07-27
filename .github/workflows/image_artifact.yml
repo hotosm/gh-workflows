@@ -10,7 +10,7 @@ on:
     outputs:
       artifact_name:
         description: "The artifact name (default: `artifact`)."
-        value: "artifact"
+        value: "images"
 
 jobs:
   package-and-upload:
