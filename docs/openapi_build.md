@@ -10,7 +10,7 @@ Build OpenAPI YAML for use in Swagger or ReDoc documentation sites.
 | ----------------------------------------------------------------------------------------------- | ------ | -------- | ------- | ----------------------------------------------------------------------------------- |
 | <a name="input_example_env_file_path"></a>[example_env_file_path](#input_example_env_file_path) | string | true     |         | FastAPI must start with an <br>environment set. Path to a <br>.env with dummy vars. |
 | <a name="input_image"></a>[image](#input_image)                                                 | string | true     |         | The image to build to <br>OpenAPI JSON (dependencies included, i.e. FastAPI.).      |
-| <a name="input_output_path"></a>[output_path](#input_output_path)                               | string | false    |         | If specified, the output dir <br>is uploaded to artifact extra-docs-files.          |
+| <a name="input_output_path"></a>[output_path](#input_output_path)                               | string | false    |         | If specified, the output dir <br>is uploaded to the `artifact` <br>key.             |
 
 <!-- AUTO-DOC-INPUT:END -->
 
