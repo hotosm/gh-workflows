@@ -63,11 +63,6 @@ on:
         description: "The command to run for the container. Default to built-in image command."
         required: false
         type: string
-      coverage:
-        description: "Generate a coverage HTML report (requires coverage.py installed)."
-        required: false
-        type: boolean
-        default: false
       pre_command:
         description: "A initialisation command to run prior to the docker compose command."
         required: false
@@ -76,6 +71,16 @@ on:
         description: "Path to example dotenv file to substitute variables for."
         type: string
         default: .env.example
+      coverage:
+        description: "Generate a coverage HTML report (requires coverage.py installed)."
+        required: false
+        type: boolean
+        default: false
+      playwright:
+        description: "Upload the Playwright trace files as an artifact for debugging."
+        required: false
+        type: boolean
+        default: false
       environment:
         description: "The environment to use for testing."
         required: false
@@ -267,7 +272,7 @@ jobs:
       # Run the tests via a pre-configured docker compose service
       # For --no-TTY explanation, see: https://github.com/actions/runner-images/issues/5022
       - name: Run Tests
-        if: ${{ ! inputs.coverage }}
+        if: ${{ ! inputs.coverage && ! inputs.playwright }}
         run: |
           ${{ inputs.pre_command }}
 
@@ -275,6 +280,7 @@ jobs:
             run --no-TTY \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
+      # Specific for generating coverage
       - name: Run Tests With Coverage
         if: ${{ inputs.coverage }}
         run: |
@@ -311,3 +317,21 @@ jobs:
           git add .
           git commit -m "docs: update coverage summary and badge" || true
           git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
+
+      # Specific for generating Playwright traces
+      - name: Playwright Tests
+        if: ${{ inputs.playwright }}
+        run: |
+          ${{ inputs.pre_command }}
+
+          docker compose --file ${{ inputs.compose_file }} run \
+            --no-TTY \
+            --volume ${{ github.workspace }}/traces:/app/playwright-report/data \
+            ${{ inputs.compose_service }} ${{ inputs.compose_command }}
+
+      - name: Upload Playwright Traces
+        if: ${{ inputs.playwright }}
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ github.workspace }}/traces
+          name: playwright-traces
