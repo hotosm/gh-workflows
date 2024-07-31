@@ -6,14 +6,10 @@ on:
   workflow_call:
     inputs:
       image_name:
-        description: "The image root name, without tag. E.g. 'ghcr.io/[dollar]{{ github.repository }}'"
-        required: true
-        type: string
-      build_img:
-        description: "If the image must be built first, or false to just pull."
+        description: "The image root name to build, without tag. E.g. 'ghcr.io/[dollar]{{ github.repository }}'"
         required: false
-        type: boolean
-        default: true
+        type: string
+        default: ""
       build_context:
         description: "Root directory to start the build from."
         required: false
@@ -95,7 +91,7 @@ jobs:
   # Get cached images from previous runs (when running multiple times)
   check-img-cache:
     runs-on: ubuntu-latest
-    if: ${{ inputs.build_img && inputs.cache_image }}
+    if: ${{ inputs.image_name != '' && inputs.cache_image }}
     environment:
       name: ${{ inputs.environment }}
     outputs:
@@ -107,12 +103,12 @@ jobs:
           path: /tmp/images
           key: image-cache-${{ runner.os }}
 
-  # Build the test image if required (unless `inputs.build_img: false`)
+  # Build the test image if required (unless `inputs.image_name` is set)
   test-img-build:
     uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.6.0
     needs: [check-img-cache]
     # Only build if no cached image is found
-    if: ${{ inputs.build_img && needs.check-img-cache.outputs.cache-hit != 'true' }}
+    if: ${{ inputs.image_name != '' && needs.check-img-cache.outputs.cache-hit != 'true' }}
     with:
       context: ${{ inputs.build_context }}
       dockerfile: ${{ inputs.build_dockerfile }}
