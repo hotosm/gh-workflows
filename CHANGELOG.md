@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.5 (2024-08-01)
+
+### Fix
+
+- mount playwright-report path correctly in docker
+- run playwright report upload even if tests fail
+- remove build_img var, replace with omitting image_name var
+- add option to upload playwright traces.zip for debugging
+
 ## 2.0.4 (2024-07-27)
 
 ### Fix
