@@ -322,7 +322,7 @@ jobs:
 
           docker compose --file ${{ inputs.compose_file }} run \
             --no-TTY \
-            --volume ${{ github.workspace }}/traces:/app/playwright-report/data \
+            --volume ${{ github.workspace }}/playwright-report:/app/playwright-report \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
       - name: Upload Playwright Report
