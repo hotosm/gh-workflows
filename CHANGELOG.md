@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.6 (2024-10-24)
+
+### Fix
+
+- update trivy scan action with fallback db (rate-limiting)
+
 ## 2.0.5 (2024-08-01)
 
 ### Fix
