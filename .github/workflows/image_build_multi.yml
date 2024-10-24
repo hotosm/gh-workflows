@@ -257,7 +257,7 @@ jobs:
 
     steps:
       - name: Scan Container Image
-        uses: aquasecurity/trivy-action@0.23.0
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ${{ needs.build-images.outputs.image_name }}
           format: "table"
@@ -265,3 +265,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL"
+        # Avoid rate-limiting, see: https://github.com/aquasecurity/trivy-action/issues/389
+        env:
+          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
+          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
