@@ -30,7 +30,7 @@ FROM base as extract-deps
 WORKDIR /opt/python
 COPY pyproject.toml pdm.lock /opt/python/
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir pdm==2.9.3 
+    && pip install --no-cache-dir pdm==2.19.3
 RUN pdm export -G docs > requirements.txt
 
 
