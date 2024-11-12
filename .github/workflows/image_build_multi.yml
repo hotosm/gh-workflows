@@ -56,6 +56,12 @@ on:
         required: false
         type: boolean
         default: true
+      skip_cve:
+        description: "Skip specific CVE from checkcov (override rules)."
+        required: false
+        type: string
+        # Skip mandatory user creation, allow ROOT usage
+        default: "CKV_DOCKER_8,CKV_DOCKER_2,CKV_DOCKER_3,CKV_DOCKER_5"
     outputs:
       image_name:
         description: "The final full image reference."
@@ -78,8 +84,7 @@ jobs:
           file: ${{ inputs.context }}/${{ inputs.dockerfile }} # only run on file
           dockerfile_path: ${{ inputs.context }}/${{ inputs.dockerfile }}
           quiet: true # show only failed checks
-          skip_check: CKV_DOCKER_8,CKV_DOCKER_2,CKV_DOCKER_3,CKV_DOCKER_5
-          # Skip mandatory user creation, allow ROOT usage
+          skip_check: ${{ inputs.skip_cve }}
 
   build-images:
     runs-on: ubuntu-latest
