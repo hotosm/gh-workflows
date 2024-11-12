@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.7 (2024-11-12)
+
+### Feat
+
+- add skip_cve option to img_build workflow
+
 ## 2.0.6 (2024-10-24)
 
 ### Fix
