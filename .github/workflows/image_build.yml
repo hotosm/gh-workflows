@@ -165,11 +165,12 @@ jobs:
           tags: ${{ inputs.image_tags || steps.meta.outputs.tags }}
           # TODO fix to allow passing all env vars and secrets (currently hardcoded)
           # vars_and_secrets correctly loads to `env.` context, but
-          # passing into build-args doesn't work
+          # passing into extra_build_args as build-args doesn't work
           build-args: |
             APP_VERSION=${{ github.ref_name }}
             COMMIT_REF=${{ github.sha }}
             VITE_API_URL=${{ vars.VITE_API_URL }}
+            VITE_SYNC_URL=${{ vars.VITE_SYNC_URL }}
             NODE_ENV=${{ vars.NODE_ENV || 'production' }}
             MONITORING=${{ vars.MONITORING }}
             ${{ inputs.extra_build_args }}
