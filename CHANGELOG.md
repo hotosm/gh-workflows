@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.8 (2024-11-13)
+
+### Fix
+
+- hardcode VITE_SYNC_URL param until all env var loading works
+
 ## 2.0.7 (2024-11-12)
 
 ### Feat
