@@ -78,7 +78,7 @@ jobs:
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
-      - uses: webfactory/ssh-agent@v0.8.0
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: "${{ secrets.SSH_PRIVATE_KEY }}"
 

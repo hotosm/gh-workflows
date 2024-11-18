@@ -105,7 +105,7 @@ jobs:
 
   # Build the test image if required (unless `inputs.image_name` is set)
   test-img-build:
-    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@1.6.0
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@2.0.8
     needs: [check-img-cache]
     # Only build if no cached image is found
     if: ${{ inputs.image_name != '' && needs.check-img-cache.outputs.cache-hit != 'true' }}
