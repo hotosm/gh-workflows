@@ -74,6 +74,6 @@ deploy-containers:
   uses: hotosm/gh-workflows/.github/workflows/remote_deploy_compose.yml@main
   with:
     environment: ${{ github.ref_name }}
-    docker_compose_file: "compose.${{ github.ref_name }}.yaml"
+    docker_compose_file: "docker.compose.${{ github.ref_name }}.yml"
   secrets: inherit
 ```
