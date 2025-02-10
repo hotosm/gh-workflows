@@ -1,0 +1,58 @@
+name: Configure AWS Credentials
+description: Configures AWS Credentials via OIDC Policy or Access Keys. Creates aws config file with fetched keys which can be later passed to container based actions.
+
+inputs:
+  AWS_ACCESS_KEY_ID:
+    required: false
+    description: "AWS_ACCESS_KEY_ID for accessing AWS"
+  AWS_SECRET_ACCESS_KEY:
+    required: false
+    description: "AWS_SECRET_ACCESS_KEY for accessing AWS"
+  USE_OIDC_FOR_AWS:
+    required: false
+    default: 'false'
+    description: "Use Github OIDC for AWS authentication"
+  AWS_OIDC_ROLE_ARN:
+    required: false
+    description: "OIDC role to assume"
+  AWS_CONFIG_FILE_PATH:
+    required: false
+    default: '.aws/credentials'
+    description: "Write aws credentials to file"
+  AWS_REGION: 
+    description: "AWS Region"
+    required: false
+    default: "ap-south-1"
+
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      if: ${{ inputs.USE_OIDC_FOR_AWS }} == 'true'
+      with:
+        audience: sts.amazonaws.com
+        aws-region: ${{ inputs.AWS_REGION }}
+        role-session-name: GH-Actions-${{ github.run_id }}-${{ github.run_attempt }}
+        role-to-assume: ${{ inputs.AWS_OIDC_ROLE_ARN }}
+
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      if: ${{ inputs.USE_OIDC_FOR_AWS }} == 'false'
+      with:
+        aws-region: ${{ inputs.AWS_REGION }}
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Create AWS Credentials
+      if: ${{ inputs.USE_OIDC_FOR_AWS }} == 'true'
+      shell: bash
+      run: |
+        mkdir -p .aws
+        cat >> ${{ inputs.AWS_CONFIG_FILE_PATH }} << EOF
+        [default]
+        aws_access_key_id = $AWS_ACCESS_KEY_ID
+        aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
+        aws_session_token = $AWS_SESSION_TOKEN
+        EOF
