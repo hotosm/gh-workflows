@@ -64,8 +64,8 @@ on:
       encrypt_plan_file:
         description: "Encrypt plan file uploaded to Github Artifacts or S3 with openssl. secrets.PLAN_FILE_ENCRYPTION_SECRET is required."
         required: false
-        type: string
-        default: "false"
+        type: boolean
+        default: false
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
@@ -123,13 +123,14 @@ jobs:
           fi
 
       - name: Setup AWS Credentials
-        uses: ./.github/actions/configure_aws_credentials # Using directory for now replace with version/tag later
+        uses: hotosm/gh-workflows/.github/actions/configure_aws_credentials@configure_aws_credentials/1.0.0
         with:
           USE_OIDC_FOR_AWS: ${{inputs.aws_use_oidc }}
           AWS_CONFIG_FILE_PATH: ${{ github.workspace }}/.aws/credentials
           AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
           AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
           AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          AWS_REGION: ${{ inputs.AWS_REGION }}
 
       - name: Get output file directory name
         id: output_file_name
@@ -167,14 +168,16 @@ jobs:
         if: ${{ inputs.encrypt_plan_file == true }}
         shell: bash
         run: |
-          if [[ -z ${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }} ]]
+          if [[ -z "${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}" ]]
           then
             SECRET_ENC_KEY=UNSAFESTRINGUSEDUSECUSTOMSECRETKEY
           else
             SECRET_ENC_KEY=${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}
           fi
+          echo "Unencrypted Plan SHASUM: $(shasum ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)"
           openssl enc -aes-256-ctr -pbkdf2 -salt -in ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out -out ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out.enc -pass pass:"${SECRET_ENC_KEY}"
           cp ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out.enc ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
+          echo "Encrypted Plan SHASUM: $(shasum ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)"
 
       - name: Push plan to s3
         if: ${{ inputs.use_gh_artifacts == false }}

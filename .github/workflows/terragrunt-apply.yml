@@ -11,6 +11,11 @@ on:
         description: "URL that gets deployed with Github environment."
         required: false
         type: string
+      load_env:
+        description: "Load environment variables from GitHub Variables and Secret context."
+        required: false
+        type: boolean
+        default: true
       working_dir:
         description: "Directory containing root terragrunt.hcl"
         required: false
@@ -60,8 +65,8 @@ on:
       decrypt_plan_file:
         description: "Decrypt plan file uploaded to Github Artifacts or S3 with openssl. Use if encrypt_plan_file true on plan workflow. secrets.PLAN_FILE_ENCRYPTION_SECRET is required."
         required: false
-        type: string
-        default: "false"
+        type: boolean
+        default: false
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
@@ -87,14 +92,43 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Load Environment from GitHub variables & secrets.
+        shell: bash
+        if: ${{ inputs.load_env == true }}
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: |
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set vars to env for next step
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
+
+          # Set VARS_CONTEXT if not null
+          if [ "${VARS_CONTEXT}" != "null" ]; then
+            echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+          # Set SECRETS_CONTEXT if not null
+          if [ "${SECRETS_CONTEXT}" != "null" ]; then
+            echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
       - name: Setup AWS Credentials
-        uses: ./.github/actions/configure_aws_credentials # Using directory for now replace with version/tag later
+        uses: hotosm/gh-workflows/.github/actions/configure_aws_credentials@configure_aws_credentials/1.0.0
         with:
           USE_OIDC_FOR_AWS: ${{inputs.aws_use_oidc }}
           AWS_CONFIG_FILE_PATH: ${{ github.workspace }}/.aws/credentials
           AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
           AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
           AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          AWS_REGION: ${{ inputs.AWS_REGION }}
 
       - name: Get Plan form S3
         if: ${{ inputs.use_gh_artifacts == false }}
@@ -125,14 +159,16 @@ jobs:
         shell: bash
         run: |
           set -e
-          if [[ -z ${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }} ]]
+          if [[ -z "${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}" ]]
           then
             SECRET_ENC_KEY=UNSAFESTRINGUSEDUSECUSTOMSECRETKEY
           else
             SECRET_ENC_KEY=${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}
           fi
+          echo "Encrypted Plan SHASUM: $(shasum ${{ inputs.working_dir }}${{ inputs.plan_file_name }}.plan.out)"
           cp ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out.enc
           openssl enc -d -aes-256-ctr -pbkdf2 -in ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out.enc -out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out -pass pass:"${SECRET_ENC_KEY}"
+          echo "Unencrypted Plan SHASUM: $(shasum ${{ inputs.working_dir }}${{ inputs.plan_file_name }}.plan.out)"
 
       - name: Terragrunt Apply
         uses: gruntwork-io/terragrunt-action@v2
