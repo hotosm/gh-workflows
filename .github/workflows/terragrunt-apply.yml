@@ -1,0 +1,126 @@
+name: Terragrunt Apply
+
+on:
+  workflow_call:
+    inputs:
+      environment_name:
+        description: "The Github environment name to get variables from. Default repository vars."
+        required: false
+        type: string
+      environment_url:
+        description: "URL that gets deployed with Github environment."
+        required: false
+        type: string
+      working_dir:
+        description: "Directory containing root terragrunt.hcl"
+        required: false
+        default: ${{ github.workspace }}
+        type: string
+      plan_file_name:
+        description: "Enter Terragrunt Plan File name to run. If using s3 as artifact store pass s3 path here. Ex: naxa-ci-artifacts/some-prefix/plan"
+        required: true
+        type: string
+      terraform_version:
+        description: "Terraform Version"
+        required: false
+        default: "1.6.0"
+        type: string
+      opentofu_version:
+        description: "Open Tofu Version"
+        required: false
+        default: "1.6.0"
+        type: string
+      terragrunt_version:
+        description: "Terragrunt Version"
+        required: false
+        default: "0.54.12"
+        type: string
+      aws_use_oidc:
+        description: "Prefer AWS OIDC auth"
+        default: "true"
+        type: string
+      aws_region:
+        description: "AWS Region"
+        required: false
+        default: "ap-south-1"
+        type: string
+      aws_access_key_id:
+        description: "AWS_ACCESS_KEY_ID required if not aws_use_oidc"
+        required: false
+        type: string
+      aws_secret_access_key:
+        description: "AWS_SECRET_ACCESS_KEY required if not aws_use_oidc"
+        required: false
+        type: string
+      use_gh_artifacts:
+        description: "Use GitHub Artifacts to store plan file"
+        required: false
+        default: true
+        type: boolean
+
+env:
+  AWS_REGION: ${{ inputs.aws_region }}
+  tofu_version: ${{ inputs.opentofu_version }}
+  tf_version: ${{ inputs.terraform_version }}
+  tg_version: ${{ inputs.terragrunt_version }}
+  working_dir: ${{ inputs.working_dir }}
+
+jobs:
+  apply:
+    name: Apply Terragrunt Plan File
+    runs-on: "ubuntu-latest"
+
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.environment_url }}
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup AWS Credentials
+        uses: ./.github/actions/configure_aws_credentials # Using directory for now replace with version/tag later
+        with:
+          USE_OIDC_FOR_AWS: ${{inputs.aws_use_oidc }}
+          AWS_CONFIG_FILE_PATH: ${{ github.workspace }}/.aws/credentials
+          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+          AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+
+      - name: Get Plan form S3
+        if: ${{ inputs.use_gh_artifacts == false }}
+        run: |
+          aws s3 cp s3://${{ inputs.plan_file_name }}.plan.out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out
+
+      - name: Extract Artifact Run ID
+        if: ${{ inputs.use_gh_artifacts == true }}
+        id: extract_artifact_run_id
+        shell: bash
+        run: |
+          result=$(echo "${{ inputs.plan_file_name }}" | awk -F'-' '{print $(NF-1)}')
+          echo "ARTIFACT_RUN_ID=$result" >> $GITHUB_OUTPUT
+
+      - name: Get Plan from GitHub Artifacts
+        if: ${{ inputs.use_gh_artifacts == true }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.plan_file_name }}
+          path: ${{ inputs.working_dir }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.extract_artifact_run_id.outputs.ARTIFACT_RUN_ID }}
+
+      - name: Terragrunt Apply
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
+          INPUT_PRE_EXEC_1: export TERRAGRUNT_GIT_REPO_NAME=${{ github.event.repository.name }}
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: apply ${{ inputs.plan_file_name }}.plan.out

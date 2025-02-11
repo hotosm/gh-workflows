@@ -1,0 +1,180 @@
+name: Terragrunt Plan
+
+on:
+  workflow_call:
+    inputs:
+      environment_name:
+        description: "The Github environment name to get variables from. Default repository vars."
+        required: false
+        type: string
+      environment_url:
+        description: "URL that gets deployed with Github environment."
+        required: false
+        type: string
+      load_env:
+        description: "Load environment variables from GitHub Variables and Secret context."
+        required: false
+        type: boolean
+        default: true
+      working_dir:
+        description: "Directory containing root terragrunt.hcl"
+        required: true
+        type: string
+      terraform_version:
+        description: "Terraform Version"
+        required: false
+        default: "1.6.0"
+        type: string
+      opentofu_version:
+        description: "Open Tofu Version"
+        required: false
+        default: "1.6.0"
+        type: string
+      terragrunt_version:
+        description: "Terragrunt Version"
+        required: false
+        default: "0.54.12"
+        type: string
+      aws_use_oidc:
+        description: "Prefer AWS OIDC auth"
+        default: "true"
+        type: string
+      aws_region:
+        description: "AWS Region"
+        required: false
+        default: "ap-south-1"
+        type: string
+      aws_access_key_id:
+        description: "AWS_ACCESS_KEY_ID required if not aws_use_oidc"
+        required: false
+        type: string
+      aws_secret_access_key:
+        description: "AWS_SECRET_ACCESS_KEY required if not aws_use_oidc"
+        required: false
+        type: string
+      use_gh_artifacts:
+        description: "Use GitHub Artifacts to store plan file"
+        required: false
+        default: true
+        type: boolean
+      aws_ci_artifact_bucket_path:
+        description: "AWS CI Artifact Bucket Name and Path. Ex: naxa-ci-artifacts/some-prefix. Required if use_gh_artifacts is false"
+        required: false
+        type: string
+
+env:
+  AWS_REGION: ${{ inputs.aws_region }}
+  tofu_version: ${{ inputs.opentofu_version }}
+  tf_version: ${{ inputs.terraform_version }}
+  tg_version: ${{ inputs.terragrunt_version }}
+  working_dir: ${{ inputs.working_dir }}
+
+jobs:
+  plan:
+    name: Create Terragrunt Plan File
+    runs-on: "ubuntu-latest"
+
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.environment_url }}
+
+    permissions:
+      id-token: write
+      contents: read
+
+    outputs:
+      PLAN_FILE_NAME: ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Load Environment from GitHub variables & secrets.
+        shell: bash
+        if: ${{ inputs.load_env == true }}
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: |
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set vars to env for next step
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
+
+          # Set VARS_CONTEXT if not null
+          if [ "${VARS_CONTEXT}" != "null" ]; then
+            echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+          # Set SECRETS_CONTEXT if not null
+          if [ "${SECRETS_CONTEXT}" != "null" ]; then
+            echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+      - name: Setup AWS Credentials
+        uses: ./.github/actions/configure_aws_credentials # Using directory for now replace with version/tag later
+        with:
+          USE_OIDC_FOR_AWS: ${{inputs.aws_use_oidc }}
+          AWS_CONFIG_FILE_PATH: ${{ github.workspace }}/.aws/credentials
+          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+          AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+
+      - name: Get output file directory name
+        id: output_file_name
+        run: |
+          export PLAN_FILE_NAME=${{ github.event.repository.name }}-${{ github.run_id }}-${{github.run_attempt}}
+          mkdir -p ${{env.working_dir}}/$PLAN_FILE_NAME
+          export USERID=$(id -u)
+          echo USERID=$USERID >> $GITHUB_OUTPUT
+          echo PLAN_FILE_S3_PATH=${{ inputs.aws_ci_artifact_bucket_path }}/$PLAN_FILE_NAME/$PLAN_FILE_NAME >> $GITHUB_OUTPUT
+          echo PLAN_FILE_NAME=$PLAN_FILE_NAME >> $GITHUB_OUTPUT
+
+      - name: Terragrunt Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
+          INPUT_PRE_EXEC_1: export TERRAGRUNT_GIT_REPO_NAME=${{ github.event.repository.name }}
+          INPUT_POST_EXEC_1: sudo chown -R ${{ steps.output_file_name.outputs.USERID }}:${{ steps.output_file_name.outputs.USERID }} .
+          INPUT_POST_EXEC_2: sudo chmod -R ugo+w .
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: plan -out ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}/${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
+
+      - name: Get Plan File Path
+        id: get_plan_file_path
+        shell: bash
+        run: |
+          find_path=$(find ${{env.working_dir}} -iname ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)
+          cp -rp $find_path ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
+          echo PLAN_FILE_LOCAL_PATH=$find_path >> $GITHUB_OUTPUT
+
+      - name: Push plan to s3
+        if: ${{ inputs.use_gh_artifacts == false }}
+        run: |
+          aws s3 cp ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out s3://${{ inputs.aws_ci_artifact_bucket_path }}/${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}/${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
+
+      - name: Upload Plan to GitHub Artifacts
+        if: ${{ inputs.use_gh_artifacts == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}
+          path: ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
+          retention-days: 1
+
+      - name: Echo Plan name
+        shell: bash
+        run: |
+          if [ "${{ inputs.use_gh_artifacts }}" == "true" ]; then
+            echo "Plan file name => ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}"
+          else
+            echo "Plan file name => ${{ steps.output_file_name.outputs.PLAN_FILE_S3_PATH }}"
+          fi
