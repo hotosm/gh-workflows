@@ -61,6 +61,11 @@ on:
         description: "AWS CI Artifact Bucket Name and Path. Ex: naxa-ci-artifacts/some-prefix. Required if use_gh_artifacts is false"
         required: false
         type: string
+      encrypt_plan_file:
+        description: "Encrypt plan file uploaded to Github Artifacts or S3 with openssl. secrets.PLAN_FILE_ENCRYPTION_SECRET is required."
+        required: false
+        type: string
+        default: "false"
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
@@ -156,6 +161,20 @@ jobs:
           find_path=$(find ${{env.working_dir}} -iname ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)
           cp -rp $find_path ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
           echo PLAN_FILE_LOCAL_PATH=$find_path >> $GITHUB_OUTPUT
+
+      - name: Encrypt Plan file
+        id: encrypt_plan_file
+        if: ${{ inputs.encrypt_plan_file == true }}
+        shell: bash
+        run: |
+          if [[ -z ${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }} ]]
+          then
+            SECRET_ENC_KEY=UNSAFESTRINGUSEDUSECUSTOMSECRETKEY
+          else
+            SECRET_ENC_KEY=${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}
+          fi
+          openssl enc -aes-256-ctr -pbkdf2 -salt -in ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out -out ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out.enc -pass pass:"${SECRET_ENC_KEY}"
+          cp ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out.enc ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
 
       - name: Push plan to s3
         if: ${{ inputs.use_gh_artifacts == false }}

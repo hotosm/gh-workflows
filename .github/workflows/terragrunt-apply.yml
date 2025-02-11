@@ -57,6 +57,11 @@ on:
         required: false
         default: true
         type: boolean
+      decrypt_plan_file:
+        description: "Decrypt plan file uploaded to Github Artifacts or S3 with openssl. Use if encrypt_plan_file true on plan workflow. secrets.PLAN_FILE_ENCRYPTION_SECRET is required."
+        required: false
+        type: string
+        default: "false"
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
@@ -113,6 +118,21 @@ jobs:
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ steps.extract_artifact_run_id.outputs.ARTIFACT_RUN_ID }}
+
+      - name: Decrypt Plan file
+        id: decrypt_plan_file
+        if: ${{ inputs.decrypt_plan_file == true }}
+        shell: bash
+        run: |
+          set -e
+          if [[ -z ${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }} ]]
+          then
+            SECRET_ENC_KEY=UNSAFESTRINGUSEDUSECUSTOMSECRETKEY
+          else
+            SECRET_ENC_KEY=${{ secrets.PLAN_FILE_ENCRYPTION_SECRET }}
+          fi
+          cp ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out.enc
+          openssl enc -d -aes-256-ctr -pbkdf2 -in ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out.enc -out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out -pass pass:"${SECRET_ENC_KEY}"
 
       - name: Terragrunt Apply
         uses: gruntwork-io/terragrunt-action@v2
