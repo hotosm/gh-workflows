@@ -171,6 +171,7 @@ jobs:
             COMMIT_REF=${{ github.sha }}
             VITE_API_URL=${{ vars.VITE_API_URL }}
             VITE_SYNC_URL=${{ vars.VITE_SYNC_URL }}
+            VITE_MAPPER_URL=${{ vars.VITE_MAPPER_URL }}
             NODE_ENV=${{ vars.NODE_ENV || 'production' }}
             MONITORING=${{ vars.MONITORING }}
             ${{ inputs.extra_build_args }}
