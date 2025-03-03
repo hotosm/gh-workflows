@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.1.1 (2025-03-03)
+
+### Fix
+
+- hardcode VITE_MAPPER_URL until env var loading fixed
+
+## 3.1.0 (2025-02-11)
+
+## 3.0.0 (2025-02-11)
+
+### Feat
+
+- add terragrunt plan and apply reusable workflow
+- action to authenticate to AWS via OIDC/ACCESS_KEYS
+
 ## 2.0.9 (2024-11-18)
 
 ## 2.0.8 (2024-11-13)
