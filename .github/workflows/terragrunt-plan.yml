@@ -142,6 +142,17 @@ jobs:
           echo PLAN_FILE_S3_PATH=${{ inputs.aws_ci_artifact_bucket_path }}/$PLAN_FILE_NAME/$PLAN_FILE_NAME >> $GITHUB_OUTPUT
           echo PLAN_FILE_NAME=$PLAN_FILE_NAME >> $GITHUB_OUTPUT
 
+      - name: Terragrunt Init and Upgrade
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
+          TF_INPUT: false
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: run-all init -upgrade
+
       - name: Terragrunt Plan
         uses: gruntwork-io/terragrunt-action@v2
         env:

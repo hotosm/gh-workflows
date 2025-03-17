@@ -170,6 +170,17 @@ jobs:
           openssl enc -d -aes-256-ctr -pbkdf2 -in ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out.enc -out ${{ inputs.working_dir }}/${{ inputs.plan_file_name }}.plan.out -pass pass:"${SECRET_ENC_KEY}"
           echo "Unencrypted Plan SHASUM: $(shasum ${{ inputs.working_dir }}${{ inputs.plan_file_name }}.plan.out)"
 
+      - name: Terragrunt Init and Upgrade
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+         AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
+         TF_INPUT: false
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: run-all init -upgrade
+
       - name: Terragrunt Apply
         uses: gruntwork-io/terragrunt-action@v2
         env:
