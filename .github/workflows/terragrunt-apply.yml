@@ -68,13 +68,6 @@ on:
         type: boolean
         default: false
 
-env:
-  AWS_REGION: ${{ inputs.aws_region }}
-  tofu_version: ${{ inputs.opentofu_version }}
-  tf_version: ${{ inputs.terraform_version }}
-  tg_version: ${{ inputs.terragrunt_version }}
-  working_dir: ${{ inputs.working_dir }}
-
 jobs:
   apply:
     name: Apply Terragrunt Plan File
@@ -128,7 +121,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
           AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
           AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-          AWS_REGION: ${{ inputs.AWS_REGION }}
+          AWS_REGION: ${{ inputs.aws_region }}
 
       - name: Get Plan form S3
         if: ${{ inputs.use_gh_artifacts == false }}
@@ -173,12 +166,12 @@ jobs:
       - name: Terragrunt Init and Upgrade
         uses: gruntwork-io/terragrunt-action@v2
         env:
-         AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
-         TF_INPUT: false
+          AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
+          TF_INPUT: false
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ inputs.terraform_version }}
+          tg_version: ${{ inputs.terragrunt_version }}
+          tg_dir: ${{ inputs.working_dir }}
           tg_command: run-all init -upgrade
 
       - name: Terragrunt Apply
@@ -187,7 +180,7 @@ jobs:
           AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
           INPUT_PRE_EXEC_1: export TERRAGRUNT_GIT_REPO_NAME=${{ github.event.repository.name }}
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ inputs.terraform_version }}
+          tg_version: ${{ inputs.terragrunt_version }}
+          tg_dir: ${{ inputs.working_dir }}
           tg_command: apply ${{ inputs.plan_file_name }}.plan.out

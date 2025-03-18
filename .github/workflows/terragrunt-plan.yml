@@ -67,13 +67,6 @@ on:
         type: boolean
         default: false
 
-env:
-  AWS_REGION: ${{ inputs.aws_region }}
-  tofu_version: ${{ inputs.opentofu_version }}
-  tf_version: ${{ inputs.terraform_version }}
-  tg_version: ${{ inputs.terragrunt_version }}
-  working_dir: ${{ inputs.working_dir }}
-
 jobs:
   plan:
     name: Create Terragrunt Plan File
@@ -130,13 +123,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
           AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
           AWS_OIDC_ROLE_ARN: ${{ secrets.AWS_OIDC_ROLE_ARN }}
-          AWS_REGION: ${{ inputs.AWS_REGION }}
+          AWS_REGION: ${{ inputs.aws_region }}
 
       - name: Get output file directory name
         id: output_file_name
         run: |
           export PLAN_FILE_NAME=${{ github.event.repository.name }}-${{ github.run_id }}-${{github.run_attempt}}
-          mkdir -p ${{env.working_dir}}/$PLAN_FILE_NAME
+          mkdir -p ${{inputs.working_dir}}/$PLAN_FILE_NAME
           export USERID=$(id -u)
           echo USERID=$USERID >> $GITHUB_OUTPUT
           echo PLAN_FILE_S3_PATH=${{ inputs.aws_ci_artifact_bucket_path }}/$PLAN_FILE_NAME/$PLAN_FILE_NAME >> $GITHUB_OUTPUT
@@ -148,9 +141,9 @@ jobs:
           AWS_SHARED_CREDENTIALS_FILE: ${{ github.workspace }}/.aws/credentials
           TF_INPUT: false
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ inputs.terraform_version }}
+          tg_version: ${{ inputs.terragrunt_version }}
+          tg_dir: ${{ inputs.working_dir }}
           tg_command: run-all init -upgrade
 
       - name: Terragrunt Plan
@@ -161,16 +154,16 @@ jobs:
           INPUT_POST_EXEC_1: sudo chown -R ${{ steps.output_file_name.outputs.USERID }}:${{ steps.output_file_name.outputs.USERID }} .
           INPUT_POST_EXEC_2: sudo chmod -R ugo+w .
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ inputs.terraform_version }}
+          tg_version: ${{ inputs.terragrunt_version }}
+          tg_dir: ${{ inputs.working_dir }}
           tg_command: plan -out ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}/${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
 
       - name: Get Plan File Path
         id: get_plan_file_path
         shell: bash
         run: |
-          find_path=$(find ${{env.working_dir}} -iname ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)
+          find_path=$(find ${{inputs.working_dir}} -iname ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out)
           cp -rp $find_path ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out
           echo PLAN_FILE_LOCAL_PATH=$find_path >> $GITHUB_OUTPUT
 
