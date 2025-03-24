@@ -1,0 +1,79 @@
+name: Create .env File
+description: Create a .env file from a template with environment variable substitution
+
+inputs:
+  working_directory:
+    description: 'Directory containing the .env template'
+    required: false
+    default: '.'
+  template_dotenv:
+    description: 'Name of the template .env file'
+    required: false
+    default: '.env.example'
+  output_file:
+    description: 'Name of the output .env file'
+    required: false
+    default: '.env'
+  git_branch:
+    description: 'Git branch to include in the .env file'
+    required: false
+    default: ${{ github.ref_name }}
+  tag_override:
+    description: 'Tag override to include in the .env file'
+    required: false
+    default: ''
+  envsubst_version:
+    description: 'Version of envsubst to use'
+    required: false
+    default: 'v1.2.0'
+  additional_vars:
+    description: 'Additional variables to include in .env file (JSON format: {"KEY1":"value1","KEY2":"value2"})'
+    required: false
+    default: '{}'
+
+runs:
+  using: composite
+  steps:
+    - name: Create ${{ inputs.output_file }} file
+      shell: bash
+      env:
+        TEMPLATE_DOTENV: ${{ inputs.template_dotenv }}
+        GIT_BRANCH: ${{ inputs.git_branch }}
+        TAG_OVERRIDE: ${{ inputs.tag_override }}
+        ENVSUBST_VERSION: ${{ inputs.envsubst_version }}
+        ADDITIONAL_VARS: ${{ inputs.additional_vars }}
+        OUTPUT_FILE: ${{ inputs.output_file }}
+      working-directory: ${{ inputs.working_directory }}
+      run: |
+        echo "Checking if ${TEMPLATE_DOTENV} exists"
+        if [ -f "${TEMPLATE_DOTENV}" ]; then
+          # Get a8m/envsubst (required for default vals syntax ${VAR:-default})
+          echo "Downloading envsubst ${ENVSUBST_VERSION}"
+          curl -L https://github.com/a8m/envsubst/releases/download/${ENVSUBST_VERSION}/envsubst-`uname -s`-`uname -m` -o envsubst
+          if [ $? -ne 0 ]; then
+            echo "Failed to download envsubst"
+            exit 1
+          fi
+          chmod +x envsubst
+          
+          echo "Substituting variables from ${TEMPLATE_DOTENV} --> ${OUTPUT_FILE}"
+          ./envsubst < "${TEMPLATE_DOTENV}" > ${OUTPUT_FILE}
+        else
+          echo "${TEMPLATE_DOTENV} not found, creating empty ${OUTPUT_FILE}"
+          touch ${OUTPUT_FILE}
+        fi
+        
+        # Add standard variables
+        echo "GIT_BRANCH=${GIT_BRANCH}" >> ${OUTPUT_FILE}
+        if [ -n "${TAG_OVERRIDE}" ]; then
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> ${OUTPUT_FILE}
+        fi
+        
+        # Add additional variables if provided
+        if [ "${ADDITIONAL_VARS}" != "{}" ]; then
+          echo "Adding additional variables to ${OUTPUT_FILE}"
+          echo "${ADDITIONAL_VARS}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> ${OUTPUT_FILE}
+        fi
+        
+        echo "Created ${OUTPUT_FILE} file with contents:"
+        
