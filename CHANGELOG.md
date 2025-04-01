@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.2.0 (2025-04-01)
+
+### Feat
+
+- action to subsitute env example from GITHUB_ENV
+- action to export vars N secret to GITHUB_ENV
+
+### Fix
+
+- hardcode VITE_S3_URL for FMTM (broken env var docker args)
+
+## 3.1.2 (2025-03-18)
+
 ## 3.1.1 (2025-03-03)
 
 ### Fix
