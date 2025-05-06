@@ -15,6 +15,26 @@ on:
         description: "If specified, the output dir is uploaded to the `artifact` key."
         required: false
         type: string
+      container_user:
+        description: "The user to run the container as. Defaults to root."
+        required: false
+        type: string
+        default: root
+      py_backend_app_context:
+        description: "The context to import the FastAPI app from. Defaults to `app.main`."
+        required: false
+        type: string
+        default: app.main
+      py_backend_app_name:
+        description: "The name of the FastAPI app. Defaults to `api`."
+        required: false
+        type: string
+        default: api
+      output_file_write_path:
+        description: "The path to write the OpenAPI JSON file to. Defaults to `docs/openapi.json`."
+        required: false
+        type: string
+        default: docs/openapi.json
 
 jobs:
   build_openapi_json:
@@ -22,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.image }}
-      options: --user root
+      options: --user ${{ inputs.container_user }}
 
     steps:
       - name: Checkout repository
@@ -65,10 +85,10 @@ jobs:
 
           load_dotenv(Path(os.getenv("DOTENV_FILE")))
 
-          from app.main import api  # noqa: E402
+          from ${{ inputs.py_backend_app_context }} import ${{ inputs.py_backend_app_name }}  # noqa: E402
 
 
-          with open(Path("docs/openapi.json"), "w") as f:
+          with open(Path("${{ inputs.output_file_write_path }}"), "w") as f:
               openapi = get_openapi(
                   title=api.title,
                   version=api.version,
