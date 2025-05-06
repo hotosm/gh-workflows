@@ -10,23 +10,22 @@ inputs:
     description: "AWS_SECRET_ACCESS_KEY for accessing AWS"
   USE_OIDC_FOR_AWS:
     required: false
-    default: 'false'
+    default: "false"
     description: "Use Github OIDC for AWS authentication"
   AWS_OIDC_ROLE_ARN:
     required: false
     description: "OIDC role to assume"
   AWS_CONFIG_FILE_PATH:
     required: false
-    default: '.aws/credentials'
+    default: ".aws/credentials"
     description: "Write aws credentials to file"
-  AWS_REGION: 
+  AWS_REGION:
     description: "AWS Region"
     required: false
     default: "ap-south-1"
 
-
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Setup AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
