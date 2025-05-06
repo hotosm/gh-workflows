@@ -3,23 +3,23 @@ description: Load environment variables from GitHub variables & secrets and pars
 
 inputs:
   git_branch:
-    description: 'The Git branch name'
+    description: "The Git branch name"
     required: false
     default: ${{ github.ref_name }}
   tag_override:
-    description: 'Optional tag override'
+    description: "Optional tag override"
     required: false
-    default: ''
+    default: ""
   vars_context:
-    description: 'JSON string of variables context'
+    description: "JSON string of variables context"
     required: true
   secrets_context:
-    description: 'JSON string of secrets context'
+    description: "JSON string of secrets context"
     required: true
   parse_nested_vars:
-    description: 'Parse nested variables (like FRONTEND_ENV_VARS)'
+    description: "Parse nested variables (like FRONTEND_ENV_VARS)"
     required: false
-    default: 'true'
+    default: "true"
 
 runs:
   using: composite
@@ -35,18 +35,18 @@ runs:
       run: |
         # Random delimiter string for security
         delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        
+
         # Parse JSON with multiline strings, using delimiter (Github specific)
         to_envs() { 
           jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""
         }
-        
+
         # Set branch and tag to env
         echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
         if [ -n "${TAG_OVERRIDE}" ]; then
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
         fi
-        
+
         # Set VARS_CONTEXT if not null
         if [ "${VARS_CONTEXT}" != "null" ]; then
           echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -71,9 +71,8 @@ runs:
             fi
           fi
         fi
-        
+
         # Set SECRETS_CONTEXT if not null
         if [ "${SECRETS_CONTEXT}" != "null" ]; then
           echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
         fi
-        

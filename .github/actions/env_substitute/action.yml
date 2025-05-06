@@ -3,33 +3,33 @@ description: Create a .env file from a template with environment variable substi
 
 inputs:
   working_directory:
-    description: 'Directory containing the .env template'
+    description: "Directory containing the .env template"
     required: false
-    default: '.'
+    default: "."
   template_dotenv:
-    description: 'Name of the template .env file'
+    description: "Name of the template .env file"
     required: false
-    default: '.env.example'
+    default: ".env.example"
   output_file:
-    description: 'Name of the output .env file'
+    description: "Name of the output .env file"
     required: false
-    default: '.env'
+    default: ".env"
   git_branch:
-    description: 'Git branch to include in the .env file'
+    description: "Git branch to include in the .env file"
     required: false
     default: ${{ github.ref_name }}
   tag_override:
-    description: 'Tag override to include in the .env file'
+    description: "Tag override to include in the .env file"
     required: false
-    default: ''
+    default: ""
   envsubst_version:
-    description: 'Version of envsubst to use'
+    description: "Version of envsubst to use"
     required: false
-    default: 'v1.2.0'
+    default: "v1.2.0"
   additional_vars:
     description: 'Additional variables to include in .env file (JSON format: {"KEY1":"value1","KEY2":"value2"})'
     required: false
-    default: '{}'
+    default: "{}"
 
 runs:
   using: composite
@@ -62,18 +62,17 @@ runs:
           echo "${TEMPLATE_DOTENV} not found, creating empty ${OUTPUT_FILE}"
           touch ${OUTPUT_FILE}
         fi
-        
+
         # Add standard variables
         echo "GIT_BRANCH=${GIT_BRANCH}" >> ${OUTPUT_FILE}
         if [ -n "${TAG_OVERRIDE}" ]; then
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> ${OUTPUT_FILE}
         fi
-        
+
         # Add additional variables if provided
         if [ "${ADDITIONAL_VARS}" != "{}" ]; then
           echo "Adding additional variables to ${OUTPUT_FILE}"
           echo "${ADDITIONAL_VARS}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> ${OUTPUT_FILE}
         fi
-        
+
         echo "Created ${OUTPUT_FILE} file with contents:"
-        
