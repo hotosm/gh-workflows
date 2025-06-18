@@ -272,7 +272,7 @@ jobs:
         run: |
           ${{ inputs.pre_command }}
 
-          docker compose --file ${{ inputs.compose_file }} \
+          DEBUG_OVERRIDE=${{DEBUG_OVERRIDE}} compose --file ${{ inputs.compose_file }} \
             run --no-TTY \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
