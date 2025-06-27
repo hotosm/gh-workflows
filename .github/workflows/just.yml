@@ -17,7 +17,7 @@ on:
         type: string
 
 jobs:
-  task_runner:
+  just:
     runs-on: ubuntu-latest
 
     environment:
