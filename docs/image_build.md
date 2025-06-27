@@ -149,14 +149,14 @@ backend-build:
     context: src/backend
     build_target: prod
     image_tags: |
-      "ghcr.io/hotosm/fmtm/backend:latest"
+      "ghcr.io/hotosm/field-tm/backend:latest"
     extra_build_args: |
       APP_VERSION=0.1.0
 ```
 
 **Passing Variables**
 
-Example variable extraction from FMTM:
+Example variable extraction from FieldTM:
 
 ```yaml
 name: Extract Project Variables
@@ -192,7 +192,7 @@ jobs:
           echo "api_version=${API_VERSION}" >> $GITHUB_OUTPUT
 ```
 
-Then example variable passing from FMTM:
+Then example variable passing from FieldTM:
 
 ```yaml
 jobs:
@@ -211,8 +211,8 @@ jobs:
       context: src/backend
       build_target: prod
       image_tags: |
-        "ghcr.io/hotosm/fmtm/backend:${{ needs.extract-vars.outputs.api_version }}-${{ github.ref_name }}"
-        "ghcr.io/hotosm/fmtm/backend:latest"
+        "ghcr.io/hotosm/field-tm/backend:${{ needs.extract-vars.outputs.api_version }}-${{ github.ref_name }}"
+        "ghcr.io/hotosm/field-tm/backend:latest"
       extra_build_args: |
         APP_VERSION=${{ needs.extract-vars.outputs.api_version }}
 ```

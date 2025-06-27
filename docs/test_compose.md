@@ -23,7 +23,7 @@ underlying database, or any additional services.
   ```yaml
   services:
     api:
-      image: "ghcr.io/hotosm/fmtm/backend:${TAG_OVERRIDE:-debug}"
+      image: "ghcr.io/hotosm/field-tm/backend:${TAG_OVERRIDE:-debug}"
   ```
 
   This allows the workflow to inject the tag of the image built for

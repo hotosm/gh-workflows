@@ -55,8 +55,7 @@ jobs:
     with:
       image_names: |
         docker.io/postgis/postgis:${{ vars.POSTGIS_TAG }}
-        ghcr.io/hotosm/fmtm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
-        ghcr.io/hotosm/fmtm/odkcentral-proxy:${{ vars.ODK_CENTRAL_TAG }}
+        ghcr.io/hotosm/field-tm/odkcentral:${{ vars.ODK_CENTRAL_TAG }}
         docker.io/minio/minio:${{ vars.MINIO_TAG }}
 
   run-pytest:

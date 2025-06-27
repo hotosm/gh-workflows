@@ -2,13 +2,13 @@
 
 <!-- markdownlint-disable -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/hotosm/fmtm/main/docs/images/hot_logo.png" style="width: 200px;" alt="HOT"></a>
+  <img src="https://raw.githubusercontent.com/hotosm/gh-workflows/main/docs/images/hot_logo.png" style="width: 200px;" alt="HOT"></a>
 </p>
 <p align="center">
   <em>Github workflows that can be shared across all HOT projects.</em>
 </p>
 <p align="center">
-  <a href="https://github.com/hotosm/fmtm/releases" target="_blank">
+  <a href="https://github.com/hotosm/gh-releases/releases" target="_blank">
       <img src="https://img.shields.io/github/v/release/hotosm/gh-workflows?logo=github" alt="Version">
   </a>
   <a href="https://github.com/hotosm/gh-workflows/actions/workflows/workflow_docs.yml" target="_blank">
