@@ -67,6 +67,11 @@ on:
         type: string
         # Skip mandatory user creation, allow ROOT usage
         default: "CKV_DOCKER_8,CKV_DOCKER_2,CKV_DOCKER_3,CKV_DOCKER_5"
+      environment:
+        description: "The environment to use for variables."
+        required: false
+        type: string
+        default: ${{ github.ref_name }}
     outputs:
       image_name:
         description: "The final full image reference."
@@ -80,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ github.ref_name }}
+      name: ${{ inputs.environment }}
 
     outputs:
       image_name: ${{ steps.get_image_name.outputs.image_name }}

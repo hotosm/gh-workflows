@@ -86,7 +86,7 @@ on:
         description: "Allow overriding the DEBUG environment variable in the compose file."
         required: false
         type: boolean
-        default: true
+        default: false
 
 permissions:
   contents: write
