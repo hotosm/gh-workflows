@@ -24,16 +24,17 @@ jobs:
       name: ${{ inputs.environment }}
 
     steps:
-      - id: setup-just
-        name: Setup Just
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Just
         uses: extractions/setup-just@v2
         with:
           just-version: 1.40.0
 
       # Extract repo vars/secrets into environment variables for the next step
       # NOTE it may look like secrets are exposed, but they are hidden in the GUI
-      - id: vars-and-secrets
-        name: Vars and Secrets to Env
+      - name: Vars and Secrets to Env
         env:
           TAG_OVERRIDE: ${{ env.TAG_OVERRIDE || 'ci-development' }}
           GIT_BRANCH: ${{ github.ref_name }}
@@ -86,8 +87,7 @@ jobs:
           echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
           echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
-      - id: run-command
-        name: Run Command
+      - name: Run Command
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: just ${{ inputs.command }}
