@@ -125,6 +125,13 @@ jobs:
           filename: .github/workflows/wiki.yml
           output: docs/wiki.md
 
+      - name: Document Just
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/just.yml
+          output: docs/just.md
+
       - name: Run pre-commit hooks
         run: |
           pip install pre-commit
