@@ -36,7 +36,7 @@ jobs:
       # NOTE it may look like secrets are exposed, but they are hidden in the GUI
       - name: Vars and Secrets to Env
         env:
-          TAG_OVERRIDE: ${{ env.TAG_OVERRIDE || 'ci-development' }}
+          TAG_OVERRIDE: ${{ env.TAG_OVERRIDE || 'ci-dev' }}
           GIT_BRANCH: ${{ github.ref_name }}
           VARS_CONTEXT: ${{ toJson(vars) }}
           SECRETS_CONTEXT: ${{ toJson(secrets) }}
