@@ -7,6 +7,10 @@ on:
         description: "The Github environment to use for variables."
         required: true
         type: string
+      example_env_file_path:
+        description: "Path to example dotenv file to substitute variables for."
+        type: string
+        default: .env.example
       command:
         description: "The Just command to run (defined in Justfile)."
         required: true
@@ -84,4 +88,6 @@ jobs:
 
       - id: run-command
         name: Run Command
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: just ${{ inputs.command }}
