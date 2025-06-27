@@ -82,6 +82,11 @@ on:
         required: false
         type: string
         default: "test"
+      debug_override:
+        description: "Allow overriding the DEBUG environment variable in the compose file."
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -272,7 +277,7 @@ jobs:
         run: |
           ${{ inputs.pre_command }}
 
-          docker compose --file ${{ inputs.compose_file }} \
+          DEBUG_OVERRIDE=${{inputs.debug_override}} docker compose --file ${{ inputs.compose_file }} \
             run --no-TTY \
             ${{ inputs.compose_service }} ${{ inputs.compose_command }}
 
