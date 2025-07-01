@@ -68,6 +68,8 @@ jobs:
           EXAMPLE_DOTENV: ${{ inputs.example_env_file_path }}
         run: |
           echo "Checking if ${EXAMPLE_DOTENV} exists"
+          # Set DEBUG mode true in .env for PR backend test
+          export DEBUG=True
           if [ -f ${EXAMPLE_DOTENV} ]; then
             # Get a8m/envsubst (required for default vals syntax ${VAR:-default})
             echo "Downloading envsubst"
