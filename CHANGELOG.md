@@ -1,5 +1,48 @@
 # Changelog
 
+## 3.3.3 (2025-08-19)
+
+### Fix
+
+- add concurrency=1 for mkdocs deploy workflow
+
+## 3.3.2 (2025-06-28)
+
+### Fix
+
+- set default for TAG_OVERRIDE --> ci-dev
+
+## 3.3.1 (2025-06-27)
+
+### Fix
+
+- checkout repo in just workflow
+- add example env var + GITHUB_TOKEN var to just
+
+### Refactor
+
+- rename parent task of just job
+
+## 3.3.0 (2025-06-27)
+
+### Feat
+
+- add just workflow for running any task
+
+### Refactor
+
+- remove debug_override param, not required
+
+## 3.2.3 (2025-06-27)
+
+### Fix
+
+- set debug_override param to default false
+
+## 3.2.2 (2025-06-27)
+
+## 3.2.1 (2025-05-06)
+
 ## 3.2.0 (2025-04-01)
 
 ### Feat
