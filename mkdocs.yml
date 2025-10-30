@@ -55,6 +55,7 @@ nav:
       - Image Build: image_build.md
       - Image Artifact: image_artifact.md
       - Remote Deploy (Compose): remote_deploy_compose.md
+      - Remote Deploy (Just): remote_deploy_just.md
       - Get Env Vars: env_vars.md
       - Image Multi-Arch: image_build_multi.md
   - Running Tests:

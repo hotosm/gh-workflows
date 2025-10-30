@@ -90,6 +90,13 @@ jobs:
           filename: .github/workflows/remote_deploy_compose.yml
           output: docs/remote_deploy_compose.md
 
+      - name: Document remote_deploy_just
+        uses: tj-actions/auto-doc@v3
+        with:
+          reusable: true
+          filename: .github/workflows/remote_deploy_just.yml
+          output: docs/remote_deploy_just.md
+
       - name: Document pnpm_build
         uses: tj-actions/auto-doc@v3
         with:

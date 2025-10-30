@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.0 (2025-10-30)
+
+### Feat
+
+- add remote_deploy_just workflow
+
 ## 3.3.3 (2025-08-19)
 
 ### Fix

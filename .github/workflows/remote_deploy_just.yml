@@ -1,0 +1,44 @@
+# Note: variables: SSH_HOST and SSH_USER must be set for your environment.
+# Note: secrets: SSH_PRIVATE_KEY must be set for your environment.
+
+name: Remote Deploy (Just)
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "The Github environment to get variables from. Default repository vars."
+        required: false
+        type: string
+      command:
+        description: "The Just command to run (defined in Justfile)."
+        required: true
+        type: string
+
+jobs:
+  remote-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Just
+        uses: extractions/setup-just@v2
+        with:
+          just-version: 1.40.0
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: "${{ secrets.SSH_PRIVATE_KEY }}"
+
+      - name: Add host keys to known_hosts
+        run: |
+          ssh-keyscan "${{ vars.SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Run Command
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_HOST: "ssh://${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}"
+        run: just ${{ inputs.command }}
