@@ -14,6 +14,10 @@ on:
         description: "The Just command to run (defined in Justfile)."
         required: true
         type: string
+      example_env_file_path:
+        description: "Path to example dotenv file to substitute variables for."
+        type: string
+        default: .env.example
 
 jobs:
   remote-deploy:
@@ -28,6 +32,56 @@ jobs:
         uses: extractions/setup-just@v2
         with:
           just-version: 1.40.0
+
+      - name: Vars and Secrets to Env
+        env:
+          GIT_BRANCH: ${{ github.ref_name }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: |
+          # Random delimeter string for security
+          delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+
+          # Parse JSON with multiline strings, using delimeter (Github specific)
+          to_envs() { jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""; }
+
+          # Set vars to env for next step
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
+
+          # Set VARS_CONTEXT if not null
+          if [ "${VARS_CONTEXT}" != "null" ]; then
+            echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+          # Set SECRETS_CONTEXT if not null
+          if [ "${SECRETS_CONTEXT}" != "null" ]; then
+            echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
+          fi
+
+      - name: Create .env file
+        env:
+          EXAMPLE_DOTENV: ${{ inputs.example_env_file_path }}
+        run: |
+          echo "Checking if ${EXAMPLE_DOTENV} exists"
+          if [ -f ${EXAMPLE_DOTENV} ]; then
+            # Get a8m/envsubst (required for default vals syntax ${VAR:-default})
+            echo "Downloading envsubst"
+            curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst
+            if [ $? -ne 0 ]; then
+                echo "Failed to download envsubst"
+                exit 1
+            fi
+            chmod +x envsubst
+            echo "Substituting variables from ${EXAMPLE_DOTENV} --> .env"
+            ./envsubst < "${EXAMPLE_DOTENV}" > .env
+          else
+            echo "${EXAMPLE_DOTENV} not found, creating empty .env"
+            touch .env
+          fi
+
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> .env
+          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> .env
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
