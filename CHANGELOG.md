@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.1 (2025-10-30)
+
+### Fix
+
+- ensure env and secrets exported prior to justfile deploy
+
 ## 3.4.0 (2025-10-30)
 
 ### Feat
