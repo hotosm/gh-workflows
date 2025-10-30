@@ -24,9 +24,30 @@ to include project-specific config for their deploy.
 
 ## Inputs
 
+<!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
+
+| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                |
+| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------------------- |
+| <a name="input_command"></a>[command](#input_command)             | string | true     |         | The Just command to run <br>(defined in Justfile).                         |
+| <a name="input_environment"></a>[environment](#input_environment) | string | false    |         | The Github environment to get <br>variables from. Default repository vars. |
+
+<!-- AUTO-DOC-INPUT:END -->
+
 ## Outputs
 
+<!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
+
+No outputs.
+
+<!-- AUTO-DOC-OUTPUT:END -->
+
 ## Secrets
+
+<!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
+
+No secrets.
+
+<!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
 
