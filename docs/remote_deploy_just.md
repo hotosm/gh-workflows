@@ -26,10 +26,11 @@ to include project-specific config for their deploy.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------------------- |
-| <a name="input_command"></a>[command](#input_command)             | string | true     |         | The Just command to run <br>(defined in Justfile).                         |
-| <a name="input_environment"></a>[environment](#input_environment) | string | false    |         | The Github environment to get <br>variables from. Default repository vars. |
+| INPUT                                                                                           | TYPE   | REQUIRED | DEFAULT          | DESCRIPTION                                                                |
+| ----------------------------------------------------------------------------------------------- | ------ | -------- | ---------------- | -------------------------------------------------------------------------- |
+| <a name="input_command"></a>[command](#input_command)                                           | string | true     |                  | The Just command to run <br>(defined in Justfile).                         |
+| <a name="input_environment"></a>[environment](#input_environment)                               | string | false    |                  | The Github environment to get <br>variables from. Default repository vars. |
+| <a name="input_example_env_file_path"></a>[example_env_file_path](#input_example_env_file_path) | string | false    | `".env.example"` | Path to example dotenv file <br>to substitute variables for.               |
 
 <!-- AUTO-DOC-INPUT:END -->
 
