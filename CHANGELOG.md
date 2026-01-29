@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.2 (2026-01-29)
+
+### Fix
+
+- bump node + pnpm versions for build
+
 ## 3.4.1 (2025-10-30)
 
 ### Fix
