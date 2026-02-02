@@ -33,20 +33,28 @@ runs:
         SECRETS_CONTEXT: ${{ inputs.secrets_context }}
         PARSE_NESTED: ${{ inputs.parse_nested_vars }}
       run: |
+        set -e
+        
         # Random delimiter string for security
         delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-
-        # Parse JSON with multiline strings, using delimiter (Github specific)
-        to_envs() { 
-          jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\""
+        
+        # Function to strip carriage returns from input
+        strip_cr() {
+          tr -d '\r'
         }
-
-        # Set branch and tag to env
-        echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+        
+        # Parse JSON with multiline strings, using delimiter (Github specific)
+        # Also strips carriage returns from values
+        to_envs() { 
+          jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\"" | strip_cr
+        }
+        
+        # Set branch and tag to env (strip any potential \r)
+        echo "GIT_BRANCH=$(echo "${GIT_BRANCH}" | strip_cr)" >> $GITHUB_ENV
         if [ -n "${TAG_OVERRIDE}" ]; then
-          echo "TAG_OVERRIDE=${TAG_OVERRIDE}" >> $GITHUB_ENV
+          echo "TAG_OVERRIDE=$(echo "${TAG_OVERRIDE}" | strip_cr)" >> $GITHUB_ENV
         fi
-
+        
         # Set VARS_CONTEXT if not null
         if [ "${VARS_CONTEXT}" != "null" ]; then
           echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -54,25 +62,49 @@ runs:
           # Parse nested variables if enabled
           if [ "${PARSE_NESTED}" = "true" ]; then
             # Extract and parse FRONTEND_ENV_VARS from VARS_CONTEXT if it exists
-            FRONTEND_VARS=$(echo "${VARS_CONTEXT}" | jq -r '.FRONTEND_ENV_VARS // ""')
+            FRONTEND_VARS=$(echo "${VARS_CONTEXT}" | jq -r '.FRONTEND_ENV_VARS // ""' | strip_cr)
+            
             if [ -n "$FRONTEND_VARS" ]; then
-              # Split the string by newlines and export each variable
-              echo "$FRONTEND_VARS" | grep -v '^\*\*\*$' | while IFS= read -r line || [[ -n "$line" ]]; do
-                # Skip empty lines
-                [ -z "$line" ] && continue
+              echo "Processing FRONTEND_ENV_VARS..."
+              
+              # Process each line, stripping \r and handling properly
+              echo "$FRONTEND_VARS" | while IFS= read -r line || [[ -n "$line" ]]; do
+                # Strip carriage returns from the line
+                line=$(echo "$line" | strip_cr)
+                
+                # Skip empty lines and lines with only asterisks
+                [[ -z "$line" ]] && continue
+                [[ "$line" =~ ^[\*]+$ ]] && continue
                 
                 # If line contains '=', export it as an env var
                 if [[ "$line" == *"="* ]]; then
-                  key=$(echo "$line" | cut -d= -f1)
-                  value=$(echo "$line" | cut -d= -f2-)
-                  echo "$key=$value" >> $GITHUB_ENV
+                  # Split on first '=' only
+                  key="${line%%=*}"
+                  value="${line#*=}"
+                  
+                  # Trim whitespace from key
+                  key=$(echo "$key" | xargs)
+                  
+                  # Skip if key is empty
+                  [[ -z "$key" ]] && continue
+                  
+                  # Use delimiter for multi-line safe export
+                  {
+                    echo "${key}<<${delim}"
+                    echo "${value}"
+                    echo "${delim}"
+                  } >> $GITHUB_ENV
+                  
+                  echo "  Exported: $key"
                 fi
               done
             fi
           fi
         fi
-
+        
         # Set SECRETS_CONTEXT if not null
         if [ "${SECRETS_CONTEXT}" != "null" ]; then
           echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
         fi
+        
+        echo "Environment variables loaded successfully!"
