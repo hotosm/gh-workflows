@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.3 (2026-02-02)
+
+### Fix
+
+- **vars_n_secret_to_env**: CRLF formatting issue on NESTED FRONTEND ENV VARS
+
 ## 3.4.2 (2026-01-29)
 
 ### Fix
