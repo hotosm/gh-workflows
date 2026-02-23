@@ -14,9 +14,9 @@
 #     You should have received a copy of the GNU General Public License
 #     along with GH-Workflows.  If not, see <https:#www.gnu.org/licenses/>.
 #
-ARG PYTHON_TAG=3.13
+ARG MKDOCS_MATERIAL_TAG=9
 
-FROM docker.io/python:${PYTHON_TAG}-slim-trixie AS base
+FROM docker.io/squidfunk/mkdocs-material:${MKDOCS_MATERIAL_TAG} AS base
 ARG APP_VERSION
 ARG COMMIT_REF
 ARG MAINTAINER=admin@hotosm.org
