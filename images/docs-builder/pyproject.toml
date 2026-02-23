@@ -5,11 +5,11 @@ description = "mkdocs plus dependencies"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "mdx-truly-sane-lists",
-    "mkdocs",
-    "mkdocs-drawio",
-    "mkdocs-exclude",
-    "mkdocs-git-revision-date-localized-plugin",
-    "mkdocs-material",
-    "mkdocstrings-python",
+    "mdx-truly-sane-lists==1.3",
+    "mkdocs==1.6.1",
+    "mkdocs-drawio==1.13.0",
+    "mkdocs-exclude==1.0.2",
+    "mkdocs-git-revision-date-localized-plugin==1.5.1",
+    "mkdocs-material==9.7.2",
+    "mkdocstrings-python==2.0.3",
 ]
