@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-odkcentral:
-    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@2.0.8
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.4.3
     with:
       image_name: ghcr.io/${{ github.repository }}/mkdocs
-      dockerfile: images/mkdocs/Dockerfile
+      dockerfile: images/docs-builder/Dockerfile

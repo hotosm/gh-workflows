@@ -16,7 +16,7 @@
 #
 ARG MKDOCS_MATERIAL_TAG=9
 
-FROM docker.io/squidfunk/mkdocs-material:${MKDOCS_MATERIAL_TAG} as base
+FROM docker.io/squidfunk/mkdocs-material:${MKDOCS_MATERIAL_TAG} AS base
 ARG APP_VERSION
 ARG COMMIT_REF
 ARG MAINTAINER=admin@hotosm.org
@@ -25,19 +25,18 @@ LABEL org.hotosm.gh-workflows.app-version="${APP_VERSION}" \
       org.hotosm.gh-workflows.maintainer="${MAINTAINER}"
 
 
-
-FROM base as extract-deps
+FROM base AS extract-deps
 WORKDIR /opt/python
-COPY pyproject.toml pdm.lock /opt/python/
+COPY pyproject.toml uv.lock /opt/python/
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir pdm==2.19.3
-RUN pdm export -G docs > requirements.txt
+    && pip install --no-cache-dir uv==0.10.4
+RUN uv export --project images/docs-builder > requirements.txt
 
 
 
-FROM base as runtime
+FROM base AS runtime
 COPY --from=extract-deps \
     /opt/python/requirements.txt /opt/python/
-RUN pip install --user --no-warn-script-location \
-    --no-cache-dir -r /opt/python/requirements.txt \
+RUN pip install --no-cache-dir uv==0.10.4 \
+    && uv pip install --system --requirement /opt/python/requirements.txt \
     && rm -rf /opt/python

@@ -1,31 +1,26 @@
 [project]
 name = "gh-workflows"
-dynamic = ["version"]
+version = "3.4.3"
 description = "Github workflows that can be shared across all HOT projects."
 authors = [
     {name = "Sam Woodcock", email = "sam.woodcock@hotosm.org"},
 ]
 dependencies = []
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 readme = "README.md"
-license = {file = "LICENSE.md"}
+license = "AGPL-3.0-only"
 keywords = ["hot", "hotosm", "gh-workflows", "workflows"]
+include = ["images"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
 
 [project.urls]
 homepage = "https://hotosm.github.io/gh-workflows"
 documentation = "https://hotosm.github.io/gh-workflows"
 repository = "https://github.com/hotosm/gh-workflows"
 
-[project.optional-dependencies]
-docs = [
-    "mkdocs==1.6.1",
-    "mkdocs-material==9.5.42",
-    "mkdocstrings-python==1.12.2",
-    "mkdocs-exclude==1.0.2",
-    "mkdocs-git-revision-date-localized-plugin>=1.3.0",
-    "mdx-truly-sane-lists>=1.3",
-    "mkdocs-drawio>=1.7.0",
-]
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "3.4.3"
@@ -34,4 +29,13 @@ version_files = [
 ]
 update_changelog_on_bump = true
 
-[tool.pdm]
+[tool.uv.workspace]
+members = [
+    "images/docs-builder",
+]
+
+[tool.uv]
+package = false
+
+[tool.setuptools]
+packages = []
