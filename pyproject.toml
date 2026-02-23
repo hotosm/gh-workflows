@@ -6,7 +6,7 @@ authors = [
     {name = "Sam Woodcock", email = "sam.woodcock@hotosm.org"},
 ]
 dependencies = []
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 readme = "README.md"
 license = "AGPL-3.0-only"
 keywords = ["hot", "hotosm", "gh-workflows", "workflows"]
