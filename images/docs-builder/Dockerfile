@@ -14,9 +14,9 @@
 #     You should have received a copy of the GNU General Public License
 #     along with GH-Workflows.  If not, see <https:#www.gnu.org/licenses/>.
 #
-ARG MKDOCS_MATERIAL_TAG=9
+ARG PYTHON_TAG=3.13
 
-FROM docker.io/squidfunk/mkdocs-material:${MKDOCS_MATERIAL_TAG} AS base
+FROM docker.io/python:${PYTHON_TAG}-slim-trixie AS base
 ARG APP_VERSION
 ARG COMMIT_REF
 ARG MAINTAINER=admin@hotosm.org
@@ -27,7 +27,7 @@ LABEL org.hotosm.gh-workflows.app-version="${APP_VERSION}" \
 
 FROM base AS extract-deps
 WORKDIR /opt/python
-COPY pyproject.toml uv.lock /opt/python/
+COPY . /opt/python/
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir uv==0.10.4
 RUN uv export --project images/docs-builder > requirements.txt
