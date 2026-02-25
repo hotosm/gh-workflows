@@ -46,5 +46,7 @@ permissions:
 jobs:
   sign:
     uses: hotosm/gh-workflows/.github/workflows/cla_sign.yml@3.5.0
+    with:
+      push_branch: dev
     secrets: inherit
 ```

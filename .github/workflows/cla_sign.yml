@@ -2,6 +2,11 @@ name: 📜 Contribution Guidelines
 
 on:
   workflow_call:
+    inputs:
+      push_branch:
+        description: "Which branch to update cla.json on"
+        required: true
+        type: string
 
 jobs:
   Sign:
@@ -15,7 +20,7 @@ jobs:
         with:
           path-to-signatures: "cla.json"
           path-to-document: "https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md"
-          branch: "main"
+          branch: ${{ inputs.push_branch }}
           # Allowlist for bot accounts (won't need to sign CLA)
           allowlist: "bot*,*[bot],renovate*,github-actions*"
           # The message signers must type and submit
