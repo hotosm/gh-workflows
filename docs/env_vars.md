@@ -6,9 +6,9 @@ THIS WORKFLOW IS CURRENTLY NON-FUNCTIONAL
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                            |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | ---------------------------------------------------------------------- |
-| <a name="input_environment"></a>[environment](#input_environment) | string | true     |         | The Github environment to retreive <br>the env and secret var <br>for. |
+|                               INPUT                               |  TYPE  | REQUIRED | DEFAULT |                               DESCRIPTION                               |
+|-------------------------------------------------------------------|--------|----------|---------|-------------------------------------------------------------------------|
+| <a name="input_environment"></a>[environment](#input_environment) | string |   true   |         | The Github environment to retreive <br>the env and secret var <br>for.  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -16,8 +16,8 @@ THIS WORKFLOW IS CURRENTLY NON-FUNCTIONAL
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                     | VALUE                                         | DESCRIPTION                       |
-| ---------------------------------------------------------- | --------------------------------------------- | --------------------------------- |
+|                           OUTPUT                           |                     VALUE                     |            DESCRIPTION            |
+|------------------------------------------------------------|-----------------------------------------------|-----------------------------------|
 | <a name="output_all_vars"></a>[all_vars](#output_all_vars) | `"${{ jobs.get_env_vars.outputs.all_vars }}"` | All parsed variables and secrets. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
@@ -25,9 +25,7 @@ THIS WORKFLOW IS CURRENTLY NON-FUNCTIONAL
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
