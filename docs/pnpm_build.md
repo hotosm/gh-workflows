@@ -9,12 +9,12 @@ npm command that builds the stories dist.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                                | TYPE    | REQUIRED | DEFAULT | DESCRIPTION                                                            |
-| -------------------------------------------------------------------- | ------- | -------- | ------- | ---------------------------------------------------------------------- |
-| <a name="input_command"></a>[command](#input_command)                | string  | true     |         | The pnpm command to run <br>in package.json.                           |
-| <a name="input_github_pages"></a>[github_pages](#input_github_pages) | boolean | false    | `false` | Upload in format specific for <br>Github Pages `actions/deploy-pages`. |
-| <a name="input_output_path"></a>[output_path](#input_output_path)    | string  | false    |         | The output path is uploaded <br>to a key named `artifact`.             |
-| <a name="input_working_dir"></a>[working_dir](#input_working_dir)    | string  | false    | `"."`   | The directory containing the package.json <br>file.                    |
+|                                INPUT                                 |  TYPE   | REQUIRED | DEFAULT |                               DESCRIPTION                               |
+|----------------------------------------------------------------------|---------|----------|---------|-------------------------------------------------------------------------|
+|        <a name="input_command"></a>[command](#input_command)         | string  |   true   |         |              The pnpm command to run <br>in package.json.               |
+| <a name="input_github_pages"></a>[github_pages](#input_github_pages) | boolean |  false   | `false` | Upload in format specific for <br>Github Pages `actions/deploy-pages`.  |
+|  <a name="input_output_path"></a>[output_path](#input_output_path)   | string  |  false   |         |       The output path is uploaded <br>to a key named `artifact`.        |
+|  <a name="input_working_dir"></a>[working_dir](#input_working_dir)   | string  |  false   |  `"."`  |          The directory containing the package.json <br>file.            |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -22,8 +22,8 @@ npm command that builds the stories dist.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                                    | VALUE     | DESCRIPTION                              |
-| ------------------------------------------------------------------------- | --------- | ---------------------------------------- |
+|                                  OUTPUT                                   |   VALUE   |               DESCRIPTION                |
+|---------------------------------------------------------------------------|-----------|------------------------------------------|
 | <a name="output_artifact_name"></a>[artifact_name](#output_artifact_name) | `"build"` | The artifact name (default: `artifact`). |
 
 <!-- AUTO-DOC-OUTPUT:END -->
@@ -31,9 +31,7 @@ npm command that builds the stories dist.
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage

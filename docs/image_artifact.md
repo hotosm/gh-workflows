@@ -19,9 +19,9 @@ registries where rate limiting is applied (e.g. dockerhub).
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                                  |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | ---------------------------------------------------------------------------- |
-| <a name="input_image_names"></a>[image_names](#input_image_names) | string | true     |         | A space separated list of <br>full image names to upload, <br>including tag. |
+|                               INPUT                               |  TYPE  | REQUIRED | DEFAULT |                                  DESCRIPTION                                  |
+|-------------------------------------------------------------------|--------|----------|---------|-------------------------------------------------------------------------------|
+| <a name="input_image_names"></a>[image_names](#input_image_names) | string |   true   |         | A space separated list of <br>full image names to upload, <br>including tag.  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -29,8 +29,8 @@ registries where rate limiting is applied (e.g. dockerhub).
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                                    | VALUE      | DESCRIPTION                              |
-| ------------------------------------------------------------------------- | ---------- | ---------------------------------------- |
+|                                  OUTPUT                                   |   VALUE    |               DESCRIPTION                |
+|---------------------------------------------------------------------------|------------|------------------------------------------|
 | <a name="output_artifact_name"></a>[artifact_name](#output_artifact_name) | `"images"` | The artifact name (default: `artifact`). |
 
 <!-- AUTO-DOC-OUTPUT:END -->
@@ -38,9 +38,7 @@ registries where rate limiting is applied (e.g. dockerhub).
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage

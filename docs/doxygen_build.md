@@ -8,9 +8,9 @@ It needs a Doxyfile present under `docs/Doxyfile`.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                                    |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------------------------------- |
-| <a name="input_output_path"></a>[output_path](#input_output_path) | string | false    |         | If specified, the output dir <br>is uploaded named `artifact`. |
+|                               INPUT                               |  TYPE  | REQUIRED | DEFAULT |                           DESCRIPTION                           |
+|-------------------------------------------------------------------|--------|----------|---------|-----------------------------------------------------------------|
+| <a name="input_output_path"></a>[output_path](#input_output_path) | string |  false   |         | If specified, the output dir <br>is uploaded named `artifact`.  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -18,8 +18,8 @@ It needs a Doxyfile present under `docs/Doxyfile`.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                                    | VALUE       | DESCRIPTION                              |
-| ------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+|                                  OUTPUT                                   |    VALUE    |               DESCRIPTION                |
+|---------------------------------------------------------------------------|-------------|------------------------------------------|
 | <a name="output_artifact_name"></a>[artifact_name](#output_artifact_name) | `"doxygen"` | The artifact name (default: `artifact`). |
 
 <!-- AUTO-DOC-OUTPUT:END -->
@@ -27,9 +27,7 @@ It needs a Doxyfile present under `docs/Doxyfile`.
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage

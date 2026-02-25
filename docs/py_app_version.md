@@ -6,9 +6,9 @@ Output the version of a Python application, using the **version**.py file.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                                | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                          |
-| -------------------------------------------------------------------- | ------ | -------- | ------- | ---------------------------------------------------- |
-| <a name="input_package_name"></a>[package_name](#input_package_name) | string | true     |         | The package_name that **version**.py sits <br>under. |
+|                                INPUT                                 |  TYPE  | REQUIRED | DEFAULT |                      DESCRIPTION                      |
+|----------------------------------------------------------------------|--------|----------|---------|-------------------------------------------------------|
+| <a name="input_package_name"></a>[package_name](#input_package_name) | string |   true   |         | The package_name that __version__.py sits <br>under.  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -16,8 +16,8 @@ Output the version of a Python application, using the **version**.py file.
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
 
-| OUTPUT                                                              | VALUE                                                   | DESCRIPTION         |
-| ------------------------------------------------------------------- | ------------------------------------------------------- | ------------------- |
+|                               OUTPUT                                |                          VALUE                          |     DESCRIPTION     |
+|---------------------------------------------------------------------|---------------------------------------------------------|---------------------|
 | <a name="output_app_version"></a>[app_version](#output_app_version) | `"${{ jobs.extract-app-version.outputs.app_version }}"` | Python app version. |
 
 <!-- AUTO-DOC-OUTPUT:END -->
@@ -25,9 +25,7 @@ Output the version of a Python application, using the **version**.py file.
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
