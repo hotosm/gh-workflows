@@ -6,24 +6,22 @@ Ensure contributors sign to agree to contribution guidelines, while making a PR.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-No inputs.
+|                               INPUT                               |  TYPE  | REQUIRED | DEFAULT |               DESCRIPTION               |
+|-------------------------------------------------------------------|--------|----------|---------|-----------------------------------------|
+| <a name="input_push_branch"></a>[push_branch](#input_push_branch) | string |   true   |         | Which branch to update cla.json <br>on  |
 
 <!-- AUTO-DOC-INPUT:END -->
 
 ## Outputs
 
 <!-- AUTO-DOC-OUTPUT:START - Do not remove or modify this section -->
-
 No outputs.
-
 <!-- AUTO-DOC-OUTPUT:END -->
 
 ## Secrets
 
 <!-- AUTO-DOC-SECRETS:START - Do not remove or modify this section -->
-
 No secrets.
-
 <!-- AUTO-DOC-SECRETS:END -->
 
 ## Example Usage
