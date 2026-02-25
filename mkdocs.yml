@@ -63,6 +63,7 @@ nav:
       - PyTest: test_pytest.md
       - PNPM: test_pnpm.md
   - Updating Docs:
+      - CLA Signature: cla_sign.md
       - MkDocs Build: mkdocs_build.md
       - Doxygen Build: doxygen_build.md
       - OpenAPI Build: openapi_build.md
