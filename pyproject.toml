@@ -1,6 +1,6 @@
 [project]
 name = "gh-workflows"
-version = "3.4.3"
+version = "3.5.0"
 description = "Github workflows that can be shared across all HOT projects."
 authors = [
     {name = "Sam Woodcock", email = "sam.woodcock@hotosm.org"},
@@ -23,7 +23,7 @@ repository = "https://github.com/hotosm/gh-workflows"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "3.4.3"
+version = "3.5.0"
 version_files = [
     "pyproject.toml:version",
 ]

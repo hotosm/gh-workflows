@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.5.0 (2026-02-25)
+
+### Feat
+
+- add cla signing workflow
+
+### Fix
+
+- allow specifying branch in cla sign
+- revert and use official mkdocs-material image + python 3.11 lock
+- revert to use offical mkdocs-material base img
+- remove outdated truly sane lists plugin, use official
+- replace pdm --> uv for mkdocs img build
+
 ## 3.4.3 (2026-02-02)
 
 ### Fix
