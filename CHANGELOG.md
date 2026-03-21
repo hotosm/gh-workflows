@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.6.0 (2026-03-21)
+
+### Feat
+
+- replace compromised aquasecurity/trivy action with anchore/grype
+
 ## 3.5.0 (2026-02-25)
 
 ### Feat
