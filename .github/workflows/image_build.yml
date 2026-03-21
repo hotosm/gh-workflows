@@ -206,18 +206,19 @@ jobs:
     needs: [build-image]
     runs-on: ubuntu-latest
     if: ${{ inputs.scan_image }}
+    permissions:
+      contents: read
+      packages: read
 
     steps:
       - name: Scan Container Image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: anchore/scan-action@v7.4.0
         with:
-          image-ref: ${{ needs.build-image.outputs.image_name }}
-          format: "table"
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: "os,library"
-          severity: "CRITICAL"
-        # Avoid rate-limiting, see: https://github.com/aquasecurity/trivy-action/issues/389
-        env:
-          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
-          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
+          image: ${{ needs.build-image.outputs.image_name }}
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+          fail-build: true
+          output-format: table
+          severity-cutoff: critical
+          only-fixed: true
+          cache-db: true

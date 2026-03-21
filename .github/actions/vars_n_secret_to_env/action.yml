@@ -34,27 +34,27 @@ runs:
         PARSE_NESTED: ${{ inputs.parse_nested_vars }}
       run: |
         set -e
-        
+
         # Random delimiter string for security
         delim=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-        
+
         # Function to strip carriage returns from input
         strip_cr() {
           tr -d '\r'
         }
-        
+
         # Parse JSON with multiline strings, using delimiter (Github specific)
         # Also strips carriage returns from values
         to_envs() { 
           jq -r "to_entries[] | \"\(.key)<<$delim\n\(.value)\n$delim\n\"" | strip_cr
         }
-        
+
         # Set branch and tag to env (strip any potential \r)
         echo "GIT_BRANCH=$(echo "${GIT_BRANCH}" | strip_cr)" >> $GITHUB_ENV
         if [ -n "${TAG_OVERRIDE}" ]; then
           echo "TAG_OVERRIDE=$(echo "${TAG_OVERRIDE}" | strip_cr)" >> $GITHUB_ENV
         fi
-        
+
         # Set VARS_CONTEXT if not null
         if [ "${VARS_CONTEXT}" != "null" ]; then
           echo "${VARS_CONTEXT}" | to_envs >> $GITHUB_ENV
@@ -101,10 +101,10 @@ runs:
             fi
           fi
         fi
-        
+
         # Set SECRETS_CONTEXT if not null
         if [ "${SECRETS_CONTEXT}" != "null" ]; then
           echo "${SECRETS_CONTEXT}" | to_envs >> $GITHUB_ENV
         fi
-        
+
         echo "Environment variables loaded successfully!"
