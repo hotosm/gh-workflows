@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.0 (2026-04-23)
+
+### Feat
+
+- update all workflow to latest versions to avoid deprecations
+
 ## 3.6.0 (2026-03-21)
 
 ### Feat
