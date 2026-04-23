@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Load Environment from GitHub variables & secrets.
         shell: bash
@@ -138,7 +138,7 @@ jobs:
 
       - name: Get Plan from GitHub Artifacts
         if: ${{ inputs.use_gh_artifacts == true }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ inputs.plan_file_name }}
           path: ${{ inputs.working_dir }}

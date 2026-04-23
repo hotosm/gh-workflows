@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Load Environment from GitHub variables & secrets.
         shell: bash
@@ -190,7 +190,7 @@ jobs:
 
       - name: Upload Plan to GitHub Artifacts
         if: ${{ inputs.use_gh_artifacts == true }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}
           path: ./${{ steps.output_file_name.outputs.PLAN_FILE_NAME }}.plan.out

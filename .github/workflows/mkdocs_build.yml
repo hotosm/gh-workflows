@@ -44,11 +44,11 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Append Extra Files
         if: ${{ inputs.include_artifacts || inputs.doxygen || inputs.openapi }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           # Default downloads all available artifacts to path
           path: docs/

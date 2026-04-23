@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Load Environment Variables
         uses: hotosm/gh-workflows/.github/actions/vars_n_secret_to_env@main
@@ -65,7 +65,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Load Environment Variables
         uses: hotosm/gh-workflows/.github/actions/vars_n_secret_to_env@main

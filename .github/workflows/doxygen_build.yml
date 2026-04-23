@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Doxygen
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Upload Artifact Dir
         if: ${{ inputs.output_path }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: ${{ inputs.output_path }}
           name: doxygen

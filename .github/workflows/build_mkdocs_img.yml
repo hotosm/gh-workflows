@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-mkdocs:
-    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@3.4.3
+    uses: hotosm/gh-workflows/.github/workflows/image_build.yml@4.0.0
     with:
       image_name: ghcr.io/${{ github.repository }}/mkdocs
       dockerfile: images/docs-builder/Dockerfile

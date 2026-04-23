@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v4
         with:
-          just-version: 1.40.0
+          just-version: 1.50.0
 
       # Extract repo vars/secrets into environment variables for the next step
       # NOTE it may look like secrets are exposed, but they are hidden in the GUI

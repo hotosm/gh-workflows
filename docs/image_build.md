@@ -58,29 +58,6 @@ by [Grype via Anchore Scan Action](https://github.com/anchore/scan-action).
 This can be disabled with the input parameter:
 `scan_image: false`.
 
-## Multi Architecture Builds
-
-There is basic support for building multi-architecture images.
-
-By using the `multi_arch: true` option, builds can be made for
-AMD64 (default Linux/Windows), and ARM64 (newer MacOS M-chips).
-
-Please note, however, that using `multi_arch` may increase your build time
-by up to 3x.
-
-If speed is important, there is another workflow availble named
-[image_build_multi](https://hotosm.github.io/gh-workflows/image_build_multi)
-that will build across multiple Github runners
-and should be faster (amd64 | arm/v6 | arm/v7 | arm64).
-
-> Note: you should carefully consider if multi-architecture builds
-> are worth the performance tradeoff.
->
-> As of 2023, deployment on architectures other than AMD64 is rare.
-> To accomodate MacOS users during app development, it is suggested
-> they build the image themselves on their own architecture (often
-> a single command).
-
 ## Inputs
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
@@ -183,7 +160,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Extract api version
         id: extract_api_version
