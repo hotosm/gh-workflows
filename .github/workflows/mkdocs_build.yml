@@ -5,8 +5,7 @@
 #    - actions/setup-python + install uv
 #    - uv sync --group docs (consuming repos define their plugins in pyproject.toml)
 #    - zensical build --clean
-# 2. Deploy via actions/upload-pages-artifact + actions/deploy-pages
-#    (replaces mkdocs gh-deploy, avoids git push auth issues)
+# 2. (DONE) Deploy via actions/upload-pages-artifact + actions/deploy-pages
 # 3. Consuming repos migrate mkdocs.yml -> zensical.toml
 # 4. Delete images/docs-builder/ and build_mkdocs_img.yml (no more custom Docker image)
 #
@@ -45,7 +44,8 @@ on:
         type: string
 
 permissions:
-  contents: write
+  pages: write
+  id-token: write
 
 # Allow one concurrent deployment
 concurrency:
@@ -53,8 +53,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publish_docs:
-    name: Publish GH Pages
+  build_docs:
+    name: Build Docs
     runs-on: ubuntu-latest
 
     steps:
@@ -81,16 +81,33 @@ jobs:
       #     tar -xvzf docs/stories.tar.gz
       #     rm docs/stories.tar.gz
 
-      - name: Publish
+      - name: Build
         run: |
-          echo "Repo dir: $GITHUB_WORKSPACE"
-
           docker pull ${{ inputs.image }}
 
           docker run --volume $PWD:$PWD --workdir $PWD \
             --entrypoint=/bin/sh ${{ inputs.image }} \
             -c "\
               git config --global --add safe.directory $PWD \
-              && mkdocs gh-deploy --force \
+              && mkdocs build \
               ${{ inputs.keep_extra_files == 'true' && '--clean' || '--dirty' }}
             "
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy_docs:
+    name: Deploy to GitHub Pages
+    needs: build_docs
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
