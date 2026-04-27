@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.0.1 (2026-04-27)
+
+### Fix
+
+- mkdocs_build workflow now requires explicit permissions to upload
+- pin mkdocs-material version to prior to mkdocs v2 migration
+
+### Refactor
+
+- remove wiki sync workflow, no longer needed
+
 ## 4.0.0 (2026-04-23)
 
 ### Feat
