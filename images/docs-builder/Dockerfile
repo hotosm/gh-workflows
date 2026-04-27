@@ -15,7 +15,7 @@
 #     along with GH-Workflows.  If not, see <https:#www.gnu.org/licenses/>.
 #
 # v9 is currently on Python 3.11
-ARG MKDOCS_MATERIAL_TAG=9
+ARG MKDOCS_MATERIAL_TAG=9.7.2
 
 FROM docker.io/squidfunk/mkdocs-material:${MKDOCS_MATERIAL_TAG} AS base
 ARG APP_VERSION
