@@ -67,7 +67,6 @@ nav:
       - Doxygen Build: doxygen_build.md
       - OpenAPI Build: openapi_build.md
       - PNPM Build: pnpm_build.md
-      - Wiki Build: wiki.md
   - Publishing Packages:
       - PyPi Publish: pypi_publish.md
       - NPM Publish: npm_publish.md
