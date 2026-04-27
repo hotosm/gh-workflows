@@ -1,3 +1,18 @@
+# TODO: Replace mkdocs-material with Zensical (https://zensical.org)
+#
+# Migration plan:
+# 1. Replace Docker-based build with uv + pip:
+#    - actions/setup-python + install uv
+#    - uv sync --group docs (consuming repos define their plugins in pyproject.toml)
+#    - zensical build --clean
+# 2. Deploy via actions/upload-pages-artifact + actions/deploy-pages
+#    (replaces mkdocs gh-deploy, avoids git push auth issues)
+# 3. Consuming repos migrate mkdocs.yml -> zensical.toml
+# 4. Delete images/docs-builder/ and build_mkdocs_img.yml (no more custom Docker image)
+#
+# This eliminates the custom Docker image entirely - each repo controls its
+# own plugins via its pyproject.toml [dependency-groups] docs group.
+
 name: Publish Docs
 
 on:
