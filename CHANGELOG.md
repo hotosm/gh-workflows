@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.2 (2026-07-07)
+
+### Fix
+
+- add image long SHA to build tags, for gitops downstream
+
 ## 4.0.1 (2026-04-27)
 
 ### Fix
