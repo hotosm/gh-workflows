@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.3 (2026-07-08)
+
+### Fix
+
+- update usage of nested image build workflow for latest sha changes
+
 ## 4.0.2 (2026-07-07)
 
 ### Fix
