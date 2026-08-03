@@ -13,12 +13,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Document cla_sign
+      - name: Document contributor_agreement
         uses: tj-actions/auto-doc@v3
         with:
           reusable: true
-          filename: .github/workflows/cla_sign.yml
-          output: docs/cla_sign.md
+          filename: .github/workflows/contributor_agreement.yml
+          output: docs/contributor_agreement.md
 
       - name: Document doxygen_build
         uses: tj-actions/auto-doc@v3

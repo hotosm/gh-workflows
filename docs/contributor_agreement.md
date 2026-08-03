@@ -6,9 +6,9 @@ Ensure contributors sign to agree to contribution guidelines, while making a PR.
 
 <!-- AUTO-DOC-INPUT:START - Do not remove or modify this section -->
 
-| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                            |
-| ----------------------------------------------------------------- | ------ | -------- | ------- | -------------------------------------- |
-| <a name="input_push_branch"></a>[push_branch](#input_push_branch) | string | true     |         | Which branch to update cla.json <br>on |
+| INPUT                                                             | TYPE   | REQUIRED | DEFAULT | DESCRIPTION                                            |
+| ----------------------------------------------------------------- | ------ | -------- | ------- | ------------------------------------------------------ |
+| <a name="input_push_branch"></a>[push_branch](#input_push_branch) | string | true     |         | Which branch to update signed-contributors.json <br>on |
 
 <!-- AUTO-DOC-INPUT:END -->
 
@@ -47,7 +47,7 @@ permissions:
 
 jobs:
   sign:
-    uses: hotosm/gh-workflows/.github/workflows/cla_sign.yml@3.5.0
+    uses: hotosm/gh-workflows/.github/workflows/contributor_agreement.yml@3.5.0
     with:
       push_branch: dev
     secrets: inherit

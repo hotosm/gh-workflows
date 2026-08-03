@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       push_branch:
-        description: "Which branch to update cla.json on"
+        description: "Which branch to update signed-contributors.json on"
         required: true
         type: string
 
@@ -18,7 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          path-to-signatures: "cla.json"
+          path-to-signatures: "signed-contributors.json"
           path-to-document: "https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md"
           branch: ${{ inputs.push_branch }}
           # Allowlist for bot accounts (won't need to sign CLA)
